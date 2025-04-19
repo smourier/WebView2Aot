@@ -1,0 +1,8 @@
+﻿#nullable enable
+namespace WebView2;
+
+public enum COREWEBVIEW2_PRINT_MEDIA_SIZE
+{
+    COREWEBVIEW2_PRINT_MEDIA_SIZE_DEFAULT = 0,
+    COREWEBVIEW2_PRINT_MEDIA_SIZE_CUSTOM = 1,
+}

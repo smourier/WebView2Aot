@@ -1,0 +1,8 @@
+﻿#nullable enable
+namespace WebView2;
+
+public enum COREWEBVIEW2_PRINT_DIALOG_KIND
+{
+    COREWEBVIEW2_PRINT_DIALOG_KIND_BROWSER = 0,
+    COREWEBVIEW2_PRINT_DIALOG_KIND_SYSTEM = 1,
+}

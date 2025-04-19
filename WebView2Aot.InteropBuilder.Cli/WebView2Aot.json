@@ -1,0 +1,29 @@
+﻿{
+  // customized generation for ShellN
+  "BuilderTypeFilePath": "WebView2Aot.InteropBuilder.Cli.dll",
+  "BuilderTypeName": "WebView2Aot.InteropBuilder.Cli.Builder, WebView2Aot.InteropBuilder.Cli",
+  "OutputEncoding": "UTF-8",
+  "Generation": {
+    // unified namespace configuration
+    "Unified": {
+      "Namespace": "WebView2"
+    }
+  },
+  // per-generator configuration
+  "Generator": {
+    "CSharp": {
+      "GenerateTypeKeywords": true,
+
+      // types that are supported by ShellN project for constant generation (+ standard ones)
+      "SupportedConstantTypes": [
+      ]
+    }
+  },
+  // types that we want to include or exclude
+  "TypeInputs": [
+    "*"
+  ],
+  // members (method, fields) we want to include or exclude
+  "MemberInputs": [
+  ]
+}
