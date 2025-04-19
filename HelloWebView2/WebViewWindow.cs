@@ -4,14 +4,7 @@ public class WebViewWindow : Window
 {
     private ComObject<ICoreWebView2Controller>? _controller;
 
-    public WebViewWindow(
-        string? title = null,
-        WINDOW_STYLE style = WINDOW_STYLE.WS_MAXIMIZEBOX | WINDOW_STYLE.WS_GROUP | WINDOW_STYLE.WS_SIZEBOX | WINDOW_STYLE.WS_DLGFRAME | WINDOW_STYLE.WS_POPUPWINDOW,
-        WINDOW_EX_STYLE extendedStyle = WINDOW_EX_STYLE.WS_EX_LEFT,
-        RECT? rect = null,
-        HWND? parentHandle = null,
-        HMENU? menu = null,
-        string? className = null) : base(title, style, extendedStyle, rect, parentHandle, menu, className)
+    public WebViewWindow(string? title = null) : base(title)
     {
         WebView2Utilities.Initialize();
         WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
@@ -29,10 +22,7 @@ public class WebViewWindow : Window
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
     {
-        if (_controller != null)
-        {
-            _controller.Object.put_Bounds(ClientRect).ThrowOnError();
-        }
+        _controller?.Object.put_Bounds(ClientRect).ThrowOnError();
         return base.OnResized(type, size);
     }
 
