@@ -1,11 +1,12 @@
 ﻿namespace WebView2.Utilities;
 
 [GeneratedComClass]
-public partial class CoreWebView2CreateCoreWebView2ControllerCompletedHandler(Action<HRESULT, ICoreWebView2Controller> handler) : ICoreWebView2CreateCoreWebView2ControllerCompletedHandler
+public partial class CoreWebView2CreateCoreWebView2ControllerCompletedHandler(Action<HRESULT, ICoreWebView2Controller> handler)
+    : ICoreWebView2CreateCoreWebView2ControllerCompletedHandler
 {
-    public HRESULT Invoke(HRESULT errorCode, ICoreWebView2Controller result)
+    public HRESULT Invoke(HRESULT result, ICoreWebView2Controller controller)
     {
-        handler(errorCode, result);
+        handler(result, controller);
         return 0;
     }
 }

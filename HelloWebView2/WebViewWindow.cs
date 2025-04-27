@@ -6,16 +6,32 @@ public class WebViewWindow : Window
 
     public WebViewWindow(string? title = null) : base(title)
     {
-        WebView2Utilities.Initialize();
+        // this checks WebView2Loader.dll is present somewhere (file path or embedded resource)
+        WebView2Utilities.Initialize(Assembly.GetEntryAssembly());
+
+        // this checks WebView2 itself is installed
+        var browserVersion = WebView2Utilities.GetAvailableCoreWebView2BrowserVersionString();
+        if (browserVersion != null)
+        {
+            Text = $"{Text} - WebView2 V{browserVersion}";
+        }
+        else
+        {
+            Text = $"{Text} - WebView2 was not found";
+        }
+
         WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
-            new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((error, env) =>
+            new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
             {
-                env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((error, controller) =>
+                env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
                 {
                     _controller = new ComObject<ICoreWebView2Controller>(controller);
                     controller.put_Bounds(ClientRect).ThrowOnError();
                     controller.get_CoreWebView2(out var webView2).ThrowOnError();
-                    webView2.Navigate(PWSTR.From("https://www.bing.com/"));
+
+                    // use 1st arg from command line or default to Bing
+                    var url = CommandLine.Current.GetNullifiedArgument(0, "https://www.bing.com/");
+                    webView2.Navigate(PWSTR.From(url));
                 }));
             }));
     }

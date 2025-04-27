@@ -12,7 +12,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="runtimes\win-arm64\native\WebView2Loader.dll" />
+	  <None Remove="runtimes\win-x64\native\WebView2Loader.dll" />
+	  <None Remove="runtimes\win-x86\native\WebView2Loader.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Include="..\WebView2\Properties\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="runtimes\win-arm64\native\WebView2Loader.dll">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="runtimes\win-x64\native\WebView2Loader.dll">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="runtimes\win-x86\native\WebView2Loader.dll">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,18 +59,6 @@
 		<Using Include="System.Runtime.Versioning" />
 		<Using Include="System.Runtime.CompilerServices" />
 		<Using Include="System.Runtime.InteropServices" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="runtimes\win-arm64\native\WebView2Loader.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="runtimes\win-x64\native\WebView2Loader.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="runtimes\win-x86\native\WebView2Loader.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 </Project>
