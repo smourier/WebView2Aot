@@ -4,9 +4,9 @@
 public partial class CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler(Action<HRESULT, ICoreWebView2Environment> handler)
     : ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler
 {
-    public HRESULT Invoke(HRESULT result, ICoreWebView2Environment environment)
+    public virtual HRESULT Invoke(HRESULT errorCode, ICoreWebView2Environment result)
     {
-        handler(result, environment);
+        handler(errorCode, result);
         return 0;
     }
 }

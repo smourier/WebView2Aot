@@ -4,9 +4,9 @@
 public partial class CoreWebView2CreateCoreWebView2CompositionControllerCompletedHandler(Action<HRESULT, ICoreWebView2CompositionController> handler)
     : ICoreWebView2CreateCoreWebView2CompositionControllerCompletedHandler
 {
-    public HRESULT Invoke(HRESULT result, ICoreWebView2CompositionController controller)
+    public virtual HRESULT Invoke(HRESULT errorCode, ICoreWebView2CompositionController result)
     {
-        handler(result, controller);
+        handler(errorCode, result);
         return 0;
     }
 }
