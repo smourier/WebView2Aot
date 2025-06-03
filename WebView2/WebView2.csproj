@@ -30,6 +30,9 @@
 		<Using Include="System.Runtime.CompilerServices" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Runtime.InteropServices.Marshalling" />
+		<Using Include="System.Text.Json" />
+		<Using Include="System.Text.Json.Serialization.Metadata" />
+		<Using Include="System.Threading.Tasks" />
 	</ItemGroup>
 
 </Project>
