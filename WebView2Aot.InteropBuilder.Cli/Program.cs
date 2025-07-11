@@ -16,6 +16,7 @@ internal class Program
             return;
         }
 
+        // get it here https://github.com/wravery/webview2-rs/tree/main/crates/update-bindings/winmd
         var winMdPath = Path.Combine(Win32Metadata.WinMdPath, "Microsoft.Web.WebView2.Win32.winmd");
         Win32InteropBuilder.Builder.Run(configurationPath, winMdPath);
     }
