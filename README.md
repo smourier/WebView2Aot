@@ -30,7 +30,7 @@ What's nice with embedding, especially in AOT deployment cases, is you just need
 
 ## ScriptHostObjectWebView2 sample
 
-A sample that demonstrates how to add a host object to the WebView2 scripting context, always in AOT context:
+A sample that demonstrates how to add a host object to the WebView2 scripting context, always with AOT publishing:
 
 <img width="740" height="400" alt="image" src="https://github.com/user-attachments/assets/c983d80a-bfa6-413b-ab54-6d7473543245" />
 
