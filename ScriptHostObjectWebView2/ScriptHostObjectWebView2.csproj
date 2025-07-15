@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<PublishAot>true</PublishAot>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<IsAotCompatible>true</IsAotCompatible>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <NoWarn>1701;1702;IDE0079;CA1822</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <NoWarn>1701;1702;IDE0079;CA1822</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Index.html" />
+		<None Remove="runtimes\win-arm64\native\WebView2Loader.dll" />
+		<None Remove="runtimes\win-x64\native\WebView2Loader.dll" />
+		<None Remove="runtimes\win-x86\native\WebView2Loader.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\WebView2\Properties\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Index.html" />
+		<EmbeddedResource Include="runtimes\win-arm64\native\WebView2Loader.dll">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="runtimes\win-x64\native\WebView2Loader.dll">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="runtimes\win-x86\native\WebView2Loader.dll">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="DirectN">
+			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
+		</Reference>
+		<Reference Include="DirectN.Extensions">
+			<HintPath>..\WebView2\External\DirectN.Extensions.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WebView2\WebView2.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="DirectN" />
+		<Using Include="DirectN.Extensions" />
+		<Using Include="DirectN.Extensions.Com" />
+		<Using Include="DirectN.Extensions.Utilities" />
+		<Using Include="ScriptHostObjectWebView2.Utilities" />
+		<Using Include="System" />
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.Collections.Generic" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
+		<Using Include="System.Globalization" />
+		<Using Include="System.Linq" />
+		<Using Include="System.Numerics" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.Versioning" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Runtime.InteropServices.Marshalling" />
+		<Using Include="System.Text" />
+		<Using Include="System.Text.Json" />
+		<Using Include="System.Text.Json.Serialization" />
+		<Using Include="System.Threading.Tasks" />
+		<Using Include="WebView2" />
+		<Using Include="WebView2.Utilities" />
+	</ItemGroup>
+
+</Project>

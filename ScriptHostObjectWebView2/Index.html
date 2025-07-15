@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ScriptHostObject - WebView2</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style>
+        body {
+            font-family: Consolas;
+            margin: 1em;
+        }
+
+        #clock {
+            position: absolute;
+            margin: 1em;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">Waiting 2000 ms for .NET function to return...</div>
+    <div id="clock"></div>
+    <script type="module">
+
+        const dotnet = chrome.webview.hostObjects.dotnet;
+        dotnet.getInfoAsync(2000).then((value) => { document.getElementById('container').innerText = ".NET returned: " + value; });
+
+        function showClock() { clock.innerText = new Date().toLocaleTimeString(); dotnet.onClockTick(new Date()); }
+        showClock();
+        setInterval(showClock, 1000);
+
+    </script>
+</body>
+</html>

@@ -10,7 +10,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DirectNAot" Version="1.3.1" />
+	  <Reference Include="DirectN">
+	    <HintPath>External\DirectN.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<ItemGroup>

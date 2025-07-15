@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ScriptHostObjectWebView2": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

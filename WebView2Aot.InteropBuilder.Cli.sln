@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebView2", "WebView2\WebVie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWebView2", "HelloWebView2\HelloWebView2.csproj", "{1037821C-7CA4-0C51-5420-908003AC980E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptHostObjectWebView2", "ScriptHostObjectWebView2\ScriptHostObjectWebView2.csproj", "{C3FE7138-D301-ED12-75D0-56F4287F2F77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{1037821C-7CA4-0C51-5420-908003AC980E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1037821C-7CA4-0C51-5420-908003AC980E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1037821C-7CA4-0C51-5420-908003AC980E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3FE7138-D301-ED12-75D0-56F4287F2F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3FE7138-D301-ED12-75D0-56F4287F2F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3FE7138-D301-ED12-75D0-56F4287F2F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3FE7138-D301-ED12-75D0-56F4287F2F77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
