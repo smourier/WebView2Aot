@@ -27,3 +27,67 @@ What's nice with embedding, especially in AOT deployment cases, is you just need
 ## HelloWebView2 sample
 
 ![image](https://github.com/user-attachments/assets/885a9167-885a-435e-ad5b-2b4e91ae610c)
+
+## ScriptHostObjectWebView2 sample
+
+A sample that demonstrates how to add a host object to the WebView2 scripting context, always with AOT publishing:
+
+<img width="740" height="400" alt="image" src="https://github.com/user-attachments/assets/c983d80a-bfa6-413b-ab54-6d7473543245" />
+
+This is the relevant html part:
+
+```
+<body>
+    <div id="container">Waiting 2000 ms for .NET function to return...</div>
+    <div id="clock"></div>
+    <script type="module">
+
+        const dotnet = chrome.webview.hostObjects.dotnet;
+        dotnet.getInfoAsync(2000).then((value) => { document.getElementById('container').innerText = ".NET returned: " + value; });
+
+        // just show a clock while working...
+        function showClock() { clock.innerText = new Date().toLocaleTimeString(); dotnet.onClockTick(new Date()); }
+        showClock();
+        setInterval(showClock, 1000);
+
+    </script>
+</body>
+```
+
+And the host object which is named 'dotnet' in the previous javascript code.
+
+```
+[GeneratedComClass]
+public partial class HostObject : DispatchObject
+{
+    public event EventHandler<string>? ClockTick;
+
+    // non async method
+    public string GetInfo()
+    {
+        var info = new HostObjectInfo();
+        return JsonSerializer.Serialize(info, JsonSourceGenerationContext.Default.HostObjectInfo);
+    }
+
+    // async method
+    public Task<string> GetInfoAsync(int delay) => Task.Run(async () =>
+    {
+        await Task.Delay(delay).ConfigureAwait(false); // simulate some async work
+        return GetInfo();
+    });
+
+    public void OnClockTick(string date) => ClockTick?.Invoke(this, date);
+
+    // note this is necessary to avoid trimming Task<T>.Result for AOT publishing
+    // all Task<T> results should be unwrapped here, so you can return any type you want (string being by far the most used one)
+    protected override object? GetTaskResult(Task task)
+    {
+        if (task is Task<string> s)
+            return s.Result;
+
+        return null;
+    }
+}
+```
+
+
