@@ -174,7 +174,8 @@ public partial class DispatchObject : IDispatch
             var args = new object?[arguments.Length];
             for (var i = 0; i < parameters.cArgs; i++)
             {
-                var value = Variant.Unwrap(varArgs[i]);
+                // note arguments are stored in in reverse order
+                var value = Variant.Unwrap(varArgs[parameters.cArgs - i - 1]);
                 args[i] = value;
             }
             return args;
