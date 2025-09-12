@@ -9,6 +9,7 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>ARM64;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
