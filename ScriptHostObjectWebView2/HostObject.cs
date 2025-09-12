@@ -6,6 +6,7 @@
 //         var options = JSON.parse(chrome.webview.hostObjects.dotnet.getInfo());
 //
 // 'dotnet' corresponds to this instance
+#pragma warning disable CA1822 // Mark members as static
 [GeneratedComClass]
 public partial class HostObject : DispatchObject
 {
@@ -35,3 +36,4 @@ public partial class HostObject : DispatchObject
         return null;
     }
 }
+#pragma warning restore CA1822 // Mark members as static

@@ -5,15 +5,17 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Platforms>x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Reference Include="DirectN">
-			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
+			<HintPath>..\WebView2\External\x64\DirectN.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
+		<!-- from https://github.com/wravery/webview2-rs/blob/main/crates/update-bindings/winmd/Microsoft.Web.WebView2.Win32.winmd -->
 		<ProjectReference Include="..\Win32InteropBuilder\Win32InteropBuilder\Win32InteropBuilder.csproj" />
 	</ItemGroup>
 

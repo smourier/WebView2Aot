@@ -38,7 +38,7 @@ public class WebViewWindow : Window
                     // get IUnknown from the host object and wrap it in a VARIANT
                     DirectN.Extensions.Com.ComObject.WithComInstance(_hostObject, unk =>
                     {
-                        using var variant = new Variant(unk);
+                        using var variant = new Variant(unk, VARENUM.VT_UNKNOWN);
                         var detached = variant.Detached;
                         webView2.AddHostObjectToScript(PWSTR.From("dotnet"), ref detached).ThrowOnError();
                     }, true);

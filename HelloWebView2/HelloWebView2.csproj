@@ -9,6 +9,7 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>ARM64;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,10 +36,10 @@
 
 	<ItemGroup>
 		<Reference Include="DirectN">
-			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
+			<HintPath>..\WebView2\External\$(Platform)\DirectN.dll</HintPath>
 		</Reference>
 		<Reference Include="DirectN.Extensions">
-			<HintPath>..\WebView2\External\DirectN.Extensions.dll</HintPath>
+			<HintPath>..\WebView2\External\$(Platform)\DirectN.Extensions.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

@@ -6,13 +6,52 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PublishAot>true</PublishAot>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Title>WebView2</Title>
+		<PackageId>WebView2.Aot</PackageId>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageTags>.NET Core WebView2 AOT Interop</PackageTags>
+		<RepositoryUrl>https://github.com/smourier/WebView2Aot</RepositoryUrl>
+		<Description>AOT-Compatible Windows WebView2 interop Code for .NET Core</Description>
+		<Copyright>Copyright © 2024-2025 Simon Mourier. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/smourier/WebView2Aot</PackageProjectUrl>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Company>Simon Mourier</Company>
+		<Version>1.0.3.0</Version>
+		<Platforms>ARM64;x64;x86</Platforms>
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+		<GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+		<AssemblyTitle>WebView2 $(Platform) $(Configuration)</AssemblyTitle>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Reference Include="DirectN">
-	    <HintPath>External\DirectN.dll</HintPath>
-	  </Reference>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Platform)'=='x86'">
+		<Reference Include="DirectN">
+			<HintPath>External\x86\DirectN.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Platform)'=='x64'">
+		<Reference Include="DirectN">
+			<HintPath>External\x64\DirectN.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Platform)'=='ARM64'">
+		<Reference Include="DirectN">
+			<HintPath>External\ARM64\DirectN.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +74,12 @@
 		<Using Include="System.Text.Json" />
 		<Using Include="System.Text.Json.Serialization.Metadata" />
 		<Using Include="System.Threading.Tasks" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="External\ARM64\" />
+		<Folder Include="External\x64\" />
+		<Folder Include="External\x86\" />
 	</ItemGroup>
 
 </Project>

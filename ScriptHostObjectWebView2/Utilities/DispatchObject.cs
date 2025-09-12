@@ -72,7 +72,7 @@ public partial class DispatchObject : IDispatch
 
             var func = new Function(this, method);
             var unk = DirectN.Extensions.Com.ComObject.GetOrCreateComInstance(func);
-            using var v = new Variant(unk);
+            using var v = new Variant(unk, VARENUM.VT_UNKNOWN);
             var detached = v.Detach();
             *(VARIANT*)pVarResult = detached;
             return DirectN.Constants.S_OK;
