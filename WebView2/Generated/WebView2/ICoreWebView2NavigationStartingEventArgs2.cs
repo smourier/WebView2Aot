@@ -6,7 +6,7 @@ public partial interface ICoreWebView2NavigationStartingEventArgs2 : ICoreWebVie
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_AdditionalAllowedFrameAncestors(ref PWSTR value);
+    HRESULT get_AdditionalAllowedFrameAncestors(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

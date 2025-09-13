@@ -14,7 +14,7 @@ public partial interface ICoreWebView2ProcessFailedEventArgs2 : ICoreWebView2Pro
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ProcessDescription(ref PWSTR processDescription);
+    HRESULT get_ProcessDescription(out PWSTR processDescription);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

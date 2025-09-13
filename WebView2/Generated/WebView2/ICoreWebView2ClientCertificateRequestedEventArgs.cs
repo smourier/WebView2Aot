@@ -6,7 +6,7 @@ public partial interface ICoreWebView2ClientCertificateRequestedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Host(ref PWSTR value);
+    HRESULT get_Host(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

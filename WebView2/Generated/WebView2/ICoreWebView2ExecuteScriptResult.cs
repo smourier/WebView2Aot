@@ -10,11 +10,11 @@ public partial interface ICoreWebView2ExecuteScriptResult
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ResultAsJson(ref PWSTR jsonResult);
+    HRESULT get_ResultAsJson(out PWSTR jsonResult);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT TryGetResultAsString(ref PWSTR stringResult, ref BOOL value);
+    HRESULT TryGetResultAsString(out PWSTR stringResult, ref BOOL value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

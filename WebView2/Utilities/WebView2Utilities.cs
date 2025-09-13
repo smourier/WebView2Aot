@@ -14,8 +14,7 @@ public static class WebView2Utilities
     // returns null if webview2 is not installed in executable folder
     public static string? GetAvailableCoreWebView2BrowserVersionString(string? browserExecutableFolder = null)
     {
-        var p = new PWSTR();
-        Functions.GetAvailableCoreWebView2BrowserVersionString(PWSTR.From(browserExecutableFolder), ref p);
+        Functions.GetAvailableCoreWebView2BrowserVersionString(PWSTR.From(browserExecutableFolder), out var p);
         var versionInfo = p.ToString();
         if (p.Value != 0)
         {

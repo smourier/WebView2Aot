@@ -6,5 +6,5 @@ public partial interface ICoreWebView2ProcessFailedEventArgs3 : ICoreWebView2Pro
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FailureSourceModulePath(ref PWSTR value);
+    HRESULT get_FailureSourceModulePath(out PWSTR value);
 }

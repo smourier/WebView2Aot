@@ -6,7 +6,7 @@ public partial interface ICoreWebView2ScriptDialogOpeningEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR uri);
+    HRESULT get_Uri(out PWSTR uri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,7 +14,7 @@ public partial interface ICoreWebView2ScriptDialogOpeningEventArgs
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Message(ref PWSTR message);
+    HRESULT get_Message(out PWSTR message);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -22,11 +22,11 @@ public partial interface ICoreWebView2ScriptDialogOpeningEventArgs
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DefaultText(ref PWSTR defaultText);
+    HRESULT get_DefaultText(out PWSTR defaultText);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ResultText(ref PWSTR resultText);
+    HRESULT get_ResultText(out PWSTR resultText);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -6,11 +6,11 @@ public partial interface ICoreWebView2LaunchingExternalUriSchemeEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR value);
+    HRESULT get_Uri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_InitiatingOrigin(ref PWSTR value);
+    HRESULT get_InitiatingOrigin(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

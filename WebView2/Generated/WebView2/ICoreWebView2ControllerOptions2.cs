@@ -6,7 +6,7 @@ public partial interface ICoreWebView2ControllerOptions2 : ICoreWebView2Controll
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ScriptLocale(ref PWSTR value);
+    HRESULT get_ScriptLocale(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

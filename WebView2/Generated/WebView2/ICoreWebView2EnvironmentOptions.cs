@@ -6,7 +6,7 @@ public partial interface ICoreWebView2EnvironmentOptions
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_AdditionalBrowserArguments(ref PWSTR value);
+    HRESULT get_AdditionalBrowserArguments(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,7 +14,7 @@ public partial interface ICoreWebView2EnvironmentOptions
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Language(ref PWSTR value);
+    HRESULT get_Language(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -22,7 +22,7 @@ public partial interface ICoreWebView2EnvironmentOptions
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_TargetCompatibleBrowserVersion(ref PWSTR value);
+    HRESULT get_TargetCompatibleBrowserVersion(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

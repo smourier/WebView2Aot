@@ -26,7 +26,7 @@ public partial interface ICoreWebView2WebResourceResponse
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ReasonPhrase(ref PWSTR reasonPhrase);
+    HRESULT get_ReasonPhrase(out PWSTR reasonPhrase);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -6,7 +6,7 @@ public partial interface ICoreWebView2ControllerOptions
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ProfileName(ref PWSTR value);
+    HRESULT get_ProfileName(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

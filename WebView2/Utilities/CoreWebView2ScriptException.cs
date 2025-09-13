@@ -38,14 +38,11 @@ public class CoreWebView2ScriptException : Exception
 
         uint lineNumber = 0;
         error.get_LineNumber(ref lineNumber).ThrowOnError();
-        var message = PWSTR.Null;
-        error.get_Message(ref message).ThrowOnError();
-        var name = PWSTR.Null;
-        error.get_Name(ref name).ThrowOnError();
+        error.get_Message(out var message).ThrowOnError();
+        error.get_Name(out var name).ThrowOnError();
         uint columnNumber = 0;
         error.get_ColumnNumber(ref columnNumber).ThrowOnError();
-        var json = PWSTR.Null;
-        error.get_ToJson(ref json).ThrowOnError();
+        error.get_ToJson(out var json).ThrowOnError();
         var exception = new CoreWebView2ScriptException(
             message.ToString() ?? "Error",
             lineNumber,

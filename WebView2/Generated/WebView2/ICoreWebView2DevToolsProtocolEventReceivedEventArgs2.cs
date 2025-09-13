@@ -6,5 +6,5 @@ public partial interface ICoreWebView2DevToolsProtocolEventReceivedEventArgs2 : 
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SessionId(ref PWSTR value);
+    HRESULT get_SessionId(out PWSTR value);
 }

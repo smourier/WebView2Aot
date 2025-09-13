@@ -94,7 +94,7 @@ public partial interface ICoreWebView2PrintSettings
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_HeaderTitle(ref PWSTR headerTitle);
+    HRESULT get_HeaderTitle(out PWSTR headerTitle);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -102,7 +102,7 @@ public partial interface ICoreWebView2PrintSettings
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FooterUri(ref PWSTR footerUri);
+    HRESULT get_FooterUri(out PWSTR footerUri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

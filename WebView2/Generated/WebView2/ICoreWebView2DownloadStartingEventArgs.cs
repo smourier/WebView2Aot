@@ -18,7 +18,7 @@ public partial interface ICoreWebView2DownloadStartingEventArgs
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ResultFilePath(ref PWSTR resultFilePath);
+    HRESULT get_ResultFilePath(out PWSTR resultFilePath);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

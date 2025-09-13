@@ -6,11 +6,11 @@ public partial interface ICoreWebView2BasicAuthenticationRequestedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR value);
+    HRESULT get_Uri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Challenge(ref PWSTR challenge);
+    HRESULT get_Challenge(out PWSTR challenge);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

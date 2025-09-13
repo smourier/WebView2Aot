@@ -6,11 +6,11 @@ public partial interface ICoreWebView2ContextMenuItem
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR value);
+    HRESULT get_Name(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Label(ref PWSTR value);
+    HRESULT get_Label(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -18,7 +18,7 @@ public partial interface ICoreWebView2ContextMenuItem
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ShortcutKeyDescription(ref PWSTR value);
+    HRESULT get_ShortcutKeyDescription(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

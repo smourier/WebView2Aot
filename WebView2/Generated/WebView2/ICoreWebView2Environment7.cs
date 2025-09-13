@@ -6,5 +6,5 @@ public partial interface ICoreWebView2Environment7 : ICoreWebView2Environment6
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_UserDataFolder(ref PWSTR value);
+    HRESULT get_UserDataFolder(out PWSTR value);
 }

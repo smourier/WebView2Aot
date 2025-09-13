@@ -14,5 +14,5 @@ public partial interface ICoreWebView2_12 : ICoreWebView2_11
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_StatusBarText(ref PWSTR value);
+    HRESULT get_StatusBarText(out PWSTR value);
 }

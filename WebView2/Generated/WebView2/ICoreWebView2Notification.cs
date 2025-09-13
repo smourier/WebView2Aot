@@ -26,7 +26,7 @@ public partial interface ICoreWebView2Notification
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Body(ref PWSTR value);
+    HRESULT get_Body(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -34,27 +34,27 @@ public partial interface ICoreWebView2Notification
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Language(ref PWSTR value);
+    HRESULT get_Language(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Tag(ref PWSTR value);
+    HRESULT get_Tag(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_IconUri(ref PWSTR value);
+    HRESULT get_IconUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Title(ref PWSTR value);
+    HRESULT get_Title(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_BadgeUri(ref PWSTR value);
+    HRESULT get_BadgeUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_BodyImageUri(ref PWSTR value);
+    HRESULT get_BodyImageUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

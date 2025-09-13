@@ -45,8 +45,7 @@ public static class ICoreWebView2Extensions
                     return;
                 }
 
-                var jsonPtr = PWSTR.Null;
-                p.get_ResultAsJson(ref jsonPtr);
+                p.get_ResultAsJson(out var jsonPtr);
                 if (jsonPtr.Value == 0)
                 {
                     tcs.SetResult(null);
@@ -110,8 +109,7 @@ public static class ICoreWebView2Extensions
                     return;
                 }
 
-                var jsonPtr = PWSTR.Null;
-                p.get_ResultAsJson(ref jsonPtr);
+                p.get_ResultAsJson(out var jsonPtr);
                 if (jsonPtr.Value == 0)
                 {
                     tcs.SetResult(defaultValue);

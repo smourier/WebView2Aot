@@ -14,7 +14,7 @@ public partial interface ICoreWebView2Environment
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_BrowserVersionString(ref PWSTR versionInfo);
+    HRESULT get_BrowserVersionString(out PWSTR versionInfo);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

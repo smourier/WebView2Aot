@@ -6,7 +6,7 @@ public partial interface ICoreWebView2HttpHeadersCollectionIterator
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetCurrentHeader(ref PWSTR name, ref PWSTR value);
+    HRESULT GetCurrentHeader(out PWSTR name, out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

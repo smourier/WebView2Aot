@@ -6,7 +6,7 @@ public partial interface ICoreWebView2NotificationReceivedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SenderOrigin(ref PWSTR value);
+    HRESULT get_SenderOrigin(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

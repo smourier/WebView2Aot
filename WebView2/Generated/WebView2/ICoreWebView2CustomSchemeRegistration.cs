@@ -6,7 +6,7 @@ public partial interface ICoreWebView2CustomSchemeRegistration
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SchemeName(ref PWSTR schemeName);
+    HRESULT get_SchemeName(out PWSTR schemeName);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -18,7 +18,7 @@ public partial interface ICoreWebView2CustomSchemeRegistration
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetAllowedOrigins(ref uint allowedOriginsCount, ref PWSTR allowedOrigins);
+    HRESULT GetAllowedOrigins(ref uint allowedOriginsCount, out PWSTR allowedOrigins);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

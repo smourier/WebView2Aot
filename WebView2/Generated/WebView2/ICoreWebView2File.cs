@@ -6,5 +6,5 @@ public partial interface ICoreWebView2File
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Path(ref PWSTR value);
+    HRESULT get_Path(out PWSTR value);
 }

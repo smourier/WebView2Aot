@@ -6,13 +6,13 @@ public partial interface ICoreWebView2WebMessageReceivedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Source(ref PWSTR value);
+    HRESULT get_Source(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_WebMessageAsJson(ref PWSTR value);
+    HRESULT get_WebMessageAsJson(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT TryGetWebMessageAsString(ref PWSTR value);
+    HRESULT TryGetWebMessageAsString(out PWSTR value);
 }

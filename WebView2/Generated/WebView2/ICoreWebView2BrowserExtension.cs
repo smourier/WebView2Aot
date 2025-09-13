@@ -6,11 +6,11 @@ public partial interface ICoreWebView2BrowserExtension
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Id(ref PWSTR value);
+    HRESULT get_Id(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR value);
+    HRESULT get_Name(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

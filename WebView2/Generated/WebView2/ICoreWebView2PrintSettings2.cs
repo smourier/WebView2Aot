@@ -6,7 +6,7 @@ public partial interface ICoreWebView2PrintSettings2 : ICoreWebView2PrintSetting
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_PageRanges(ref PWSTR value);
+    HRESULT get_PageRanges(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -62,7 +62,7 @@ public partial interface ICoreWebView2PrintSettings2 : ICoreWebView2PrintSetting
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_PrinterName(ref PWSTR value);
+    HRESULT get_PrinterName(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -6,7 +6,7 @@ public partial interface ICoreWebView2SaveAsUIShowingEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ContentMimeType(ref PWSTR value);
+    HRESULT get_ContentMimeType(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -34,7 +34,7 @@ public partial interface ICoreWebView2SaveAsUIShowingEventArgs
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SaveAsFilePath(ref PWSTR value);
+    HRESULT get_SaveAsFilePath(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -14,13 +14,13 @@ public partial interface ICoreWebView2ScriptException
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR value);
+    HRESULT get_Name(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Message(ref PWSTR value);
+    HRESULT get_Message(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ToJson(ref PWSTR value);
+    HRESULT get_ToJson(out PWSTR value);
 }

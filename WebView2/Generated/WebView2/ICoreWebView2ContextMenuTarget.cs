@@ -18,11 +18,11 @@ public partial interface ICoreWebView2ContextMenuTarget
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_PageUri(ref PWSTR value);
+    HRESULT get_PageUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FrameUri(ref PWSTR value);
+    HRESULT get_FrameUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -30,7 +30,7 @@ public partial interface ICoreWebView2ContextMenuTarget
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_LinkUri(ref PWSTR value);
+    HRESULT get_LinkUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -38,7 +38,7 @@ public partial interface ICoreWebView2ContextMenuTarget
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_LinkText(ref PWSTR value);
+    HRESULT get_LinkText(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -46,7 +46,7 @@ public partial interface ICoreWebView2ContextMenuTarget
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SourceUri(ref PWSTR value);
+    HRESULT get_SourceUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -54,5 +54,5 @@ public partial interface ICoreWebView2ContextMenuTarget
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_SelectionText(ref PWSTR value);
+    HRESULT get_SelectionText(out PWSTR value);
 }

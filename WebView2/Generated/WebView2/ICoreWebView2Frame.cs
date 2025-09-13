@@ -6,7 +6,7 @@ public partial interface ICoreWebView2Frame
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR name);
+    HRESULT get_Name(out PWSTR name);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

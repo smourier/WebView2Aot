@@ -30,15 +30,15 @@ public partial interface ICoreWebView2DownloadOperation
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR uri);
+    HRESULT get_Uri(out PWSTR uri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ContentDisposition(ref PWSTR contentDisposition);
+    HRESULT get_ContentDisposition(out PWSTR contentDisposition);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_MimeType(ref PWSTR mimeType);
+    HRESULT get_MimeType(out PWSTR mimeType);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -50,11 +50,11 @@ public partial interface ICoreWebView2DownloadOperation
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_EstimatedEndTime(ref PWSTR estimatedEndTime);
+    HRESULT get_EstimatedEndTime(out PWSTR estimatedEndTime);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ResultFilePath(ref PWSTR resultFilePath);
+    HRESULT get_ResultFilePath(out PWSTR resultFilePath);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

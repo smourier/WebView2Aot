@@ -14,7 +14,7 @@ public partial interface ICoreWebView2HttpResponseHeaders
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetHeader(PWSTR name, ref PWSTR value);
+    HRESULT GetHeader(PWSTR name, out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

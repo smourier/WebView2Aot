@@ -6,7 +6,7 @@ internal static class Program
     static void Main()
     {
         using var app = new Application();
-        using var win = new WebViewWindow("Hello");
+        using var win = new WebViewWindow($"Hello {RuntimeInformation.ProcessArchitecture} AOT");
         win.ResizeClient(1000, 800);
         win.Center();
         win.Show();

@@ -6,7 +6,7 @@ public partial interface ICoreWebView2Profile
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ProfileName(ref PWSTR value);
+    HRESULT get_ProfileName(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,11 +14,11 @@ public partial interface ICoreWebView2Profile
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ProfilePath(ref PWSTR value);
+    HRESULT get_ProfilePath(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DefaultDownloadFolderPath(ref PWSTR value);
+    HRESULT get_DefaultDownloadFolderPath(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -6,7 +6,7 @@ public partial interface ICoreWebView2PermissionRequestedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR uri);
+    HRESULT get_Uri(out PWSTR uri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

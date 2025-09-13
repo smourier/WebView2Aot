@@ -14,15 +14,15 @@ public partial interface ICoreWebView2SaveFileSecurityCheckStartingEventArgs
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DocumentOriginUri(ref PWSTR value);
+    HRESULT get_DocumentOriginUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FileExtension(ref PWSTR value);
+    HRESULT get_FileExtension(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FilePath(ref PWSTR value);
+    HRESULT get_FilePath(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

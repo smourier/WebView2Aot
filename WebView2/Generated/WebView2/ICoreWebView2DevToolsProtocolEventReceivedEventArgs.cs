@@ -6,5 +6,5 @@ public partial interface ICoreWebView2DevToolsProtocolEventReceivedEventArgs
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_ParameterObjectAsJson(ref PWSTR value);
+    HRESULT get_ParameterObjectAsJson(out PWSTR value);
 }

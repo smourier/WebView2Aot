@@ -14,7 +14,7 @@ public partial interface ICoreWebView2_15 : ICoreWebView2_14
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_FaviconUri(ref PWSTR value);
+    HRESULT get_FaviconUri(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -10,7 +10,7 @@ public partial interface ICoreWebView2PermissionSetting
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_PermissionOrigin(ref PWSTR value);
+    HRESULT get_PermissionOrigin(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

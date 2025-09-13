@@ -6,7 +6,7 @@ public partial interface ICoreWebView2BasicAuthenticationResponse
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_UserName(ref PWSTR userName);
+    HRESULT get_UserName(out PWSTR userName);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,7 +14,7 @@ public partial interface ICoreWebView2BasicAuthenticationResponse
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Password(ref PWSTR password);
+    HRESULT get_Password(out PWSTR password);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

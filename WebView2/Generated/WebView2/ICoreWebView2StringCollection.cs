@@ -10,5 +10,5 @@ public partial interface ICoreWebView2StringCollection
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetValueAtIndex(uint index, ref PWSTR value);
+    HRESULT GetValueAtIndex(uint index, out PWSTR value);
 }

@@ -6,11 +6,11 @@ public partial interface ICoreWebView2ClientCertificate
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Subject(ref PWSTR value);
+    HRESULT get_Subject(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Issuer(ref PWSTR value);
+    HRESULT get_Issuer(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -22,15 +22,15 @@ public partial interface ICoreWebView2ClientCertificate
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DerEncodedSerialNumber(ref PWSTR value);
+    HRESULT get_DerEncodedSerialNumber(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DisplayName(ref PWSTR value);
+    HRESULT get_DisplayName(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT ToPemEncoding(ref PWSTR pemEncodedData);
+    HRESULT ToPemEncoding(out PWSTR pemEncodedData);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

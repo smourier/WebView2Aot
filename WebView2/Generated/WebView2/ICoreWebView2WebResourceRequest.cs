@@ -6,7 +6,7 @@ public partial interface ICoreWebView2WebResourceRequest
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Uri(ref PWSTR uri);
+    HRESULT get_Uri(out PWSTR uri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,7 +14,7 @@ public partial interface ICoreWebView2WebResourceRequest
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Method(ref PWSTR method);
+    HRESULT get_Method(out PWSTR method);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

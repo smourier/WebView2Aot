@@ -6,5 +6,5 @@ public partial interface ICoreWebView2NewWindowRequestedEventArgs2 : ICoreWebVie
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR value);
+    HRESULT get_Name(out PWSTR value);
 }

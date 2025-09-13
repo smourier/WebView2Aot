@@ -6,11 +6,11 @@ public partial interface ICoreWebView2Cookie
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Name(ref PWSTR name);
+    HRESULT get_Name(out PWSTR name);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Value(ref PWSTR value);
+    HRESULT get_Value(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -18,11 +18,11 @@ public partial interface ICoreWebView2Cookie
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Domain(ref PWSTR domain);
+    HRESULT get_Domain(out PWSTR domain);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Path(ref PWSTR path);
+    HRESULT get_Path(out PWSTR path);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

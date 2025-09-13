@@ -10,7 +10,7 @@ public partial interface ICoreWebView2FileSystemHandle
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Path(ref PWSTR value);
+    HRESULT get_Path(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

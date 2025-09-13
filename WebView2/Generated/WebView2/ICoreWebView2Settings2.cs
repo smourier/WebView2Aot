@@ -6,7 +6,7 @@ public partial interface ICoreWebView2Settings2 : ICoreWebView2Settings
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_UserAgent(ref PWSTR value);
+    HRESULT get_UserAgent(out PWSTR value);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

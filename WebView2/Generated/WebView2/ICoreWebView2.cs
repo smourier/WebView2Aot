@@ -10,7 +10,7 @@ public partial interface ICoreWebView2
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_Source(ref PWSTR uri);
+    HRESULT get_Source(out PWSTR uri);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -186,7 +186,7 @@ public partial interface ICoreWebView2
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT get_DocumentTitle(ref PWSTR title);
+    HRESULT get_DocumentTitle(out PWSTR title);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
