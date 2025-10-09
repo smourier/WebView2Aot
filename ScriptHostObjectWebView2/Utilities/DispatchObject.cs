@@ -7,7 +7,7 @@
 //
 // 'dotnet' corresponds to this instance, and the WebView2 runtime will
 //
-// 1) call "editorControl" asking for a "getOptions" *property* wich should be an object
+// 1) call "dotnet" asking for a "getInfo" *property* wich should be an object
 // 2) call this returned object's to do the function call (with 0 or more parameters). so only Invoke(0) should be called on this
 //
 // that's why we have two implementations of IDispatch here
