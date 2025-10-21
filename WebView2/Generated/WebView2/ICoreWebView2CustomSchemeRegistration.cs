@@ -18,11 +18,11 @@ public partial interface ICoreWebView2CustomSchemeRegistration
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetAllowedOrigins(ref uint allowedOriginsCount, out PWSTR allowedOrigins);
+    HRESULT GetAllowedOrigins(out uint allowedOriginsCount, out nint allowedOrigins);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT SetAllowedOrigins(uint allowedOriginsCount, in PWSTR allowedOrigins);
+    HRESULT SetAllowedOrigins(uint allowedOriginsCount, nint allowedOrigins);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

@@ -32,6 +32,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="Patches.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="WebView2Aot.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

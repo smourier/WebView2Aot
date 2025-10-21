@@ -27,6 +27,7 @@
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.Globalization" />
 		<Using Include="System.IO" />
+		<Using Include="System.Linq" />
 		<Using Include="System.Numerics" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.Versioning" />
@@ -35,6 +36,7 @@
 		<Using Include="System.Runtime.InteropServices.Marshalling" />
 		<Using Include="System.Text.Json" />
 		<Using Include="System.Text.Json.Serialization.Metadata" />
+		<Using Include="System.Threading" />
 		<Using Include="System.Threading.Tasks" />
 	</ItemGroup>
 

@@ -1,0 +1,76 @@
+﻿{
+  "Types": [
+    {
+      "TypeName": "ICoreWebView2EnvironmentOptions4",
+      "Methods": [
+        {
+          "Name": "GetCustomSchemeRegistrations",
+          "Parameters": [
+            {
+              "Name": "count",
+              "Def": {
+                "TypeName": "uint",
+                "Direction": "Out"
+              }
+            },
+            {
+              "Name": "schemeRegistrations",
+              "Def": {
+                "TypeName": "nint",
+                "Direction": "Out"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "SetCustomSchemeRegistrations",
+          "Parameters": [
+            {
+              "Name": "schemeRegistrations",
+              "Def": {
+                "TypeName": "nint",
+                "IsNullDirection": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TypeName": "ICoreWebView2CustomSchemeRegistration",
+      "Methods": [
+        {
+          "Name": "GetAllowedOrigins",
+          "Parameters": [
+            {
+              "Name": "allowedOriginsCount",
+              "Def": {
+                "TypeName": "uint",
+                "Direction": "Out"
+              }
+            },
+            {
+              "Name": "allowedOrigins",
+              "Def": {
+                "TypeName": "nint",
+                "Direction": "Out"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "SetAllowedOrigins",
+          "Parameters": [
+            {
+              "Name": "allowedOrigins",
+              "Def": {
+                "TypeName": "nint",
+                "IsNullDirection": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
