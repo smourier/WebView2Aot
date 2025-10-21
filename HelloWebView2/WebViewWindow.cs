@@ -32,8 +32,22 @@ public class WebViewWindow : Window
                     // use 1st arg from command line or default to Bing
                     var url = CommandLine.Current.GetNullifiedArgument(0, "https://www.bing.com/");
                     webView2.Navigate(PWSTR.From(url));
+                    OnFocusChanged(true);
                 }));
             }));
+    }
+
+    protected override bool OnFocusChanged(bool setOrKill)
+    {
+        if (setOrKill)
+        {
+            if (_controller != null)
+            {
+                var hr = _controller.Object.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC).ThrowOnError();
+                return hr.IsSuccess;
+            }
+        }
+        return base.OnFocusChanged(setOrKill);
     }
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
