@@ -3,6 +3,7 @@
 [Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 9+ AOT-compatible bindings 100% independent from WinForms or WPF.
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
+* **HelloCompositionWebView2** is a sample hello world in that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
 * **WebView2** is the .NET Core 9+ AOT-compatible bindings dll that can be used to use WebView2.
 * **WebView2Aot.InteropBuilder.Cli** is the tool that generates code in the WebView2 dll.
 
@@ -33,6 +34,10 @@ What's nice with embedding, especially in AOT deployment cases, is you just need
 ## HelloWebView2 sample
 
 ![image](https://github.com/user-attachments/assets/885a9167-885a-435e-ad5b-2b4e91ae610c)
+
+## HelloCompositionWebView2 sample
+
+This demonstrates the same as HelloWebView2 but in a Visual Composition (aka Direct Composition) context. In this case, mouse handling (buttons down, up, double clicks, wheel, etc) and cursor changes are handled in the C# code and propagated to the WebView2.
 
 ## ScriptHostObjectWebView2 sample
 
