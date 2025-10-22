@@ -3,9 +3,10 @@
 [GeneratedComClass]
 public partial class CoreWebView2CustomSchemeRegistration :
     CoreWebView2ComObject,
+    IDisposable,
     ICoreWebView2CustomSchemeRegistration
 {
-    private List<string> _allowedOrigins = [];
+    private List<PWSTR> _allowedOrigins = [];
 
     public CoreWebView2CustomSchemeRegistration(string schemeName)
     {
@@ -13,15 +14,53 @@ public partial class CoreWebView2CustomSchemeRegistration :
         Properties["SchemeName"] = schemeName;
     }
 
-    public IReadOnlyList<string> GetAllowedOrgins() => _allowedOrigins.AsReadOnly();
-    public unsafe void SetAllowedOrigins(IEnumerable<string> allowedOrigins)
+    public void Dispose() { Dispose(disposing: true); GC.SuppressFinalize(this); }
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Free();
+        }
+    }
+
+    private void Free()
+    {
+        var origins = Interlocked.Exchange(ref _allowedOrigins, []);
+        foreach (var origin in origins)
+        {
+            if (origin.Value != 0)
+            {
+                Marshal.FreeCoTaskMem(origin.Value);
+            }
+        }
+    }
+
+    public IReadOnlyList<string?> GetAllowedOrgins()
+    {
+        var list = new List<string?>();
+        foreach (var origin in _allowedOrigins)
+        {
+            var str = Marshal.PtrToStringUni(origin.Value);
+            list.Add(str);
+        }
+        return list;
+    }
+
+    public unsafe void SetAllowedOrigins(IEnumerable<string?> allowedOrigins)
     {
         ArgumentNullException.ThrowIfNull(allowedOrigins);
 
         var list = new List<PWSTR>();
         foreach (var allowedOrigin in allowedOrigins)
         {
-            list.Add(new(Marshal.StringToCoTaskMemUni(allowedOrigin)));
+            if (allowedOrigin == null)
+            {
+                list.Add(PWSTR.Null);
+            }
+            else
+            {
+                list.Add(new(Marshal.StringToCoTaskMemUni(allowedOrigin)));
+            }
         }
 
         var array = list.ToArray();
@@ -37,18 +76,11 @@ public partial class CoreWebView2CustomSchemeRegistration :
 
     public HRESULT SetAllowedOrigins(uint allowedOriginsCount, nint allowedOrigins)
     {
-        var regs = Interlocked.Exchange(ref _allowedOrigins, []);
+        Free();
         for (var i = 0; i < allowedOriginsCount; i++)
         {
-            var ptr = Marshal.ReadIntPtr(allowedOrigins, i * IntPtr.Size);
-            if (ptr == 0)
-                continue;
-
-            var origin = Marshal.PtrToStringUni(ptr);
-            if (origin != null)
-            {
-                regs.Add(origin);
-            }
+            var ptr = Marshal.ReadIntPtr(allowedOrigins, i * nint.Size);
+            _allowedOrigins.Add(new(ptr));
         }
         return DirectN.Constants.S_OK;
     }
@@ -58,11 +90,18 @@ public partial class CoreWebView2CustomSchemeRegistration :
     {
         var origins = _allowedOrigins;
         allowedOriginsCount = (uint)origins.Count;
-        allowedOrigins = Marshal.AllocHGlobal(IntPtr.Size * origins.Count);
+        allowedOrigins = Marshal.AllocHGlobal(nint.Size * origins.Count);
         for (var i = 0; i < origins.Count; i++)
         {
-            var ptr = Marshal.StringToHGlobalUni(origins[i]);
-            Marshal.WriteIntPtr(allowedOrigins, i * IntPtr.Size, ptr);
+            if (origins[i].Value == 0)
+            {
+                Marshal.WriteIntPtr(allowedOrigins, i * nint.Size, 0);
+            }
+            else
+            {
+                var ptr = Marshal.StringToHGlobalUni(origins[i].ToString());
+                Marshal.WriteIntPtr(allowedOrigins, i * nint.Size, ptr);
+            }
         }
         return DirectN.Constants.S_OK;
     }

@@ -44,11 +44,16 @@ public partial class CoreWebView2EnvironmentOptions :
     {
         if (disposing)
         {
-            var regs = Interlocked.Exchange(ref _customSchemeRegistrations, []);
-            foreach (var reg in regs)
-            {
-                Marshal.Release(reg);
-            }
+            Free();
+        }
+    }
+
+    private void Free()
+    {
+        var regs = Interlocked.Exchange(ref _customSchemeRegistrations, []);
+        foreach (var reg in regs)
+        {
+            Marshal.Release(reg);
         }
     }
 
@@ -86,12 +91,7 @@ public partial class CoreWebView2EnvironmentOptions :
 
     public unsafe HRESULT SetCustomSchemeRegistrations(uint count, nint schemeRegistrations)
     {
-        var regs = Interlocked.Exchange(ref _customSchemeRegistrations, []);
-        foreach (var reg in regs)
-        {
-            Marshal.Release(reg);
-        }
-
+        Free();
         var array = (nint*)schemeRegistrations;
         for (var i = 0; i < count; i++)
         {
