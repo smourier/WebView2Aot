@@ -84,7 +84,7 @@ public partial class DispatchObject : IDispatch
                 var excepInfo = new EXCEPINFO
                 {
                     scode = unchecked((int)DirectN.Constants.E_FAIL),
-                    bstrDescription = new Bstr(ex.GetAllMessages()),
+                    bstrDescription = new(Marshal.StringToBSTR(ex.GetAllMessages())),
                 };
 
                 *(EXCEPINFO*)pExcepInfo = excepInfo;
@@ -229,7 +229,7 @@ public partial class DispatchObject : IDispatch
                     var excepInfo = new EXCEPINFO
                     {
                         scode = unchecked((int)DirectN.Constants.E_FAIL),
-                        bstrDescription = new Bstr(ex.GetAllMessages()),
+                        bstrDescription = new(Marshal.StringToBSTR(ex.GetAllMessages())),
                     };
 
                     *(EXCEPINFO*)pExcepInfo = excepInfo;
