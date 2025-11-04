@@ -21,7 +21,7 @@ If you're wondering where this winmd file comes from, it's generated using this 
 
 WebView2 comes with a `WebView2Utilities.Initialize` method that will initialize the web view loader WebView2Loader.dll.
 
-To make it work, you can reference the standard [Microsoft.Web.WebView2 ](https://www.nuget.org/packages/microsoft.web.webview2) nuget package as usual. However, it comes with all pre-built WPF & Winforms NET dll and xml, while we only need the native *WebView2Loader.dll* file.
+To make it work, you can reference the standard [Microsoft.Web.WebView2 ](https://www.nuget.org/packages/microsoft.web.webview2) nuget package as usual. However, it comes with all pre-built WPF & Winforms NET dll and xml, while we only need the native *WebView2Loader.dll* file (which rarely changes since it's just a bootstrapper that forward to the real current installation binaries).
 
 So `WebView2Utilities.Initialize` also supports two other modes: you can extract the file corresponding to your processor architecture (x86, x64, arm4), or even all files from all architectures, as they rarely change, and either:
 1) copy them locally in your app's folder, following the `regular runtimes\[arch]\native\WebView2Loader.dll` relative path
