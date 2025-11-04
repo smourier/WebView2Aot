@@ -37,7 +37,7 @@ What's nice with embedding, especially in AOT deployment cases, is you just need
 
 ## HelloCompositionWebView2 sample
 
-This demonstrates the same as HelloWebView2 but in a Visual Composition (aka Direct Composition) context. In this case, mouse handling (buttons down, up, double clicks, wheel, etc) and cursor changes are handled in the C# code and propagated to the WebView2.
+This demonstrates the same as HelloWebView2 but in a Visual Composition (aka Direct Composition) context. In this case, mouse handling (buttons down, up, double clicks, wheel, etc) and cursor changes are handled in the C# code and propagated to the WebView2, as well as Drag & Drop events.
 
 ## ScriptHostObjectWebView2 sample
 
