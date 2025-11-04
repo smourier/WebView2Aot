@@ -7,6 +7,7 @@ internal static class Program
     {
         using var app = new CompositionApplication();
         using var win = new WebViewCompositionWindow($"Hello {RuntimeInformation.ProcessArchitecture} AOT - Composition");
+        win.IsDropTarget = true;
         win.ResizeClient(1000, 800);
         win.Center();
         win.Show();

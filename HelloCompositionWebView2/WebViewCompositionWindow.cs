@@ -1,11 +1,16 @@
-﻿namespace HelloCompositionWebView2;
+﻿using System.Runtime.InteropServices.Marshalling;
 
-public partial class WebViewCompositionWindow : CompositionWindow
+namespace HelloCompositionWebView2;
+
+[GeneratedComClass]
+public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
 {
     private ComObject<ICoreWebView2CompositionController>? _controller;
+    private IComObject<ICoreWebView2CompositionController3>? _controller3;
     private ComObject<ICoreWebView2_3>? _webView;
     private readonly bool[] _capturedButtons = new bool[Enum.GetNames<MouseButton>().Length];
     private bool _mouseTracking;
+    private bool _isDropTarget;
     private WebView2.EventRegistrationToken _cursorChangedToken;
 
     public WebViewCompositionWindow(string? title = null)
@@ -19,6 +24,7 @@ public partial class WebViewCompositionWindow : CompositionWindow
                 env3.CreateCoreWebView2CompositionController(Handle, new CoreWebView2CreateCoreWebView2CompositionControllerCompletedHandler((result, controller) =>
                 {
                     _controller = new ComObject<ICoreWebView2CompositionController>(controller);
+                    _controller3 = ComExtensions.As<ICoreWebView2CompositionController3>(_controller);
                     _controller.Object.add_CursorChanged(new CoreWebView2CursorChangedEventHandler((sender, args) =>
                     {
                         var cursor = new HCURSOR();
@@ -53,6 +59,33 @@ public partial class WebViewCompositionWindow : CompositionWindow
     protected virtual RECT? GetCaptionRect() => null;
     protected virtual void ControllerCreated()
     {
+    }
+
+    public bool IsDropTarget
+    {
+        get => _isDropTarget;
+        set
+        {
+            if (value == _isDropTarget)
+                return;
+
+            if (value)
+            {
+                // we need to ensure this as STAThread doesn't always call it for some reason
+                DirectN.Functions.OleInitialize(0); // don't check error
+                var hr = DirectN.Functions.RegisterDragDrop(Handle, this);
+                if (hr.IsError && hr != DirectN.Constants.DRAGDROP_E_ALREADYREGISTERED)
+                    throw new Exception("Cannot enable drag & drop operations. Make sure the thread is initialized as an STA thread.", Marshal.GetExceptionForHR((int)hr)!);
+
+                _isDropTarget = true;
+            }
+            else
+            {
+                var hr = DirectN.Functions.RevokeDragDrop(Handle);
+                hr.ThrowOnErrorExcept(DirectN.Constants.DRAGDROP_E_NOTREGISTERED);
+                _isDropTarget = false;
+            }
+        }
     }
 
     protected override bool OnFocusChanged(bool setOrKill)
@@ -182,5 +215,55 @@ public partial class WebViewCompositionWindow : CompositionWindow
             _controller?.Dispose();
         }
         base.Dispose(disposing);
+    }
+
+    HRESULT IDropTarget.DragEnter(IDataObject pDataObj, MODIFIERKEYS_FLAGS grfKeyState, POINTL pt, ref DROPEFFECT pdwEffect)
+    {
+        if (_controller3 == null)
+            return DirectN.Constants.E_NOTIMPL;
+
+        var effect = (uint)pdwEffect;
+        var hr = _controller3.Object.DragEnter(pDataObj, (uint)grfKeyState, ScreenToClient(new POINT(pt.x, pt.y)), ref effect);
+        if (hr.IsSuccess)
+        {
+            pdwEffect = (DROPEFFECT)effect;
+        }
+        return hr;
+    }
+
+    HRESULT IDropTarget.DragOver(MODIFIERKEYS_FLAGS grfKeyState, POINTL pt, ref DROPEFFECT pdwEffect)
+    {
+        if (_controller3 == null)
+            return DirectN.Constants.E_NOTIMPL;
+
+        var effect = (uint)pdwEffect;
+        var hr = _controller3.Object.DragOver((uint)grfKeyState, ScreenToClient(new POINT(pt.x, pt.y)), ref effect);
+        if (hr.IsSuccess)
+        {
+            pdwEffect = (DROPEFFECT)effect;
+        }
+        return hr;
+    }
+
+    HRESULT IDropTarget.DragLeave()
+    {
+        if (_controller3 == null)
+            return DirectN.Constants.E_NOTIMPL;
+
+        return _controller3.Object.DragLeave();
+    }
+
+    HRESULT IDropTarget.Drop(IDataObject pDataObj, MODIFIERKEYS_FLAGS grfKeyState, POINTL pt, ref DROPEFFECT pdwEffect)
+    {
+        if (_controller3 == null)
+            return DirectN.Constants.E_NOTIMPL;
+
+        var effect = (uint)pdwEffect;
+        var hr = _controller3.Object.Drop(pDataObj, (uint)grfKeyState, ScreenToClient(new POINT(pt.x, pt.y)), ref effect);
+        if (hr.IsSuccess)
+        {
+            pdwEffect = (DROPEFFECT)effect;
+        }
+        return hr;
     }
 }
