@@ -69,6 +69,7 @@
 		<Using Include="DirectN.Extensions.Utilities" />
 		<Using Include="ScriptHostObjectWebView2.Utilities" />
 		<Using Include="System" />
+		<Using Include="System.Collections" />
 		<Using Include="System.Collections.Concurrent" />
 		<Using Include="System.Collections.Generic" />
 		<Using Include="System.ComponentModel" />
@@ -84,6 +85,7 @@
 		<Using Include="System.Text" />
 		<Using Include="System.Text.Json" />
 		<Using Include="System.Text.Json.Serialization" />
+		<Using Include="System.Threading" />
 		<Using Include="System.Threading.Tasks" />
 		<Using Include="WebView2" />
 		<Using Include="WebView2.Utilities" />

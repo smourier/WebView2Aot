@@ -30,6 +30,15 @@ public class WebViewWindow : Window
                     controller.put_Bounds(ClientRect).ThrowOnError();
                     controller.get_CoreWebView2(out var webView2).ThrowOnError();
 
+                    // this is for a full support of .NET Task or Task<T> methods
+                    // unfortunately, uses undocumented (private) interfaces
+                    if (webView2 is ICoreWebView2PrivatePartial partial)
+                    {
+                        partial.AddHostObjectHelper(new WebViewHostObjectHelper()).ThrowOnError();
+                        _hostObject.ContinueOnAsync = true;
+                    }
+
+                    webView2.OpenDevToolsWindow();
                     _hostObject.ClockTick += (s, e) =>
                     {
                         Text = $"Javascript Tick: {e}";

@@ -26,8 +26,8 @@ public partial class HostObject : DispatchObject
 
     public void OnClockTick(string date) => ClockTick?.Invoke(this, date);
 
-    // note this is necesary to avoid trimming Task<T>.Result for AOT publishing
-    // all Task<T> results should be unwrapped here, so you can return any type you want
+    // note this is necessary to avoid trimming Task<T>.Result (for some given T) for AOT publishing
+    // all Task<T> results must be unwrapped here, so you can return any type you want
     protected override object? GetTaskResult(Task task)
     {
         if (task is Task<string> s)
