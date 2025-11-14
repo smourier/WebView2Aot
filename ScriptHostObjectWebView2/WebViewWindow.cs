@@ -36,9 +36,11 @@ public class WebViewWindow : Window
                     {
                         partial.AddHostObjectHelper(new WebViewHostObjectHelper()).ThrowOnError();
                         _hostObject.ContinueOnAsync = true;
+                        _hostObject.OneStepInvoke = true;
                     }
 
-                    webView2.OpenDevToolsWindow();
+                    //webView2.OpenDevToolsWindow();
+
                     _hostObject.ClockTick += (s, e) =>
                     {
                         Text = $"Javascript Tick: {e}";

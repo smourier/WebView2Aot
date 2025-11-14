@@ -26,7 +26,11 @@ public partial class DispatchObject : IDispatch
     protected virtual object? GetTaskResult(Task task) => throw new NotSupportedException($"Type '{GetType().FullName}' returns a task of type '{task.GetType().FullName}'.");
     protected virtual TaskFunction CreateTaskFunction(MethodInfo method, object?[]? arguments) => new(this, method, arguments);
 
+    // when working with WebView2 and the HostObjectHelper is installed, set this to true
     public virtual bool ContinueOnAsync { get; set; }
+
+    // when working with WebView2 and the HostObjectHelper is installed, set this to true
+    public virtual bool OneStepInvoke { get; set; }
 
     public bool IsMethod(string? name)
     {
@@ -124,6 +128,13 @@ public partial class DispatchObject : IDispatch
                 using var vatf = new Variant(tf);
                 vatf.DetachTo(pVarResult);
                 return DirectN.Constants.S_OK;
+            }
+
+            if (OneStepInvoke)
+            {
+                var arguments = Function.BuildArguments(method, pDispParams);
+                var result = method.Invoke(this, arguments);
+                return Function.WriteResultAsVARIANT(result, pVarResult);
             }
 
             var func = new Function(this, method);
@@ -337,11 +348,6 @@ public partial class DispatchObject : IDispatch
 #pragma warning disable IDE1006 // Naming Styles
         private const uint WM_COMPLETED = MessageDecoder.WM_APP + 1234;
 #pragma warning restore IDE1006 // Naming Styles
-        private static readonly SingleThreadTaskScheduler _scheduler = new(configure =>
-        {
-            configure.SetApartmentState(ApartmentState.STA);
-            return true;
-        });
 
         public HRESULT GetTypeInfo(uint iTInfo, uint lcid, out ITypeInfo ppTInfo) => throw new NotSupportedException();
         public HRESULT GetTypeInfoCount(out uint pctinfo)
