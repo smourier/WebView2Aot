@@ -404,7 +404,7 @@ public partial class DispatchObject : IDispatch
 
             if (result is IDictionary dictionary)
             {
-                var array = new List<DispatchKeyValue>();
+                var array = new List<object>(); // cannot use array of DispatchKeyValue directly we want an array of VARIANTs
                 foreach (DictionaryEntry kv in dictionary)
                 {
                     array.Add(new DispatchKeyValue { Key = kv.Key, Value = kv.Value });
