@@ -2,7 +2,7 @@
 
 public static class ICoreWebView2Extensions
 {
-    public static Task<string?> ExecuteScriptAsJon(this ICoreWebView2 webView, string javaScript)
+    public static Task<string?> ExecuteScriptAsJon(this ICoreWebView2 webView, string javaScript, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(webView);
         ArgumentNullException.ThrowIfNull(javaScript);
@@ -34,7 +34,7 @@ public static class ICoreWebView2Extensions
                 {
                     p.get_Exception(out var error);
                     var exception = CoreWebView2ScriptException.From(error);
-                    if (exception != null)
+                    if (exception != null && throwOnError)
                     {
                         tcs.SetException(exception);
                     }
@@ -58,14 +58,14 @@ public static class ICoreWebView2Extensions
             }));
         }
 
-        if (hr.IsError)
+        if (hr.IsError && throwOnError)
         {
             tcs.SetException(Marshal.GetExceptionForHR(hr)!);
         }
         return tcs.Task;
     }
 
-    public static Task<T?> ExecuteScript<T>(this ICoreWebView2 webView, string javaScript, JsonTypeInfo<T> typeInfo, T? defaultValue = default)
+    public static Task<T?> ExecuteScript<T>(this ICoreWebView2 webView, string javaScript, JsonTypeInfo<T> typeInfo, T? defaultValue = default, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(webView);
         ArgumentNullException.ThrowIfNull(javaScript);
@@ -98,7 +98,7 @@ public static class ICoreWebView2Extensions
                 {
                     p.get_Exception(out var error);
                     var exception = CoreWebView2ScriptException.From(error);
-                    if (exception != null)
+                    if (exception != null && throwOnError)
                     {
                         tcs.SetException(exception);
                     }
@@ -122,7 +122,7 @@ public static class ICoreWebView2Extensions
             }));
         }
 
-        if (hr.IsError)
+        if (hr.IsError && throwOnError)
         {
             tcs.SetException(Marshal.GetExceptionForHR(hr)!);
         }
