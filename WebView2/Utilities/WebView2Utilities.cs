@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace WebView2.Utilities;
@@ -10,6 +9,9 @@ public static class WebView2Utilities
 
     private const uint ERROR_MOD_NOT_FOUND = 0x8007007E;
     private static bool _initialized;
+
+    public static COREWEBVIEW2_COLOR GetColor(this D3DCOLORVALUE color) => new() { A = color.BA, R = color.BR, G = color.BG, B = color.BB };
+    public static D3DCOLORVALUE FromColor(this COREWEBVIEW2_COLOR color) => new() { BA = color.A, BR = color.R, BG = color.G, BB = color.B };
 
     // returns null if webview2 is not installed in executable folder
     public static string? GetAvailableCoreWebView2BrowserVersionString(string? browserExecutableFolder = null)
