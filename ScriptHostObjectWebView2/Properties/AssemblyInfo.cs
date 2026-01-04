@@ -6,7 +6,7 @@
 
 [assembly: AssemblyTitle("ScriptHostObjectWebView2")]
 [assembly: AssemblyProduct("WebView2Aot")]
-[assembly: AssemblyCopyright("Copyright (C) 2024-2025 Simon Mourier. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2024-2026 Simon Mourier. All rights reserved.")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyDescription("Sample Code")]
 [assembly: AssemblyCompany("Simon Mourier")]

@@ -1,10 +1,10 @@
 # WebView2Aot
 
-[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 9+ AOT-compatible bindings 100% independent from WinForms or WPF.
+[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF.
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
 * **HelloCompositionWebView2** is a sample hello world in that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
-* **WebView2** is the .NET Core 9+ AOT-compatible bindings dll that can be used to use WebView2.
+* **WebView2** is the .NET Core 10+ AOT-compatible bindings dll that can be used to use WebView2.
 * **WebView2Aot.InteropBuilder.Cli** is the tool that generates code in the WebView2 dll.
 
 WebView2 has a dependency to  [DirectN AOT](https://github.com/smourier/DirectNAot) for some Windows definitions (BOOL, PWSTR, etc.) but has zero dependency on any UI framework.

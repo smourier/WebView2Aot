@@ -6,7 +6,7 @@
 
 [assembly: AssemblyTitle("WebView2 - AOT")]
 [assembly: AssemblyProduct("WebView2")]
-[assembly: AssemblyCopyright("Copyright (C) 2014-2025 Simon Mourier. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2014-2026 Simon Mourier. All rights reserved.")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyDescription("AOT-Compatible Windows WebView2 interop Code for .NET Core")]
 [assembly: AssemblyCompany("Simon Mourier")]

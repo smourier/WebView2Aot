@@ -6,7 +6,7 @@
 
 [assembly: AssemblyTitle("WebView2Aot.InteropBuilder.Cli")]
 [assembly: AssemblyProduct("WebView2Aot")]
-[assembly: AssemblyCopyright("Copyright (C) 2014-2025 Simon Mourier. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2014-2026 Simon Mourier. All rights reserved.")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyDescription("WebView2 InteropBuilder Cli")]
 [assembly: AssemblyCompany("Simon Mourier")]
