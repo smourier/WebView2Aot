@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Markdown Viewer</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style>
+        :root {
+            --color: #727cef;
+            --bgcolor: #3A3842;
+            --shadow: -.2rem -.2rem .5rem hsl(from var(--color) h 30% 65%), .4rem .4rem 1rem hsl(from var(--bgcolor) h s 5%);
+            --hoverColor: white;
+        }
+
+        button {
+            container-type: inline-size;
+            border: 0.5rem solid transparent;
+            border-radius: 1rem;
+            color: var(--color);
+            background: none;
+            display: grid;
+            place-content: center;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+            outline: none;
+            transition: all 0.1s;
+            padding: 0 1.3rem;
+        }
+
+            button:hover, button:focus-visible {
+                color: var(--hoverColor);
+                scale: 1.1
+            }
+
+            button:active {
+                box-shadow: var(--shadow), inset .3rem .3rem .5rem hsl(from var(--color) h s 5%), inset -.2rem -.2rem .5rem hsl(from var(--color) h 30% 65%);
+                color: hsl(from var(--color) h s 90%);
+            }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background-color: var(--bgcolor);
+            overflow: clip;
+        }
+
+        span {
+            font-family: system-ui, sans-serif;
+            font-size: 16cqi;
+        }
+
+        #close {
+            cursor: pointer;
+            position: fixed;
+            margin: .5rem;
+            right: 0;
+            display: none;
+        }
+
+        #dragcaption {
+            color: red;
+            position: fixed;
+            text-align: center;
+            font-size: .8rem;
+            display: none;
+        }
+
+        #buttons {
+            padding: 2rem;
+            display: grid;
+            width: 150px;
+            margin-inline: auto;
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <span id="dragcaption">You must drop the file to this application's caption</span>
+    <div id="buttons">
+        <button id="open">
+            <span>Open a Markdown file...</span>
+        </button>
+        <button id="associate">
+            <span>Associate .md files to MarkdownViewer ...</span>
+        </button>
+        <button id="dissociate">
+            <span>Dissociate .md files from MarkdownViewer ...</span>
+        </button>
+    </div>
+    <div><img id="close" src="" title="Close current markdown document" /></div>
+    <div id="md"></div>
+    <script type="module">
+
+        const dotnet = chrome.webview.hostObjects.dotnet;
+        const syncDotnet = chrome.webview.hostObjects.sync.dotnet;
+        addEventListener("load", (event) => { dotnet.notifyReady(); })
+
+        window.loadFromFile = loadFromFile;
+        const dragcaption = document.getElementById("dragcaption");
+        const md = document.getElementById("md");
+        const buttons = document.getElementById("buttons");
+        const close = document.getElementById("close");
+        if (syncDotnet.isWindows10OrGreater()) {
+            // old WebView2 on windows 7 doesn't understand newer CSS things
+            document.documentElement.style.setProperty("--hoverColor", "hsl(from var(--color) h s 85%)");
+        }
+
+        document.getElementById("associate").onclick = () => dotnet.associate();
+        document.getElementById("dissociate").onclick = () => dotnet.dissociate();
+        document.getElementById("open").onclick = () => loadFromFile();
+
+        close.parentElement.onclick = () => {
+            syncDotnet.close();
+            md.innerHTML = "";
+            document.body.style.overflow = "clip";
+            document.body.style.backgroundColor = document.documentElement.style.getPropertyValue("--bgcolor");
+            buttons.style.display = "grid";
+            close.style.display = "none";
+        }
+
+        window.addEventListener("dragover", (e) => {
+            dragcaption.style.display = "block";
+            e.dataTransfer.dropEffect = "none";
+            e.preventDefault();
+        });
+
+        window.addEventListener("dragleave", (event) => { dragcaption.style.display = "none"; })
+        window.addEventListener("dragend", (event) => { dragcaption.style.display = "none"; })
+        window.addEventListener("drop", (e) => {
+            e.preventDefault();
+        });
+
+        async function loadFromFile(filePath) {
+            const html = await dotnet.open(filePath);
+            if (html && html.length > 0) {
+                md.innerHTML = html;
+                document.body.style.overflow = "auto";
+                document.body.style.backgroundColor = "white";
+                buttons.style.display = "none";
+                if (!close.src) {
+                    close.src = syncDotnet.getCloseIcon();
+                }
+                close.style.display = "block";
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>MarkdownViewer.ico</ApplicationIcon>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PublishAot>true</PublishAot>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<CustomResourceTypesSupport>true</CustomResourceTypesSupport>
+		
+		<!-- this is need to publish as AOT -->
+		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+		<Platforms>x64;ARM64;x86</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Remove="app.manifest" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="..\WebView2\Properties\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Index.html" />
+	  <EmbeddedResource Include="MarkdownViewer.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="runtimes\win-arm64\native\WebView2Loader.dll" />
+		<EmbeddedResource Include="runtimes\win-x64\native\WebView2Loader.dll" />
+		<EmbeddedResource Include="runtimes\win-x86\native\WebView2Loader.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="DirectN">
+			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
+		</Reference>
+		<Reference Include="DirectN.Extensions">
+			<HintPath>..\WebView2\External\DirectN.Extensions.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.44.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WebView2\WebView2.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="DirectN" />
+		<Using Include="DirectN.Extensions" />
+		<Using Include="DirectN.Extensions.Com" />
+		<Using Include="Markdig" />
+		<Using Include="MarkdownViewer.Utilities" />
+		<Using Include="Microsoft.Win32" />
+		<Using Include="System" />
+		<Using Include="System.Collections" />
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.Collections.Generic" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
+		<Using Include="System.Drawing" />
+		<Using Include="System.Drawing.Imaging" />
+		<Using Include="System.Globalization" />
+		<Using Include="System.IO" />
+		<Using Include="System.Linq" />
+		<Using Include="System.Numerics" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.Versioning" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Text" />
+		<Using Include="System.Text.Json.Serialization.Metadata" />
+		<Using Include="System.Threading" />
+		<Using Include="System.Threading.Tasks" />
+		<Using Include="System.Windows.Forms" />
+		<Using Include="WebView2" />
+		<Using Include="WebView2.Utilities" />
+	</ItemGroup>
+
+
+</Project>

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.2.11408.102 d18.0
+VisualStudioVersion = 18.2.11408.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebView2Aot.InteropBuilder.Cli", "WebView2Aot.InteropBuilder.Cli\WebView2Aot.InteropBuilder.Cli.csproj", "{70C002E7-90FD-432C-B1C9-0EAE73F5BEB5}"
 EndProject
@@ -13,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptHostObjectWebView2", "ScriptHostObjectWebView2\ScriptHostObjectWebView2.csproj", "{C3FE7138-D301-ED12-75D0-56F4287F2F77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloCompositionWebView2", "HelloCompositionWebView2\HelloCompositionWebView2.csproj", "{D115DEEA-4C61-B362-3729-7D08BB4D95A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownViewer", "MarkdownViewer\MarkdownViewer.csproj", "{8239EE0C-F8EB-45CA-9F24-73DE416D5036}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,18 @@ Global
 		{D115DEEA-4C61-B362-3729-7D08BB4D95A6}.Release|x64.Build.0 = Release|x64
 		{D115DEEA-4C61-B362-3729-7D08BB4D95A6}.Release|x86.ActiveCfg = Release|x86
 		{D115DEEA-4C61-B362-3729-7D08BB4D95A6}.Release|x86.Build.0 = Release|x86
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|ARM64.Build.0 = Debug|ARM64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|x64.ActiveCfg = Debug|x64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|x64.Build.0 = Debug|x64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|x86.ActiveCfg = Debug|x86
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Debug|x86.Build.0 = Debug|x86
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|ARM64.ActiveCfg = Release|ARM64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|ARM64.Build.0 = Release|ARM64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|x64.ActiveCfg = Release|x64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|x64.Build.0 = Release|x64
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|x86.ActiveCfg = Release|x86
+		{8239EE0C-F8EB-45CA-9F24-73DE416D5036}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
