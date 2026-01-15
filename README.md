@@ -109,5 +109,16 @@ it even works on Windows 7, with, as usual, only one file (7M) to deploy!
 
 Markdown is converted to HTML using [Markdig](https://github.com/xoofx/markdig)
 
+<img width="284" height="439" alt="Markdown Viewer" src="https://github.com/user-attachments/assets/efd94572-7929-4e77-bcd3-8b7ec96d81d2" />
+
+This README.md file rendered by MarkDownViewer:
+
+<img width="50%" alt="image" src="https://github.com/user-attachments/assets/82f7c55f-0599-4833-9e37-f357e4c13d1b" />
+
+Markdown Viewer running in Windows 7 (the look is not as good as on Windows 10/11 because the supported WebView2 on Windows 7 doesn't understand some new CSS constructs):
+
+<img width="496" height="595" alt="image" src="https://github.com/user-attachments/assets/f41149d1-b76a-4de2-964f-37d29adcf95e" />
+
+
 
 
