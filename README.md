@@ -102,4 +102,12 @@ public partial class HostObject : DispatchObject
 }
 ```
 
+## MarkdownViewer sample
+A sample that demonstrates how to use WebView2Aot (x64, x86, and ARM64) to display markdown content in a WebView2.
+It's a Winforms 10 (.NET 10), yes you read that right, Winforms on .NET 10 with AOT publishing, so,
+it even works on Windows 7, with, as usual, only one file (7M) to deploy!
+
+Markdown is converted to HTML using [Markdig](https://github.com/xoofx/markdig)
+
+
 
