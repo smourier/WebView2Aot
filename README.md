@@ -65,7 +65,8 @@ This is the relevant html part:
 </body>
 ```
 
-And the host object which is named 'dotnet' in the previous javascript code.
+And the host object which is named 'dotnet' in the previous javascript code, based on the still alive [IDispatch](https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-idispatch) COM interface, and [VARIANT](https://learn.microsoft.com/en-us/windows/win32/api/oaidl/ns-oaidl-variant) types.
+These are here extensively interop'd thanks to DirectN, so it's quite transparent to .NET Core. .NET Tasks are also supported.
 
 ```
 [GeneratedComClass]
