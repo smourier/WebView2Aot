@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11408.102 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebView2Aot.InteropBuilder.Cli", "WebView2Aot.InteropBuilder.Cli\WebView2Aot.InteropBuilder.Cli.csproj", "{70C002E7-90FD-432C-B1C9-0EAE73F5BEB5}"
 EndProject
