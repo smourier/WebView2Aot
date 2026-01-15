@@ -4,6 +4,10 @@
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
 * **HelloCompositionWebView2** is a sample hello world in that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
+* **ScriptHostObjectWebView2** is a sample that demonstrates how to add a host object to the WebView2 scripting context,
+and communicate back and forth with it, always with AOT publishing.
+* **MarkdownViewer** is a sample that demonstrates how to use WebView2Aot (x64, x86, and ARM64) to display markdown content in a WebView2.
+It also shows how to use Winforms .NET 10 + WebView2 + AOT that even works on Windows 7.
 * **WebView2** is the .NET Core 10+ AOT-compatible bindings dll that can be used to use WebView2.
 * **WebView2Aot.InteropBuilder.Cli** is the tool that generates code in the WebView2 dll.
 
