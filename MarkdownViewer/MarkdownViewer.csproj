@@ -80,6 +80,7 @@
 		<Using Include="System.Text.Json.Serialization.Metadata" />
 		<Using Include="System.Threading" />
 		<Using Include="System.Threading.Tasks" />
+		<Using Include="System.Web" />
 		<Using Include="System.Windows.Forms" />
 		<Using Include="WebView2" />
 		<Using Include="WebView2.Utilities" />

@@ -1,5 +1,3 @@
-using System.Web;
-
 namespace MarkdownViewer;
 
 public partial class Main : Form
@@ -193,6 +191,7 @@ public partial class Main : Form
             var text = sw.ReadToEnd();
             html = Markdown.ToHtml(text, _pipeline);
             Text = _title;
+            ExecuteScript($"setBase(\"{HttpUtility.JavaScriptStringEncode($@"{Path.GetDirectoryName(filePath)}\")}\");").ThrowOnError();
         }
         catch (Exception ex)
         {
@@ -296,7 +295,9 @@ public partial class Main : Form
         }
 
         // store user data in local app data folder unless overridden on command line
-        var userDataFolder = DirectN.Extensions.Utilities.CommandLine.Current.GetNullifiedArgument("udf", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), typeof(Program).Namespace!, "WebView2"));
+        var appFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), typeof(Program).Namespace!);
+        var userDataFolder = DirectN.Extensions.Utilities.CommandLine.Current.GetNullifiedArgument("udf", Path.Combine(appFolder, "WebView2"));
+
         WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(userDataFolder), null!,
         new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
         {
@@ -321,15 +322,30 @@ public partial class Main : Form
 
                 // get IUnknown from the host object and wrap it in a VARIANT
                 ComObject.WithComInstance(_hostObject, unk =>
-            {
-                using var variant = new DirectN.Extensions.Utilities.Variant(unk, VARENUM.VT_UNKNOWN);
-                var detached = variant.Detached;
-                webView2.AddHostObjectToScript(PWSTR.From("dotnet"), ref detached).ThrowOnError();
-            }, true);
+                {
+                    using var variant = new DirectN.Extensions.Utilities.Variant(unk, VARENUM.VT_UNKNOWN);
+                    var detached = variant.Detached;
+                    webView2.AddHostObjectToScript(PWSTR.From("dotnet"), ref detached).ThrowOnError();
+                }, true);
 
                 // load index.html from the current assembly
                 var html = Encoding.UTF8.GetString(DirectN.Extensions.Utilities.Extensions.LoadFromResource(Assembly.GetExecutingAssembly(), GetType().Namespace + ".Index.html"));
-                webView2.NavigateToString(PWSTR.From(html));
+
+                // check we have a cached version
+                var cachedPath = Path.Combine(appFolder, Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "1.0.0.0", "index.html");
+                var fi = new FileInfo(cachedPath);
+#if DEBUG
+                Directory.CreateDirectory(fi.DirectoryName!);
+                File.WriteAllText(cachedPath, html, Encoding.UTF8);
+#else
+                if (!fi.Exists || fi.Length < 64)
+                {
+                    Directory.CreateDirectory(fi.DirectoryName!);
+                    File.WriteAllText(cachedPath, html, Encoding.UTF8);
+                }
+#endif
+
+                webView2.Navigate(PWSTR.From(cachedPath));
                 FocusChange();
             }));
         }));

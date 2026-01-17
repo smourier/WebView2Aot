@@ -94,6 +94,8 @@
         addEventListener("load", (event) => { dotnet.notifyReady(); })
 
         window.loadFromFile = loadFromFile;
+        window.setBase = setBase;
+
         const dragcaption = document.getElementById("dragcaption");
         const md = document.getElementById("md");
         const buttons = document.getElementById("buttons");
@@ -128,6 +130,15 @@
             e.preventDefault();
         });
 
+        function setBase(directoryPath) {
+            let base = document.querySelector('base');
+            if (!base) {
+                base = document.createElement('base');
+                document.head.appendChild(base);
+            }
+            base.href = directoryPath;
+        }
+
         async function loadFromFile(filePath) {
             const html = await dotnet.open(filePath);
             if (html && html.length > 0) {
@@ -135,9 +146,8 @@
                 document.body.style.overflow = "auto";
                 document.body.style.backgroundColor = "white";
                 buttons.style.display = "none";
-                if (!close.src) {
-                    close.src = syncDotnet.getCloseIcon();
-                }
+                window.closeIcon = window.closeIcon || syncDotnet.getCloseIcon();
+                close.src = window.closeIcon;
                 close.style.display = "block";
             }
         }
