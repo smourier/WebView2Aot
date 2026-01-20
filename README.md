@@ -3,7 +3,7 @@
 [Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF.
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
-* **HelloCompositionWebView2** is a sample hello world in that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
+* **HelloCompositionWebView2** is a sample hello world that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
 * **ScriptHostObjectWebView2** is a sample that demonstrates how to add a host object to the WebView2 scripting context,
 and communicate back and forth with it, always with AOT publishing.
 * **MarkdownViewer** is a sample that demonstrates how to use WebView2Aot (x64, x86, and ARM64) to display markdown content in a WebView2.
