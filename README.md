@@ -106,7 +106,7 @@ public partial class HostObject : DispatchObject
 }
 ```
 
-## MarkdownViewer sample
+## MarkdownViewer application
 A sample that demonstrates how to use WebView2Aot (x64, x86, and ARM64) to display markdown content in a WebView2.
 It's a Winforms 10 (.NET 10), yes you read that right, Winforms on .NET 10 with AOT publishing, so,
 it even works on Windows 7, with, as usual, only one file (7M) to deploy!
@@ -122,6 +122,11 @@ This README.md file rendered by MarkDownViewer:
 Markdown Viewer running in Windows 7 (the look is not as good as on Windows 10/11 because the supported WebView2 on Windows 7 doesn't understand some new CSS constructs):
 
 <img width="496" height="595" alt="image" src="https://github.com/user-attachments/assets/f41149d1-b76a-4de2-964f-37d29adcf95e" />
+
+## ShellBat application
+With WebView2 native AOT bindings, you can build highly capable applications, on par with Electron or Tauri, without leaving the .NET ecosystem. [ShellBat](https://github.com/smourier/ShellBat), packaged as a single executable, is a modern Windows file explorer featuring file viewers, multi-instance workflows, terminal integration, search functionality, and deep Windows Shell integration, all powered by WebView2 for its user interface.
+
+<img width="1829" height="956" alt="image" src="https://github.com/user-attachments/assets/1a9c45ae-782c-4920-a1bc-d094538f7855" />
 
 
 
