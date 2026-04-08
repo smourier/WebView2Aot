@@ -1,5 +1,5 @@
 ﻿{
-  // customized generation for ShellN
+  // customized generation for WebView2
   "BuilderTypeFilePath": "WebView2Aot.InteropBuilder.Cli.dll",
   "BuilderTypeName": "WebView2Aot.InteropBuilder.Cli.Builder, WebView2Aot.InteropBuilder.Cli",
   "OutputEncoding": "UTF-8",
@@ -14,7 +14,7 @@
     "CSharp": {
       "GenerateTypeKeywords": true,
 
-      // types that are supported by ShellN project for constant generation (+ standard ones)
+      // types that are supported by WebView2 project for constant generation (+ standard ones)
       "SupportedConstantTypes": [
       ]
     }
