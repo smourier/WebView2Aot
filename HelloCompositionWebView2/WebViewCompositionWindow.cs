@@ -16,6 +16,20 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
     public WebViewCompositionWindow(string? title = null)
         : base(title)
     {
+        // this checks WebView2Loader.dll is present somewhere (file path or embedded resource)
+        WebView2Utilities.Initialize(Assembly.GetEntryAssembly());
+
+        // this checks WebView2 itself is installed
+        var browserVersion = WebView2Utilities.GetAvailableCoreWebView2BrowserVersionString();
+        if (browserVersion != null)
+        {
+            Text = $"{Text} - WebView2 V{browserVersion}";
+        }
+        else
+        {
+            Text = $"{Text} - WebView2 was not found";
+        }
+
         WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, envObj) =>
             {
