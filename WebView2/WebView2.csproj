@@ -1,19 +1,52 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net10.0;net10.0-windows</TargetFrameworks>
+		<TargetFrameworks>net10.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<IsAotCompatible>true</IsAotCompatible>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PublishAot>true</PublishAot>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Platforms>AnyCPU</Platforms>
+		
+		<Title>WebView2Aot</Title>
+		<PackageId>WebView2Aot</PackageId>
+		
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageTags>.NET WebView2 WebView2Aot DirectComposition Interop AOT DirectN DirectNAot</PackageTags>
+		<RepositoryUrl>https://github.com/smourier/WebView2Aot</RepositoryUrl>
+		<Description>AOT-Compatible Windows WebView2 interop Code for .NET Core without any dependency on Winforms, WPF, WinUI, or other UI frameworks.</Description>
+		<Copyright>Copyright (C) 2025-2026 Simon Mourier. All rights reserved</Copyright>
+		<PackageProjectUrl>https://github.com/smourier/WebView2Aot</PackageProjectUrl>
+		<PackageIcon>WebView2Aot.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Version>1.4.1</Version>
+		<ProductVersion>1.4.1</ProductVersion>
+		<FileVersion>1.4.1</FileVersion>
+		<InformationalVersion>1.4.1</InformationalVersion>
+		<SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</SourceRevisionId>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Reference Include="DirectN">
-	    <HintPath>External\DirectN.dll</HintPath>
-	  </Reference>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute"></AssemblyAttribute>
+		<AssemblyAttribute Include="System.Runtime.Versioning.SupportedOSPlatformAttribute">
+			<_Parameter1>windows5.1.2600</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="WebView2Aot.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,6 +71,11 @@
 		<Using Include="System.Text.Json.Serialization.Metadata" />
 		<Using Include="System.Threading" />
 		<Using Include="System.Threading.Tasks" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="DirectNAot" Version="1.6.1" />
+	  <PackageReference Include="DirectNAot.Extensions" Version="1.6.1" />
 	</ItemGroup>
 
 </Project>
