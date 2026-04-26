@@ -1,14 +1,16 @@
-﻿using System.Runtime.InteropServices.Marshalling;
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace HelloCompositionWebView2;
 
 [GeneratedComClass]
 public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
 {
+    private readonly bool[] _capturedButtons = new bool[Enum.GetNames<MouseButton>().Length];
+    private readonly HashSet<uint> _pointerIdsStartingInWebView = [];
     private ComObject<ICoreWebView2CompositionController>? _controller;
     private IComObject<ICoreWebView2CompositionController3>? _controller3;
     private ComObject<ICoreWebView2_3>? _webView;
-    private readonly bool[] _capturedButtons = new bool[Enum.GetNames<MouseButton>().Length];
     private bool _mouseTracking;
     private bool _isDropTarget;
     private WebView2.EventRegistrationToken _cursorChangedToken;
@@ -204,8 +206,74 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
                     (uint)wParam.Value.SignedHIWORD(),
                     lParam.ToPOINT().ScreenToClient(hwnd)).ThrowOnError();
                 break;
+
+            case MessageDecoder.WM_POINTERACTIVATE:
+            case MessageDecoder.WM_POINTERDOWN:
+            case MessageDecoder.WM_POINTERENTER:
+            case MessageDecoder.WM_POINTERLEAVE:
+            case MessageDecoder.WM_POINTERUP:
+            case MessageDecoder.WM_POINTERUPDATE:
+                if (TryForwardPointerInput(msg, wParam, lParam))
+                    return 0;
+
+                break;
         }
         return base.WindowProc(hwnd, msg, wParam, lParam);
+    }
+
+    // from https://github.com/MicrosoftEdge/WebView2Samples/blob/main/SampleApps/WebView2APISample/ViewComponent.cpp
+    protected virtual bool TryForwardPointerInput(uint msg, WPARAM wParam, LPARAM lParam)
+    {
+        if (Controller == null)
+            return false;
+
+        var pointerId = wParam.GetPointerId();
+        var point = lParam.ToPOINT().ScreenToClient(Handle);
+        var pointerStartedInWebView = _pointerIdsStartingInWebView.Contains(pointerId);
+        if (!pointerStartedInWebView && !ClientRect.Contains(point))
+            return false;
+
+        if (!pointerStartedInWebView && (msg == MessageDecoder.WM_POINTERENTER || msg == MessageDecoder.WM_POINTERDOWN))
+        {
+            _pointerIdsStartingInWebView.Add(pointerId);
+        }
+        else if (msg == MessageDecoder.WM_POINTERLEAVE)
+        {
+            _pointerIdsStartingInWebView.Remove(pointerId);
+        }
+
+        var ctrl4 = Controller.As<ICoreWebView2ExperimentalCompositionController4>();
+        if (ctrl4 == null)
+            return false;
+
+        var matrix = D2D_MATRIX_4X4_F.Identity();
+        // this is needed to adjust pointer coordinates from screen to webview's root visual target, which may be different if the window is moved, etc.
+        //matrix._41 += webViewBounds left
+        //matrix._42 += m_webViewBounds top
+        if (ctrl4.Object.CreateCoreWebView2PointerInfoFromPointerId(pointerId, Handle, matrix, out var infoObj).IsError)
+            return false;
+
+        var info = new ComObject<ICoreWebView2PointerInfo>(infoObj);
+        Controller.Object.SendPointerInput((COREWEBVIEW2_POINTER_EVENT_KIND)msg, info.Object).ThrowOnError();
+        return true;
+    }
+
+    protected override bool OnMoving(ref RECT rc)
+    {
+        if (_controller?.Object is ICoreWebView2Controller c)
+        {
+            c.NotifyParentWindowPositionChanged().ThrowOnError();
+        }
+        return base.OnMoving(ref rc);
+    }
+
+    protected override bool OnMoved()
+    {
+        if (_controller?.Object is ICoreWebView2Controller c)
+        {
+            c.NotifyParentWindowPositionChanged().ThrowOnError();
+        }
+        return base.OnMoved();
     }
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
