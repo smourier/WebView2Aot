@@ -39,7 +39,7 @@ So `WebView2Utilities.Initialize` also supports two other modes: you can extract
 
 ![image](https://github.com/user-attachments/assets/d08fae48-79d2-4a7c-b693-3bb9be6bcbf6)
 
-What's nice with embedding, especially in AOT deployment cases, is you just need to ship one file.
+What's nice with embedding, especially in AOT deployment cases, is you don't need to ship any other extra file, just one .exe.
 
 ## HelloWebView2 sample
 
