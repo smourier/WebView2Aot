@@ -1,6 +1,6 @@
 # WebView2Aot
 
-[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF.
+[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF or WINUI3.
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
 * **HelloCompositionWebView2** is a sample hello world that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
@@ -11,7 +11,9 @@ It also shows how to use Winforms .NET 10 + WebView2 + AOT that even works on Wi
 * **WebView2** is the .NET Core 10+ AOT-compatible bindings dll that can be used to use WebView2.
 * **WebView2Aot.InteropBuilder.Cli** is the tool that generates code in the WebView2 dll.
 
-WebView2 has a dependency to  [DirectN AOT](https://github.com/smourier/DirectNAot) for some Windows definitions (BOOL, PWSTR, etc.) but has zero dependency on any UI framework.
+WebView2 has a dependency to  [DirectN AOT](https://github.com/smourier/DirectNAot) for some Windows definitions (BOOL, PWSTR, etc.) but has zero dependency on any external UI framework.
+It doesn't cause problems when compiling AOT since they will get linked directly in the targe binaries.
+Ultimately, this dependency could be tweaked manually, if someone want to get rid of it, these C# definitions can just be extracted and compiled separately.
 
 Of course, all this requires the WebView2 to be installed!
 
@@ -26,8 +28,8 @@ If you're wondering where this winmd file comes from, it's generated using this 
 You can build `WebView2.dll` yourself as explained in the previous section, 
 or you can just use the pre-built Nuget package available here [WebView2Aot Nuget](https://www.nuget.org/packages/WebView2Aot/).
 
-But `WebView2.dll` needs the native `WebView2Loader.dll` (provided by Microsoft) to work. 
-`WebView2.dll` comes with a `WebView2Utilities.Initialize` method that will initialize the web view loader if it can find it.
+Now, `WebView2.dll` does need at least the native `WebView2Loader.dll` (provided by Microsoft) to work. 
+So, to make it easy, `WebView2.dll` comes with a `WebView2Utilities.Initialize` method that will initialize the web view loader if it can find it.
 
 To make it work, you can always reference the standard [Microsoft.Web.WebView2 Nuget](https://www.nuget.org/packages/microsoft.web.webview2) package as usual.
 However, it comes with all pre-built WPF & Winforms NET dll and xml, while we only need the native *WebView2Loader.dll* file
@@ -35,7 +37,7 @@ However, it comes with all pre-built WPF & Winforms NET dll and xml, while we on
 
 So `WebView2Utilities.Initialize` also supports two other modes: you can extract the file corresponding to your processor architecture (x86, x64, arm4), or even all files from all architectures, as they rarely change, and either:
 1) copy them locally in your app's folder, following the `regular runtimes\[arch]\native\WebView2Loader.dll` relative path
-2) embed them as a .NET resource (from Visual Studio, set "Build Action" to "Embedded resource"), for example like this:
+2) embed them as a .NET resource (from Visual Studio, set "Build Action" to "Embedded resource"), for example like this (all examples here are like that):
 
 ![image](https://github.com/user-attachments/assets/d08fae48-79d2-4a7c-b693-3bb9be6bcbf6)
 
@@ -133,6 +135,15 @@ Markdown Viewer running in Windows 7 (the look is not as good as on Windows 10/1
 With WebView2 native AOT bindings, you can build highly capable applications, on par with Electron or Tauri, without leaving the .NET ecosystem. [ShellBat](https://github.com/smourier/ShellBat), packaged as a single executable, is a modern Windows file explorer featuring file viewers, multi-instance workflows, terminal integration, search functionality, and deep Windows Shell integration, all powered by WebView2 for its user interface.
 
 <img width="1829" height="956" alt="image" src="https://github.com/user-attachments/assets/1a9c45ae-782c-4920-a1bc-d094538f7855" />
+
+# ActiveN
+[ActiveN](https://github.com/smourier/ActiveN) is a lightweight framework for building classic COM components and OLE/ActiveX controls in modern fully AOT-compatible .NET, with registration-ready deployment.
+
+It lets you author controls and automation objects that run inside legacy or current COM hosts (VBA, VB6, Delphi, Visual Fox Pro, scripting engines, test containers, etc.) without relying on WinForms or WPF (since they are currently not AOT-compatible).
+
+Check out this 1998 VB6 IDE (x86) hosting modern WebView2 :-)
+
+<img width="1361" height="784" alt="VB6 hosting WebView2" src="https://github.com/user-attachments/assets/bd1b283b-c337-46a5-b0d5-a4989323bdde" />
 
 
 
