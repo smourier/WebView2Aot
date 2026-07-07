@@ -74,8 +74,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="DirectNAot" Version="1.6.3" />
-	  <PackageReference Include="DirectNAot.Extensions" Version="1.6.3" />
+	  <PackageReference Include="DirectNAot" Version="1.6.4" />
+	  <PackageReference Include="DirectNAot.Extensions" Version="1.6.4" />
 	</ItemGroup>
 
 </Project>
