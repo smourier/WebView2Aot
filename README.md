@@ -1,6 +1,6 @@
 # WebView2Aot
 
-[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF or WINUI3.
+[Microsoft WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH) .NET 10+ AOT-compatible bindings 100% independent from WinForms or WPF or WINUI3, or even WinRT.
 
 * **HelloWebView2** is a sample hello world in 40 lignes of C# code (see screenshot below).
 * **HelloCompositionWebView2** is a sample hello world that demonstrates the same as HelloWebView2 but using [Visual Composition](https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/ui/visual-layer-in-desktop-apps) instead of a HWND.
