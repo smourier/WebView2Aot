@@ -129,12 +129,19 @@ This README.md file rendered by MarkDownViewer:
 
 Markdown Viewer running in Windows 7 (the look is not as good as on Windows 10/11 because the supported WebView2 on Windows 7 doesn't understand some new CSS constructs):
 
-<img width="496" height="595" alt="image" src="https://github.com/user-attachments/assets/f41149d1-b76a-4de2-964f-37d29adcf95e" />
+<img width="496" height="595" alt="Markdown Viewer on Windows 7" src="https://github.com/user-attachments/assets/f41149d1-b76a-4de2-964f-37d29adcf95e" />
+
+# AOTrino
+[AOTrino](https://github.com/aelyo-softworks/AOTrino) is Electron-like desktop apps on .NET Native AOT + WebView2. One executable, no runtime to install, no Chromium to ship — Windows already has both. x86, x64 and ARM64.
+
+A window is a real HWND, the UI is a web page, and the two talk over a typed bridge. That's the whole idea. The Fluent UI gallery below is an AOTrino app, and it weighs 4 MB.
+
+<img width="1180" height="820" alt="AOTrino Fluent Gallery" src="https://github.com/user-attachments/assets/88510950-7a24-4127-922e-5a990f1ee723" />
 
 ## ShellBat application
 With WebView2 native AOT bindings, you can build highly capable applications, on par with Electron or Tauri, without leaving the .NET ecosystem. [ShellBat](https://github.com/smourier/ShellBat), packaged as a single executable, is a modern Windows file explorer featuring file viewers, multi-instance workflows, terminal integration, search functionality, and deep Windows Shell integration, all powered by WebView2 for its user interface.
 
-<img width="1829" height="956" alt="image" src="https://github.com/user-attachments/assets/1a9c45ae-782c-4920-a1bc-d094538f7855" />
+<img width="1829" height="956" alt="ShellBat application" src="https://github.com/user-attachments/assets/1a9c45ae-782c-4920-a1bc-d094538f7855" />
 
 # ActiveN
 [ActiveN](https://github.com/smourier/ActiveN) is a lightweight framework for building classic COM components and OLE/ActiveX controls in modern fully AOT-compatible .NET, with registration-ready deployment.
