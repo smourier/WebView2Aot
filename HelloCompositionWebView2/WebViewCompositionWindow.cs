@@ -32,7 +32,7 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
             Text = $"{Text} - WebView2 was not found";
         }
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(WebView2Utilities.GetDefaultUserDataFolder()), null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, envObj) =>
             {
                 var env3 = (ICoreWebView2Environment3)envObj;
@@ -66,7 +66,7 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
                     webView2.Navigate(PWSTR.From(url));
                     OnFocusChanged(true);
                 }));
-            }));
+            })).ThrowOnError();
     }
 
     protected ComObject<ICoreWebView2CompositionController>? Controller => _controller;

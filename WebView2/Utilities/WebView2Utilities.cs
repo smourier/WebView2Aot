@@ -7,9 +7,8 @@ public static class WebView2Utilities
 {
     public const string LoaderDllName = "WebView2Loader";
 
-    private const uint ERROR_MOD_NOT_FOUND = 0x8007007E;
-    private static bool _initialized;
-
+    public static bool IsInitialized { get; private set; }
+    public static bool IsRunningViaDotnet { get; } = RunningViaDotnet();
     public static COREWEBVIEW2_COLOR GetColor(this D3DCOLORVALUE color) => new() { A = color.BA, R = color.BR, G = color.BG, B = color.BB };
     public static D3DCOLORVALUE FromColor(this COREWEBVIEW2_COLOR color) => new() { BA = color.A, BR = color.R, BG = color.G, BB = color.B };
 
@@ -25,19 +24,35 @@ public static class WebView2Utilities
         return versionInfo;
     }
 
-    // assembly can be present in files or in assemblies embedded resources
+    // assembly can be present as files in current directory or in assemblies embedded resources
     public static HRESULT Initialize(Assembly? assembly = null, bool throwOnError = true)
     {
-        if (_initialized)
+        if (IsInitialized)
             return DirectN.Constants.S_OK;
 
         var hr = Initialize(assembly);
-        if (hr == ERROR_MOD_NOT_FOUND && throwOnError)
+        if (hr == DirectN.Constants.ERROR_MOD_NOT_FOUND && throwOnError)
             throw new Exception($"Cannot load {LoaderDllName}.dll. Make sure it's present in the current's process path.");
 
         hr.ThrowOnError(throwOnError);
-        _initialized = hr.IsSuccess;
+        IsInitialized = hr.IsSuccess;
         return hr;
+    }
+
+    // supports apps ran as dotnet <myapp.dll>
+    [UnconditionalSuppressMessage("SingleFile", "IL3000:Avoid accessing Assembly file path when publishing as a single file", Justification = "Used only if launched via dotnet.exe")]
+    public static string? GetDefaultUserDataFolder()
+    {
+        if (!IsRunningViaDotnet)
+            return null;
+
+        // https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/webview2-idl
+        // mimic default {Executable File Name}.WebView2 if we can
+        var entry = Assembly.GetEntryAssembly()?.Location;
+        if (entry == null)
+            return Environment.CurrentDirectory;
+
+        return Path.Combine(Environment.CurrentDirectory, Path.GetFileNameWithoutExtension(entry) + ".exe.WebView2");
     }
 
     private static HRESULT Initialize(Assembly? assembly)
@@ -66,7 +81,7 @@ public static class WebView2Utilities
         }
 
         if (firstPath == null)
-            return ERROR_MOD_NOT_FOUND;
+            return DirectN.Constants.ERROR_MOD_NOT_FOUND;
 
         h = DirectN.Functions.LoadLibraryW(PWSTR.From(firstPath));
         if (h.Value != 0)
@@ -122,7 +137,16 @@ public static class WebView2Utilities
             if (Environment.ProcessPath == null)
                 yield break;
 
-            var processDir = Path.GetDirectoryName(Environment.ProcessPath);
+            string? processDir;
+            if (IsRunningViaDotnet)
+            {
+                // this case process path will be somewhere like programfiles\dotnet.exe
+                processDir = Environment.CurrentDirectory;
+            }
+            else
+            {
+                processDir = Path.GetDirectoryName(Environment.ProcessPath);
+            }
             if (processDir == null)
                 yield break;
 
@@ -143,6 +167,35 @@ public static class WebView2Utilities
 
                     break;
             }
+        }
+    }
+
+    private static bool RunningViaDotnet()
+    {
+        try
+        {
+            var path = Environment.ProcessPath;
+            if (path == null || !Path.GetFileName(path).Equals("dotnet.exe", StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            var dir = Path.GetDirectoryName(path);
+            if (dir is null)
+                return false;
+
+            return isChildOf(RuntimeEnvironment.GetRuntimeDirectory(), dir);
+            static bool isChildOf(string path, string parent)
+            {
+                if (string.Equals(path, parent, StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                var dir = Path.GetDirectoryName(path);
+                return dir != null && isChildOf(dir, parent);
+            }
+        }
+        catch
+        {
+            // continue
+            return false;
         }
     }
 }

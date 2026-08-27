@@ -20,7 +20,7 @@ public class WebViewWindow : Window
             Text = $"{Text} - WebView2 was not found";
         }
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(WebView2Utilities.GetDefaultUserDataFolder()), null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
             {
                 env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
@@ -34,7 +34,7 @@ public class WebViewWindow : Window
                     webView2.Navigate(PWSTR.From(url));
                     OnFocusChanged(true);
                 }));
-            }));
+            })).ThrowOnError();
     }
 
     protected override bool OnFocusChanged(bool setOrKill)

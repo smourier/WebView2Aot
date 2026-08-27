@@ -50,15 +50,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="DirectN">
-			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
-		</Reference>
-		<Reference Include="DirectN.Extensions">
-			<HintPath>..\WebView2\External\DirectN.Extensions.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\WebView2\WebView2.csproj" />
 	</ItemGroup>
 

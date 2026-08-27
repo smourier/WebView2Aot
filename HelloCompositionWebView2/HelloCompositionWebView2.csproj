@@ -32,20 +32,11 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 		<EmbeddedResource Include="runtimes\win-x64\native\WebView2Loader.dll">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 		<EmbeddedResource Include="runtimes\win-x86\native\WebView2Loader.dll">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="DirectN">
-			<HintPath>..\WebView2\External\DirectN.dll</HintPath>
-		</Reference>
-		<Reference Include="DirectN.Extensions">
-			<HintPath>..\WebView2\External\DirectN.Extensions.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

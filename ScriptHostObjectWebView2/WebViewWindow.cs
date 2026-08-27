@@ -21,7 +21,7 @@ public class WebViewWindow : Window
             Text = $"{Text} - WebView2 was not found";
         }
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.Null, null!,
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(WebView2Utilities.GetDefaultUserDataFolder()), null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
             {
                 env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
@@ -58,7 +58,7 @@ public class WebViewWindow : Window
                     var html = Encoding.UTF8.GetString(Assembly.GetExecutingAssembly().LoadFromResource(GetType().Namespace + ".Index.html"));
                     webView2.NavigateToString(PWSTR.From(html));
                 }));
-            }));
+            })).ThrowOnError();
     }
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
