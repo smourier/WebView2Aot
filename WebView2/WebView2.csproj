@@ -20,10 +20,10 @@
 		<PackageIcon>WebView2Aot.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.5.3</Version>
-		<ProductVersion>1.5.3</ProductVersion>
-		<FileVersion>1.5.3</FileVersion>
-		<InformationalVersion>1.5.3</InformationalVersion>
+		<Version>1.5.4</Version>
+		<ProductVersion>1.5.4</ProductVersion>
+		<FileVersion>1.5.4</FileVersion>
+		<InformationalVersion>1.5.4</InformationalVersion>
 		<SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyyyMMddHH"))</SourceRevisionId>
 	</PropertyGroup>
 
