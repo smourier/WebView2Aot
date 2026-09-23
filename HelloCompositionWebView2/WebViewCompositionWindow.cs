@@ -32,7 +32,8 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
             Text = $"{Text} - WebView2 was not found";
         }
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(WebView2Utilities.GetDefaultUserDataFolder()), null!,
+        using var userDataFolderStr = new Pwstr(WebView2Utilities.GetDefaultUserDataFolder());
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, envObj) =>
             {
                 var env3 = (ICoreWebView2Environment3)envObj;

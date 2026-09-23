@@ -298,7 +298,8 @@ public partial class Main : Form
         var appFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), typeof(Program).Namespace!);
         var userDataFolder = DirectN.Extensions.Utilities.CommandLine.Current.GetNullifiedArgument("udf", Path.Combine(appFolder, "WebView2"));
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(userDataFolder), null!,
+        using var userDataFolderStr = new DirectN.Extensions.Utilities.Pwstr(userDataFolder);
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
         new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
         {
             env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
@@ -375,7 +376,8 @@ public partial class Main : Form
     {
         ArgumentNullException.ThrowIfNull(script);
         var webView = _webView ?? throw new InvalidOperationException();
-        return webView.Object.ExecuteScript(PWSTR.From(script), new CoreWebView2ExecuteScriptCompletedHandler((error, result) =>
+        using var scriptStr = new DirectN.Extensions.Utilities.Pwstr(script);
+        return webView.Object.ExecuteScript(scriptStr, new CoreWebView2ExecuteScriptCompletedHandler((error, result) =>
         {
         })).ThrowOnError(throwOnError);
     }

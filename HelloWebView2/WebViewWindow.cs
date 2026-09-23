@@ -20,7 +20,8 @@ public class WebViewWindow : Window
             Text = $"{Text} - WebView2 was not found";
         }
 
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, PWSTR.From(WebView2Utilities.GetDefaultUserDataFolder()), null!,
+        using var userDataFolderStr = new Pwstr(WebView2Utilities.GetDefaultUserDataFolder());
+        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
             new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
             {
                 env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>

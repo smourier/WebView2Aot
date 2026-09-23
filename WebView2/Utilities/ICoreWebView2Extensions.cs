@@ -8,10 +8,11 @@ public static class ICoreWebView2Extensions
         ArgumentNullException.ThrowIfNull(javaScript);
 
         var tcs = new TaskCompletionSource<string?>();
+        using var javaScriptStr = new DirectN.Extensions.Utilities.Pwstr(javaScript);
         HRESULT hr;
         if (webView is not ICoreWebView2_21 wv21)
         {
-            hr = webView.ExecuteScript(PWSTR.From(javaScript), new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
+            hr = webView.ExecuteScript(javaScriptStr, new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
             {
                 if (jsonPtr.Value == 0)
                 {
@@ -26,7 +27,7 @@ public static class ICoreWebView2Extensions
         }
         else
         {
-            hr = wv21.ExecuteScriptWithResult(PWSTR.From(javaScript), new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
+            hr = wv21.ExecuteScriptWithResult(javaScriptStr, new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
             {
                 var succeeded = BOOL.FALSE;
                 p.get_Succeeded(ref succeeded);
@@ -72,10 +73,11 @@ public static class ICoreWebView2Extensions
         ArgumentNullException.ThrowIfNull(typeInfo);
 
         var tcs = new TaskCompletionSource<T?>();
+        using var javaScriptStr = new DirectN.Extensions.Utilities.Pwstr(javaScript);
         HRESULT hr;
         if (webView is not ICoreWebView2_21 wv21)
         {
-            hr = webView.ExecuteScript(PWSTR.From(javaScript), new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
+            hr = webView.ExecuteScript(javaScriptStr, new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
             {
                 if (jsonPtr.Value == 0)
                 {
@@ -90,7 +92,7 @@ public static class ICoreWebView2Extensions
         }
         else
         {
-            hr = wv21.ExecuteScriptWithResult(PWSTR.From(javaScript), new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
+            hr = wv21.ExecuteScriptWithResult(javaScriptStr, new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
             {
                 var succeeded = BOOL.FALSE;
                 p.get_Succeeded(ref succeeded);
