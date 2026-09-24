@@ -369,7 +369,7 @@ public partial class Main : Form
     {
         ArgumentNullException.ThrowIfNull(script);
         var webView = _webView ?? throw new InvalidOperationException();
-        return webView.Object.ExecuteScriptAsJon(script, throwOnError: throwOnError);
+        return webView.Object.ExecuteScriptAsJson(script, throwOnError: throwOnError);
     }
 
     public virtual HRESULT ExecuteScript(string script, bool throwOnError = true)

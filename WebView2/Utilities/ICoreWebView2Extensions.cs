@@ -2,7 +2,11 @@
 
 public static class ICoreWebView2Extensions
 {
+    [Obsolete("Use ExecuteScriptAsJson instead.")]
     public static Task<string?> ExecuteScriptAsJon(this ICoreWebView2 webView, string javaScript, bool throwOnError = true)
+        => ExecuteScriptAsJson(webView, javaScript, throwOnError);
+
+    public static Task<string?> ExecuteScriptAsJson(this ICoreWebView2 webView, string javaScript, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(webView);
         ArgumentNullException.ThrowIfNull(javaScript);
