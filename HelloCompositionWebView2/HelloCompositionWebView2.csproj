@@ -61,6 +61,7 @@
 		<Using Include="System.Runtime.Versioning" />
 		<Using Include="System.Runtime.CompilerServices" />
 		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Threading" />
 		<Using Include="Windows.UI.Composition" />
 		<Using Include="Windows.UI.Composition.Core" />
 		<Using Include="WinRT" />

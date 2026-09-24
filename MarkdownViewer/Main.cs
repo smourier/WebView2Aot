@@ -354,7 +354,9 @@ public partial class Main : Form
         if (disposing)
         {
             Interlocked.Exchange(ref _webView, null)?.Dispose();
-            Interlocked.Exchange(ref _controller, null)?.Dispose();
+            var controller = Interlocked.Exchange(ref _controller, null);
+            controller?.Object.Close();
+            controller?.Dispose();
             components?.Dispose();
         }
         base.Dispose(disposing);

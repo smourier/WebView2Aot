@@ -64,7 +64,9 @@ public class WebViewWindow : Window
     {
         if (disposing)
         {
-            _controller?.Dispose();
+            var controller = Interlocked.Exchange(ref _controller, null);
+            controller?.Object.Close();
+            controller?.Dispose();
         }
         base.Dispose(disposing);
     }
