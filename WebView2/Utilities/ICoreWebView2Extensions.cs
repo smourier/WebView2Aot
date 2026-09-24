@@ -14,21 +14,25 @@ public static class ICoreWebView2Extensions
         {
             hr = webView.ExecuteScript(javaScriptStr, new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
             {
-                if (jsonPtr.Value == 0)
+                if (result.IsError)
                 {
-                    tcs.SetResult(null);
+                    SetError(tcs, result, null, throwOnError);
                     return;
                 }
 
-                var json = jsonPtr.ToString()!;
-                Marshal.FreeCoTaskMem(jsonPtr.Value);
-                tcs.SetResult(json);
+                tcs.SetResult(jsonPtr.ToString());
             }));
         }
         else
         {
             hr = wv21.ExecuteScriptWithResult(javaScriptStr, new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
             {
+                if (result.IsError)
+                {
+                    SetError(tcs, result, null, throwOnError);
+                    return;
+                }
+
                 var succeeded = BOOL.FALSE;
                 p.get_Succeeded(ref succeeded);
                 if (!succeeded)
@@ -59,9 +63,9 @@ public static class ICoreWebView2Extensions
             }));
         }
 
-        if (hr.IsError && throwOnError)
+        if (hr.IsError)
         {
-            tcs.SetException(Marshal.GetExceptionForHR(hr)!);
+            SetError(tcs, hr, null, throwOnError);
         }
         return tcs.Task;
     }
@@ -79,6 +83,12 @@ public static class ICoreWebView2Extensions
         {
             hr = webView.ExecuteScript(javaScriptStr, new CoreWebView2ExecuteScriptCompletedHandler((result, jsonPtr) =>
             {
+                if (result.IsError)
+                {
+                    SetError(tcs, result, defaultValue, throwOnError);
+                    return;
+                }
+
                 if (jsonPtr.Value == 0)
                 {
                     tcs.SetResult(defaultValue);
@@ -86,7 +96,6 @@ public static class ICoreWebView2Extensions
                 }
 
                 var json = jsonPtr.ToString()!;
-                Marshal.FreeCoTaskMem(jsonPtr.Value);
                 tcs.SetResult(JsonSerializer.Deserialize(json, typeInfo) ?? defaultValue);
             }));
         }
@@ -94,6 +103,12 @@ public static class ICoreWebView2Extensions
         {
             hr = wv21.ExecuteScriptWithResult(javaScriptStr, new CoreWebView2ExecuteScriptWithResultCompletedHandler((result, p) =>
             {
+                if (result.IsError)
+                {
+                    SetError(tcs, result, defaultValue, throwOnError);
+                    return;
+                }
+
                 var succeeded = BOOL.FALSE;
                 p.get_Succeeded(ref succeeded);
                 if (!succeeded)
@@ -124,10 +139,22 @@ public static class ICoreWebView2Extensions
             }));
         }
 
-        if (hr.IsError && throwOnError)
+        if (hr.IsError)
         {
-            tcs.SetException(Marshal.GetExceptionForHR(hr)!);
+            SetError(tcs, hr, defaultValue, throwOnError);
         }
         return tcs.Task;
+    }
+
+    private static void SetError<T>(TaskCompletionSource<T> tcs, HRESULT hr, T value, bool throwOnError)
+    {
+        if (throwOnError)
+        {
+            tcs.TrySetException(Marshal.GetExceptionForHR(hr)!);
+        }
+        else
+        {
+            tcs.TrySetResult(value);
+        }
     }
 }
