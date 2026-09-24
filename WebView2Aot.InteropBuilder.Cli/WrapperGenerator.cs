@@ -413,10 +413,7 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
             var keyword = parameter.Keyword;
             var typeName = parameter.TypeName;
             if (isAsync && keyword is GeneratedParameter._outKeyword or GeneratedParameter._refKeyword)
-            {
-                context.LogVerbose($"{type.Name}.{method.Name} has an '{keyword}' parameter, no async method generated.");
                 return null;
-            }
 
             if (keyword == null && typeName == FullName.PWSTR.Name)
             {
@@ -524,18 +521,12 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
         }
 
         if (!IsDotNetShaped(declarations))
-        {
-            context.LogVerbose($"{type.Name}.{signature.Name} keeps a native shape, no wrapper generated.");
             return null;
-        }
 
         var instanceType = type as InterfaceType;
         var receiverName = GetReceiverName(type);
         if (instanceType != null && IsHandWritten(receiverName, name, declarations.Count))
-        {
-            context.LogVerbose($"{receiverName}.{name} is hand-written, no wrapper generated.");
             return null;
-        }
 
         if (forwarders != null && instanceType != null && !IsHandWritten($"IComObject<{receiverName}>", name, declarations.Count))
         {
