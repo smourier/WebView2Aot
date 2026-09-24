@@ -1,7 +1,31 @@
 ﻿namespace WebView2.Utilities;
 
-public static class ICoreWebView2Extensions
+public static partial class ICoreWebView2Extensions
 {
+    private static readonly CoreWebView2ExecuteScriptCompletedHandler _ignoredScriptResult = new((errorCode, result) => { });
+
+    public static HRESULT AddHostObjectToScript(this IComObject<ICoreWebView2> webView, string? name, object hostObject, bool throwOnError = true) => AddHostObjectToScript(webView?.Object!, name, hostObject, throwOnError);
+    public static HRESULT ExecuteScript(this IComObject<ICoreWebView2> webView, string javaScript, bool throwOnError = true) => ExecuteScript(webView?.Object!, javaScript, throwOnError);
+    public static Task<string?> ExecuteScriptAsJson(this IComObject<ICoreWebView2> webView, string javaScript, bool throwOnError = true) => ExecuteScriptAsJson(webView?.Object!, javaScript, throwOnError);
+    public static Task<T?> ExecuteScript<T>(this IComObject<ICoreWebView2> webView, string javaScript, JsonTypeInfo<T> typeInfo, T? defaultValue = default, bool throwOnError = true) => ExecuteScript(webView?.Object!, javaScript, typeInfo, defaultValue, throwOnError);
+
+    public static HRESULT AddHostObjectToScript(this ICoreWebView2 webView, string? name, object hostObject, bool throwOnError = true)
+    {
+        ArgumentNullException.ThrowIfNull(webView);
+
+        using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
+        return WebView2Utilities.WithHostObjectVariant(hostObject, variant => webView.AddHostObjectToScript(nameStr, ref variant.RefDetached), throwOnError);
+    }
+
+    public static HRESULT ExecuteScript(this ICoreWebView2 webView, string javaScript, bool throwOnError = true)
+    {
+        ArgumentNullException.ThrowIfNull(webView);
+        ArgumentNullException.ThrowIfNull(javaScript);
+
+        using var javaScriptStr = new DirectN.Extensions.Utilities.Pwstr(javaScript);
+        return webView.ExecuteScript(javaScriptStr, _ignoredScriptResult).ThrowOnError(throwOnError);
+    }
+
     [Obsolete("Use ExecuteScriptAsJson instead.")]
     public static Task<string?> ExecuteScriptAsJon(this ICoreWebView2 webView, string javaScript, bool throwOnError = true)
         => ExecuteScriptAsJson(webView, javaScript, throwOnError);

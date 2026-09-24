@@ -10,7 +10,7 @@ public partial interface ICoreWebView2Environment
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT CreateWebResourceResponse(IStream content, int statusCode, PWSTR reasonPhrase, PWSTR headers, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2WebResourceResponse>))] out ICoreWebView2WebResourceResponse response);
+    HRESULT CreateWebResourceResponse(IStream? content, int statusCode, PWSTR reasonPhrase, PWSTR headers, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2WebResourceResponse>))] out ICoreWebView2WebResourceResponse response);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]

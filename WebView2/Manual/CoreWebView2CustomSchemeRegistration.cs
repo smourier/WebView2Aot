@@ -14,19 +14,17 @@ public partial class CoreWebView2CustomSchemeRegistration :
         Properties["SchemeName"] = schemeName;
     }
 
+    ~CoreWebView2CustomSchemeRegistration() { Dispose(disposing: false); }
     public void Dispose() { Dispose(disposing: true); GC.SuppressFinalize(this); }
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing)
-        {
-            Free();
-        }
+        ReplaceAllowedOrigins([]);
     }
 
-    private void Free()
+    private void ReplaceAllowedOrigins(List<PWSTR> origins)
     {
-        var origins = Interlocked.Exchange(ref _allowedOrigins, []);
-        foreach (var origin in origins)
+        var previous = Interlocked.Exchange(ref _allowedOrigins, origins);
+        foreach (var origin in previous)
         {
             if (origin.Value != 0)
             {
@@ -35,37 +33,25 @@ public partial class CoreWebView2CustomSchemeRegistration :
         }
     }
 
-    public IReadOnlyList<string?> GetAllowedOrgins()
+    private static PWSTR CopyOrigin(string? origin) => origin == null ? PWSTR.Null : new(Marshal.StringToCoTaskMemUni(origin));
+
+    [Obsolete("Use GetAllowedOrigins instead.")]
+    public IReadOnlyList<string?> GetAllowedOrgins() => GetAllowedOrigins();
+
+    public IReadOnlyList<string?> GetAllowedOrigins()
     {
         var list = new List<string?>();
         foreach (var origin in _allowedOrigins)
         {
-            var str = Marshal.PtrToStringUni(origin.Value);
-            list.Add(str);
+            list.Add(origin.ToString());
         }
         return list;
     }
 
-    public unsafe void SetAllowedOrigins(IEnumerable<string?> allowedOrigins)
+    public void SetAllowedOrigins(IEnumerable<string?> allowedOrigins)
     {
         ArgumentNullException.ThrowIfNull(allowedOrigins);
-
-        var list = new List<PWSTR>();
-        foreach (var allowedOrigin in allowedOrigins)
-        {
-            if (allowedOrigin == null)
-            {
-                list.Add(PWSTR.Null);
-            }
-            else
-            {
-                list.Add(new(Marshal.StringToCoTaskMemUni(allowedOrigin)));
-            }
-        }
-
-        var array = list.ToArray();
-        var arrayPointer = (nint)Unsafe.AsPointer(ref MemoryMarshal.GetArrayDataReference(array));
-        SetAllowedOrigins((uint)array.Length, arrayPointer);
+        ReplaceAllowedOrigins([.. allowedOrigins.Select(CopyOrigin)]);
     }
 
     public HRESULT get_HasAuthorityComponent(ref BOOL hasAuthorityComponent) => GetProperty(ref hasAuthorityComponent);
@@ -76,12 +62,13 @@ public partial class CoreWebView2CustomSchemeRegistration :
 
     public HRESULT SetAllowedOrigins(uint allowedOriginsCount, nint allowedOrigins)
     {
-        Free();
+        var list = new List<PWSTR>();
         for (var i = 0; i < allowedOriginsCount; i++)
         {
-            var ptr = Marshal.ReadIntPtr(allowedOrigins, i * nint.Size);
-            _allowedOrigins.Add(new(ptr));
+            list.Add(CopyOrigin(Marshal.PtrToStringUni(Marshal.ReadIntPtr(allowedOrigins, i * nint.Size))));
         }
+
+        ReplaceAllowedOrigins(list);
         return DirectN.Constants.S_OK;
     }
 
@@ -90,18 +77,10 @@ public partial class CoreWebView2CustomSchemeRegistration :
     {
         var origins = _allowedOrigins;
         allowedOriginsCount = (uint)origins.Count;
-        allowedOrigins = Marshal.AllocHGlobal(nint.Size * origins.Count);
+        allowedOrigins = Marshal.AllocCoTaskMem(nint.Size * origins.Count);
         for (var i = 0; i < origins.Count; i++)
         {
-            if (origins[i].Value == 0)
-            {
-                Marshal.WriteIntPtr(allowedOrigins, i * nint.Size, 0);
-            }
-            else
-            {
-                var ptr = Marshal.StringToHGlobalUni(origins[i].ToString());
-                Marshal.WriteIntPtr(allowedOrigins, i * nint.Size, ptr);
-            }
+            Marshal.WriteIntPtr(allowedOrigins, i * nint.Size, CopyOrigin(origins[i].ToString()).Value);
         }
         return DirectN.Constants.S_OK;
     }

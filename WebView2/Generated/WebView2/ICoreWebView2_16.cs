@@ -6,7 +6,7 @@ public partial interface ICoreWebView2_16 : ICoreWebView2_15
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT Print([MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintCompletedHandler>))] ICoreWebView2PrintCompletedHandler handler);
+    HRESULT Print([MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings? printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintCompletedHandler>))] ICoreWebView2PrintCompletedHandler handler);
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
@@ -14,5 +14,5 @@ public partial interface ICoreWebView2_16 : ICoreWebView2_15
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT PrintToPdfStream([MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintToPdfStreamCompletedHandler>))] ICoreWebView2PrintToPdfStreamCompletedHandler handler);
+    HRESULT PrintToPdfStream([MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings? printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintToPdfStreamCompletedHandler>))] ICoreWebView2PrintToPdfStreamCompletedHandler handler);
 }

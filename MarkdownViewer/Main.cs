@@ -24,8 +24,8 @@ public partial class Main : Form
         Build();
 
     private readonly HostObject _hostObject = new();
-    private ComObject<ICoreWebView2Controller>? _controller;
-    private ComObject<ICoreWebView2>? _webView;
+    private IComObject<ICoreWebView2Controller>? _controller;
+    private IComObject<ICoreWebView2>? _webView;
     private readonly string? _firstArg;
 
     public Main()
@@ -148,7 +148,7 @@ public partial class Main : Form
         try
         {
             ArgumentNullException.ThrowIfNull(filePath);
-            ExecuteScript($"loadFromFile(\"{HttpUtility.JavaScriptStringEncode(filePath)}\");").ThrowOnError();
+            _webView?.ExecuteScript($"loadFromFile(\"{HttpUtility.JavaScriptStringEncode(filePath)}\");");
         }
         catch (Exception ex)
         {
@@ -191,7 +191,7 @@ public partial class Main : Form
             var text = sw.ReadToEnd();
             html = Markdown.ToHtml(text, _pipeline);
             Text = _title;
-            ExecuteScript($"setBase(\"{HttpUtility.JavaScriptStringEncode($@"{Path.GetDirectoryName(filePath)}\")}\");").ThrowOnError();
+            _webView?.ExecuteScript($"setBase(\"{HttpUtility.JavaScriptStringEncode($@"{Path.GetDirectoryName(filePath)}\")}\");");
         }
         catch (Exception ex)
         {
@@ -298,89 +298,56 @@ public partial class Main : Form
         var appFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), typeof(Program).Namespace!);
         var userDataFolder = DirectN.Extensions.Utilities.CommandLine.Current.GetNullifiedArgument("udf", Path.Combine(appFolder, "WebView2"));
 
-        using var userDataFolderStr = new DirectN.Extensions.Utilities.Pwstr(userDataFolder);
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
-        new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
-        {
-            env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
-            {
-                _controller = new ComObject<ICoreWebView2Controller>(controller);
-
-                SizeChange();
-                controller.get_CoreWebView2(out var webView2).ThrowOnError();
-                _webView = new ComObject<ICoreWebView2>(webView2);
-
-                webView2.get_Settings(out var settingsObj).ThrowOnError();
-                using var settings = new ComObject<ICoreWebView2Settings3>(settingsObj);
-                settingsObj.put_IsBuiltInErrorPageEnabled(false).ThrowOnError();
-                settingsObj.put_AreDefaultContextMenusEnabled(false);
-                settingsObj.put_IsStatusBarEnabled(false).ThrowOnError();
-                settings.Object.put_AreBrowserAcceleratorKeysEnabled(false).ThrowOnError();
-
-#if DEBUG
-                webView2.OpenDevToolsWindow();
-#endif
-
-                // get IUnknown from the host object and wrap it in a VARIANT
-                ComObject.WithComInstance(_hostObject, unk =>
-                {
-                    using var variant = new DirectN.Extensions.Utilities.Variant(unk, VARENUM.VT_UNKNOWN);
-                    var detached = variant.Detached;
-                    webView2.AddHostObjectToScript(PWSTR.From("dotnet"), ref detached).ThrowOnError();
-                }, true);
-
-                // load index.html from the current assembly
-                var html = Encoding.UTF8.GetString(DirectN.Extensions.Utilities.Extensions.LoadFromResource(Assembly.GetExecutingAssembly(), GetType().Namespace + ".Index.html"));
-
-                // check we have a cached version
-                var cachedPath = Path.Combine(appFolder, Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "1.0.0.0", "index.html");
-                var fi = new FileInfo(cachedPath);
-#if DEBUG
-                Directory.CreateDirectory(fi.DirectoryName!);
-                File.WriteAllText(cachedPath, html, Encoding.UTF8);
-#else
-                if (!fi.Exists || fi.Length < 64)
-                {
-                    Directory.CreateDirectory(fi.DirectoryName!);
-                    File.WriteAllText(cachedPath, html, Encoding.UTF8);
-                }
-#endif
-
-                webView2.Navigate(PWSTR.From(cachedPath));
-                FocusChange();
-            }));
-        }));
+        InitializeWebView(appFolder, userDataFolder);
     }
 
-    private void SizeChange() => _controller?.Object.put_Bounds(RECT.Sized(0, 0, ClientRectangle.Width, ClientRectangle.Height)).ThrowOnError();
-    private void FocusChange() => _controller?.Object.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+    private async void InitializeWebView(string appFolder, string? userDataFolder)
+    {
+        using var env = await WebView2.Functions.CreateCoreWebView2EnvironmentWithOptionsAsync(null, userDataFolder, null) ?? throw new InvalidOperationException();
+        _controller = await env.CreateCoreWebView2ControllerAsync(Handle) ?? throw new InvalidOperationException();
+
+        SizeChange();
+        var webView2 = _controller.CoreWebView2 ?? throw new InvalidOperationException();
+        _webView = webView2;
+
+        using var settings = webView2.Settings ?? throw new InvalidOperationException();
+        settings.IsBuiltInErrorPageEnabled = false;
+        settings.AreDefaultContextMenusEnabled = false;
+        settings.IsStatusBarEnabled = false;
+        settings.AreBrowserAcceleratorKeysEnabled = false;
+
+#if DEBUG
+        webView2.OpenDevToolsWindow();
+#endif
+
+        webView2.AddHostObjectToScript("dotnet", _hostObject);
+
+        // load index.html from the current assembly
+        var html = Encoding.UTF8.GetString(DirectN.Extensions.Utilities.Extensions.LoadFromResource(Assembly.GetExecutingAssembly(), GetType().Namespace + ".Index.html"));
+
+        // check we have a cached version
+        var cachedPath = Path.Combine(appFolder, Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "1.0.0.0", "index.html");
+        var fi = new FileInfo(cachedPath);
+#if DEBUG
+        Directory.CreateDirectory(fi.DirectoryName!);
+        File.WriteAllText(cachedPath, html, Encoding.UTF8);
+#else
+        if (!fi.Exists || fi.Length < 64)
+        {
+            Directory.CreateDirectory(fi.DirectoryName!);
+            File.WriteAllText(cachedPath, html, Encoding.UTF8);
+        }
+#endif
+
+        webView2.Navigate(cachedPath);
+        FocusChange();
+    }
+
+    private void SizeChange() => _controller?.Bounds = RECT.Sized(0, 0, ClientRectangle.Width, ClientRectangle.Height);
+    private void FocusChange() => _controller?.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
     protected override void OnGotFocus(EventArgs e) => FocusChange();
     protected override void OnLostFocus(EventArgs e) => FocusChange();
     protected override void OnSizeChanged(EventArgs e) => SizeChange();
-
-    public virtual Task<T?> ExecuteScript<T>(string script, JsonTypeInfo<T> typeInfo, bool throwOnError = true)
-    {
-        ArgumentNullException.ThrowIfNull(script);
-        var webView = _webView ?? throw new InvalidOperationException();
-        return webView.Object.ExecuteScript(script, typeInfo, throwOnError: throwOnError);
-    }
-
-    public virtual Task<string?> ExecuteScriptAsJson(string script, bool throwOnError = true)
-    {
-        ArgumentNullException.ThrowIfNull(script);
-        var webView = _webView ?? throw new InvalidOperationException();
-        return webView.Object.ExecuteScriptAsJson(script, throwOnError: throwOnError);
-    }
-
-    public virtual HRESULT ExecuteScript(string script, bool throwOnError = true)
-    {
-        ArgumentNullException.ThrowIfNull(script);
-        var webView = _webView ?? throw new InvalidOperationException();
-        using var scriptStr = new DirectN.Extensions.Utilities.Pwstr(script);
-        return webView.Object.ExecuteScript(scriptStr, new CoreWebView2ExecuteScriptCompletedHandler((error, result) =>
-        {
-        })).ThrowOnError(throwOnError);
-    }
 
     protected override void Dispose(bool disposing)
     {

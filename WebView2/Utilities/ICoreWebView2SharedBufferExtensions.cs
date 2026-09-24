@@ -1,6 +1,6 @@
 ﻿namespace WebView2.Utilities;
 
-public static class ICoreWebView2SharedBufferExtensions
+public static partial class ICoreWebView2SharedBufferExtensions
 {
     public static ulong GetSize(this ICoreWebView2SharedBuffer buffer)
     {

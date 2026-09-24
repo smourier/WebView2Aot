@@ -71,6 +71,123 @@
           ]
         }
       ]
+    },
+    {
+      "TypeName": "ICoreWebView2Environment",
+      "Methods": [
+        {
+          "Name": "CreateWebResourceResponse",
+          "Parameters": [
+            {
+              "Name": "content",
+              "Def": {
+                "TypeName": "IStream?"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TypeName": "ICoreWebView2_7",
+      "Methods": [
+        {
+          "Name": "PrintToPdf",
+          "Parameters": [
+            {
+              "Name": "printSettings",
+              "Def": {
+                "TypeName": "ICoreWebView2PrintSettings?"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TypeName": "ICoreWebView2_16",
+      "Methods": [
+        {
+          "Name": "Print",
+          "Parameters": [
+            {
+              "Name": "printSettings",
+              "Def": {
+                "TypeName": "ICoreWebView2PrintSettings?"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "PrintToPdfStream",
+          "Parameters": [
+            {
+              "Name": "printSettings",
+              "Def": {
+                "TypeName": "ICoreWebView2PrintSettings?"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TypeName": "ICoreWebView2Notification",
+      "Methods": [
+        {
+          "Name": "GetVibrationPattern",
+          "Parameters": [
+            {
+              "Name": "vibrationPattern",
+              "Def": {
+                "TypeName": "nint",
+                "Direction": "Out"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TypeName": "ICoreWebView2Environment14",
+      "Methods": [
+        {
+          "Name": "CreateObjectCollection",
+          "Parameters": [
+            {
+              "Name": "items",
+              "Def": {
+                "TypeName": "nint",
+                "IsNullDirection": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Methods": [
+    {
+      "Name": "CreateCoreWebView2EnvironmentWithOptions",
+      "Parameters": [
+        {
+          "Name": "environmentOptions",
+          "Def": {
+            "TypeName": "ICoreWebView2EnvironmentOptions?"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "GetAvailableCoreWebView2BrowserVersionStringWithOptions",
+      "Parameters": [
+        {
+          "Name": "environmentOptions",
+          "Def": {
+            "TypeName": "ICoreWebView2EnvironmentOptions?"
+          }
+        }
+      ]
     }
   ]
 }

@@ -6,5 +6,5 @@ public partial interface ICoreWebView2_7 : ICoreWebView2_6
 {
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT PrintToPdf(PWSTR ResultFilePath, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintToPdfCompletedHandler>))] ICoreWebView2PrintToPdfCompletedHandler handler);
+    HRESULT PrintToPdf(PWSTR ResultFilePath, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintSettings>))] ICoreWebView2PrintSettings? printSettings, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2PrintToPdfCompletedHandler>))] ICoreWebView2PrintToPdfCompletedHandler handler);
 }

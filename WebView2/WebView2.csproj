@@ -7,7 +7,9 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PublishAot>true</PublishAot>
 		<Platforms>AnyCPU</Platforms>
-		
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+
 		<Title>WebView2Aot</Title>
 		<PackageId>WebView2Aot</PackageId>
 		
@@ -20,10 +22,10 @@
 		<PackageIcon>WebView2Aot.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.5.4</Version>
-		<ProductVersion>1.5.4</ProductVersion>
-		<FileVersion>1.5.4</FileVersion>
-		<InformationalVersion>1.5.4</InformationalVersion>
+		<Version>1.6.0</Version>
+		<ProductVersion>1.6.0</ProductVersion>
+		<FileVersion>1.6.0</FileVersion>
+		<InformationalVersion>1.6.0</InformationalVersion>
 		<SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyyyMMddHH"))</SourceRevisionId>
 	</PropertyGroup>
 
@@ -51,6 +53,7 @@
 
 	<ItemGroup>
 		<Using Include="DirectN" />
+		<Using Include="DirectN.Extensions.Com" />
 		<Using Include="WebView2" />
 		<Using Include="WebView2.Utilities" />
 		<Using Include="System" />

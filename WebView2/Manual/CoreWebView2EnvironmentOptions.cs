@@ -20,40 +20,54 @@ public partial class CoreWebView2EnvironmentOptions :
         Properties["TargetCompatibleBrowserVersion"] = Constants.CORE_WEBVIEW_TARGET_PRODUCT_VERSION;
     }
 
-    public unsafe void SetCustomSchemeRegistrations(IEnumerable<CoreWebView2CustomSchemeRegistration> registrations)
+    public void SetCustomSchemeRegistrations(IEnumerable<CoreWebView2CustomSchemeRegistration> registrations)
     {
-        var s = new StrategyBasedComWrappers();
         ArgumentNullException.ThrowIfNull(registrations);
 
         var list = new List<nint>();
-        foreach (var registration in registrations)
+        var replaced = false;
+        try
         {
-            var unk = s.GetOrCreateComInterfaceForObject(registration, CreateComInterfaceFlags.None); // addref
-            ((HRESULT)Marshal.QueryInterface(unk, typeof(ICoreWebView2CustomSchemeRegistration).GUID, out var ppv)).ThrowOnError();
-            list.Add(ppv);
-            Marshal.Release(unk);
-        }
+            foreach (var registration in registrations)
+            {
+                var unk = DirectN.Extensions.Com.ComObject.ComWrappers.GetOrCreateComInterfaceForObject(registration, CreateComInterfaceFlags.None);
+                try
+                {
+                    ((HRESULT)Marshal.QueryInterface(unk, typeof(ICoreWebView2CustomSchemeRegistration).GUID, out var ppv)).ThrowOnError();
+                    list.Add(ppv);
+                }
+                finally
+                {
+                    Marshal.Release(unk);
+                }
+            }
 
-        var array = list.ToArray();
-        var arrayPointer = (nint)Unsafe.AsPointer(ref MemoryMarshal.GetArrayDataReference(array));
-        SetCustomSchemeRegistrations((uint)array.Length, arrayPointer);
+            ReplaceRegistrations(list);
+            replaced = true;
+        }
+        finally
+        {
+            if (!replaced)
+            {
+                ReleaseRegistrations(list);
+            }
+        }
     }
 
+    ~CoreWebView2EnvironmentOptions() { Dispose(disposing: false); }
     public void Dispose() { Dispose(disposing: true); GC.SuppressFinalize(this); }
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing)
-        {
-            Free();
-        }
+        ReplaceRegistrations([]);
     }
 
-    private void Free()
+    private void ReplaceRegistrations(List<nint> registrations) => ReleaseRegistrations(Interlocked.Exchange(ref _customSchemeRegistrations, registrations));
+
+    private static void ReleaseRegistrations(List<nint> registrations)
     {
-        var regs = Interlocked.Exchange(ref _customSchemeRegistrations, []);
-        foreach (var reg in regs)
+        foreach (var registration in registrations)
         {
-            Marshal.Release(reg);
+            Marshal.Release(registration);
         }
     }
 
@@ -89,16 +103,17 @@ public partial class CoreWebView2EnvironmentOptions :
         return DirectN.Constants.S_OK;
     }
 
-    public unsafe HRESULT SetCustomSchemeRegistrations(uint count, nint schemeRegistrations)
+    public HRESULT SetCustomSchemeRegistrations(uint count, nint schemeRegistrations)
     {
-        Free();
-        var array = (nint*)schemeRegistrations;
+        var list = new List<nint>();
         for (var i = 0; i < count; i++)
         {
-            var ptr = array[i];
-            _customSchemeRegistrations.Add(ptr);
-            Marshal.AddRef(ptr);
+            var registration = Marshal.ReadIntPtr(schemeRegistrations, i * nint.Size);
+            Marshal.AddRef(registration);
+            list.Add(registration);
         }
+
+        ReplaceRegistrations(list);
         return DirectN.Constants.S_OK;
     }
 

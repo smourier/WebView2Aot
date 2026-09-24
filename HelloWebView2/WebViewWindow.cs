@@ -2,7 +2,7 @@
 
 public class WebViewWindow : Window
 {
-    private ComObject<ICoreWebView2Controller>? _controller;
+    private IComObject<ICoreWebView2Controller>? _controller;
 
     public WebViewWindow(string? title = null) : base(title)
     {
@@ -20,22 +20,20 @@ public class WebViewWindow : Window
             Text = $"{Text} - WebView2 was not found";
         }
 
-        using var userDataFolderStr = new Pwstr(WebView2Utilities.GetDefaultUserDataFolder());
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
-            new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
-            {
-                env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
-                {
-                    _controller = new ComObject<ICoreWebView2Controller>(controller);
-                    controller.put_Bounds(ClientRect).ThrowOnError();
-                    controller.get_CoreWebView2(out var webView2).ThrowOnError();
+        InitializeWebView();
+    }
 
-                    // use 1st arg from command line or default to Bing
-                    var url = CommandLine.Current.GetNullifiedArgument(0, "https://www.bing.com/");
-                    webView2.Navigate(PWSTR.From(url));
-                    OnFocusChanged(true);
-                }));
-            })).ThrowOnError();
+    private async void InitializeWebView()
+    {
+        using var env = await WebView2.Functions.CreateCoreWebView2EnvironmentWithOptionsAsync(null, WebView2Utilities.GetDefaultUserDataFolder(), null) ?? throw new InvalidOperationException();
+        _controller = await env.CreateCoreWebView2ControllerAsync(Handle) ?? throw new InvalidOperationException();
+        _controller.Bounds = ClientRect;
+        using var webView2 = _controller.CoreWebView2 ?? throw new InvalidOperationException();
+
+        // use 1st arg from command line or default to Bing
+        var url = CommandLine.Current.GetNullifiedArgument(0, "https://www.bing.com/");
+        webView2.Navigate(url);
+        OnFocusChanged(true);
     }
 
     protected override bool OnFocusChanged(bool setOrKill)
@@ -44,8 +42,8 @@ public class WebViewWindow : Window
         {
             if (_controller != null)
             {
-                var hr = _controller.Object.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC).ThrowOnError();
-                return hr.IsSuccess;
+                _controller.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+                return true;
             }
         }
         return base.OnFocusChanged(setOrKill);
@@ -53,7 +51,7 @@ public class WebViewWindow : Window
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
     {
-        _controller?.Object.put_Bounds(ClientRect).ThrowOnError();
+        _controller?.Bounds = ClientRect;
         return base.OnResized(type, size);
     }
 

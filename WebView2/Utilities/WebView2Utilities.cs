@@ -6,6 +6,27 @@ namespace WebView2.Utilities;
 public static class WebView2Utilities
 {
     public const string LoaderDllName = "WebView2Loader";
+    public const string IgnoreUnsupportedInterfacesSwitchName = "WebView2Aot.IgnoreUnsupportedInterfaces";
+
+    public static event EventHandler<UnsupportedInterfaceEventArgs>? UnsupportedInterface;
+
+    public static bool ThrowOnUnsupportedInterface { get; set; } = !AppContext.TryGetSwitch(IgnoreUnsupportedInterfacesSwitchName, out var ignore) || !ignore;
+
+    public static T? GetInterface<T>(object instance, [CallerMemberName] string? memberName = null) where T : class
+    {
+        ArgumentNullException.ThrowIfNull(instance);
+        if (instance is T typed)
+            return typed;
+
+        var e = new UnsupportedInterfaceEventArgs(typeof(T), memberName, ThrowOnUnsupportedInterface);
+        UnsupportedInterface?.Invoke(null, e);
+        if (e.Throw)
+        {
+            _ = (T)instance;
+        }
+
+        return null;
+    }
 
     public static bool IsInitialized { get; private set; }
     public static bool IsRunningViaDotnet { get; } = RunningViaDotnet();
@@ -15,13 +36,9 @@ public static class WebView2Utilities
     // returns null if webview2 is not installed in executable folder
     public static string? GetAvailableCoreWebView2BrowserVersionString(string? browserExecutableFolder = null)
     {
-        Functions.GetAvailableCoreWebView2BrowserVersionString(PWSTR.From(browserExecutableFolder), out var p);
-        var versionInfo = p.ToString();
-        if (p.Value != 0)
-        {
-            Marshal.FreeCoTaskMem(p.Value);
-        }
-        return versionInfo;
+        using var browserExecutableFolderStr = new DirectN.Extensions.Utilities.Pwstr(browserExecutableFolder);
+        Functions.GetAvailableCoreWebView2BrowserVersionString(browserExecutableFolderStr, out var versionInfo);
+        return versionInfo.ToStringAndDispose();
     }
 
     // assembly can be present as files in current directory or in assemblies embedded resources
@@ -63,7 +80,7 @@ public static class WebView2Utilities
             var asmPath = GetWebLoaderPathFromAssemblyResources(assembly);
             if (asmPath != null)
             {
-                h = DirectN.Functions.LoadLibraryW(PWSTR.From(asmPath));
+                h = LoadLibrary(asmPath);
                 if (h.Value != 0)
                     return DirectN.Constants.S_OK;
 
@@ -75,7 +92,7 @@ public static class WebView2Utilities
         foreach (var path in PossiblePaths)
         {
             firstPath ??= path;
-            h = DirectN.Functions.LoadLibraryW(PWSTR.From(path));
+            h = LoadLibrary(path);
             if (h.Value != 0)
                 return DirectN.Constants.S_OK;
         }
@@ -83,11 +100,17 @@ public static class WebView2Utilities
         if (firstPath == null)
             return DirectN.Constants.ERROR_MOD_NOT_FOUND;
 
-        h = DirectN.Functions.LoadLibraryW(PWSTR.From(firstPath));
+        h = LoadLibrary(firstPath);
         if (h.Value != 0)
             return DirectN.Constants.S_OK;
 
         return Marshal.GetHRForLastWin32Error();
+    }
+
+    private static HMODULE LoadLibrary(string path)
+    {
+        using var pathStr = new DirectN.Extensions.Utilities.Pwstr(path);
+        return DirectN.Functions.LoadLibraryW(pathStr);
     }
 
     private static string? GetWebLoaderPathFromAssemblyResources(Assembly assembly)
@@ -197,5 +220,19 @@ public static class WebView2Utilities
             // continue
             return false;
         }
+    }
+
+    public static HRESULT WithHostObjectVariant(object hostObject, Func<DirectN.Extensions.Utilities.Variant, HRESULT> call, bool throwOnError = true)
+    {
+        ArgumentNullException.ThrowIfNull(hostObject);
+        ArgumentNullException.ThrowIfNull(call);
+
+        HRESULT hr = default;
+        DirectN.Extensions.Com.ComObject.WithComInstance(hostObject, unk =>
+        {
+            using var variant = new DirectN.Extensions.Utilities.Variant(unk, VARENUM.VT_UNKNOWN);
+            hr = call(variant);
+        }, true);
+        return hr.ThrowOnError(throwOnError);
     }
 }

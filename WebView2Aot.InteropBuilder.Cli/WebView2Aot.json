@@ -11,6 +11,7 @@
   },
   // per-generator configuration
   "Generator": {
+    "TypeName": "WebView2Aot.InteropBuilder.Cli.Generator, WebView2Aot.InteropBuilder.Cli",
     "CSharp": {
       "GenerateTypeKeywords": true,
 

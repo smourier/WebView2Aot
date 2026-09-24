@@ -3,7 +3,7 @@
 public class WebViewWindow : Window
 {
     private readonly HostObject _hostObject = new();
-    private ComObject<ICoreWebView2Controller>? _controller;
+    private IComObject<ICoreWebView2Controller>? _controller;
 
     public WebViewWindow(string? title = null) : base(title)
     {
@@ -21,50 +21,42 @@ public class WebViewWindow : Window
             Text = $"{Text} - WebView2 was not found";
         }
 
-        using var userDataFolderStr = new Pwstr(WebView2Utilities.GetDefaultUserDataFolder());
-        WebView2.Functions.CreateCoreWebView2EnvironmentWithOptions(PWSTR.Null, userDataFolderStr, null!,
-            new CoreWebView2CreateCoreWebView2EnvironmentCompletedHandler((result, env) =>
-            {
-                env.CreateCoreWebView2Controller(Handle, new CoreWebView2CreateCoreWebView2ControllerCompletedHandler((result, controller) =>
-                {
-                    _controller = new ComObject<ICoreWebView2Controller>(controller);
-                    controller.put_Bounds(ClientRect).ThrowOnError();
-                    controller.get_CoreWebView2(out var webView2).ThrowOnError();
+        InitializeWebView();
+    }
 
-                    // this is for a full support of .NET Task or Task<T> methods
-                    // unfortunately, uses undocumented (private) interfaces
-                    if (webView2 is ICoreWebView2PrivatePartial partial)
-                    {
-                        partial.AddHostObjectHelper(new WebViewHostObjectHelper()).ThrowOnError();
-                        _hostObject.ContinueOnAsync = true;
-                        _hostObject.OneStepInvoke = true;
-                    }
+    private async void InitializeWebView()
+    {
+        using var env = await WebView2.Functions.CreateCoreWebView2EnvironmentWithOptionsAsync(null, WebView2Utilities.GetDefaultUserDataFolder(), null) ?? throw new InvalidOperationException();
+        _controller = await env.CreateCoreWebView2ControllerAsync(Handle) ?? throw new InvalidOperationException();
+        _controller.Bounds = ClientRect;
+        using var webView2 = _controller.CoreWebView2 ?? throw new InvalidOperationException();
 
-                    //webView2.OpenDevToolsWindow();
+        // this is for a full support of .NET Task or Task<T> methods
+        // unfortunately, uses undocumented (private) interfaces
+        if (webView2.As<ICoreWebView2PrivatePartial>() is { } partial)
+        {
+            partial.AddHostObjectHelper(new WebViewHostObjectHelper());
+            _hostObject.ContinueOnAsync = true;
+            _hostObject.OneStepInvoke = true;
+        }
 
-                    _hostObject.ClockTick += (s, e) =>
-                    {
-                        Text = $"Javascript Tick: {e}";
-                    };
+        //webView2.OpenDevToolsWindow();
 
-                    // get IUnknown from the host object and wrap it in a VARIANT
-                    DirectN.Extensions.Com.ComObject.WithComInstance(_hostObject, unk =>
-                    {
-                        using var variant = new Variant(unk, VARENUM.VT_UNKNOWN);
-                        var detached = variant.Detached;
-                        webView2.AddHostObjectToScript(PWSTR.From("dotnet"), ref detached).ThrowOnError();
-                    }, true);
+        _hostObject.ClockTick += (s, e) =>
+        {
+            Text = $"Javascript Tick: {e}";
+        };
 
-                    // load index.html from the current assembly
-                    var html = Encoding.UTF8.GetString(Assembly.GetExecutingAssembly().LoadFromResource(GetType().Namespace + ".Index.html"));
-                    webView2.NavigateToString(PWSTR.From(html));
-                }));
-            })).ThrowOnError();
+        webView2.AddHostObjectToScript("dotnet", _hostObject);
+
+        // load index.html from the current assembly
+        var html = Encoding.UTF8.GetString(Assembly.GetExecutingAssembly().LoadFromResource(GetType().Namespace + ".Index.html"));
+        webView2.NavigateToString(html);
     }
 
     protected override bool OnResized(WindowResizedType type, SIZE size)
     {
-        _controller?.Object.put_Bounds(ClientRect).ThrowOnError();
+        _controller?.Bounds = ClientRect;
         return base.OnResized(type, size);
     }
 

@@ -14,5 +14,5 @@ public partial interface ICoreWebView2Environment14 : ICoreWebView2Environment13
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT CreateObjectCollection(uint length, out IUnknown items, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2ObjectCollection>))] out ICoreWebView2ObjectCollection objectCollection);
+    HRESULT CreateObjectCollection(uint length, nint items, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<ICoreWebView2ObjectCollection>))] out ICoreWebView2ObjectCollection objectCollection);
 }

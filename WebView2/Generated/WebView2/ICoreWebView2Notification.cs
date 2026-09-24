@@ -74,5 +74,5 @@ public partial interface ICoreWebView2Notification
     
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.Error)]
-    HRESULT GetVibrationPattern(ref uint count, ref ulong vibrationPattern);
+    HRESULT GetVibrationPattern(ref uint count, out nint vibrationPattern);
 }
