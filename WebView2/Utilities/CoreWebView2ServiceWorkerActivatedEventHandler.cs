@@ -6,7 +6,15 @@ public partial class CoreWebView2ServiceWorkerActivatedEventHandler(Action<ICore
 {
     public virtual HRESULT Invoke(ICoreWebView2ServiceWorkerRegistration sender, ICoreWebView2ServiceWorkerActivatedEventArgs args)
     {
-        handler(sender, args);
+        try
+        {
+            handler(sender, args);
+        }
+        finally
+        {
+            DirectN.Extensions.Com.ComObject.FinalRelease((object)sender as System.Runtime.InteropServices.Marshalling.ComObject);
+        }
+
         return 0;
     }
 }

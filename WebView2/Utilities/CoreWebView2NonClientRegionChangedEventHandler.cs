@@ -6,7 +6,15 @@ public partial class CoreWebView2NonClientRegionChangedEventHandler(Action<ICore
 {
     public virtual HRESULT Invoke(ICoreWebView2CompositionController sender, ICoreWebView2NonClientRegionChangedEventArgs args)
     {
-        handler(sender, args);
+        try
+        {
+            handler(sender, args);
+        }
+        finally
+        {
+            DirectN.Extensions.Com.ComObject.FinalRelease((object)sender as System.Runtime.InteropServices.Marshalling.ComObject);
+        }
+
         return 0;
     }
 }

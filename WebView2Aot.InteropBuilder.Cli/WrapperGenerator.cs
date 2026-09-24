@@ -12,6 +12,8 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
 {
     internal const string _handlerSuffix = "Handler";
     internal const string _invokeMethodName = "Invoke";
+    internal const string _iunknownName = "IUnknown";
+    internal const string _directNCom = "DirectN.Extensions.Com.";
 
     private const string _extensionsSuffix = "Extensions";
     private const string _eventsSuffix = "Events";
@@ -23,7 +25,6 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
     private const string _boolTypeName = "BOOL";
     private const string _streamTypeName = "IStream";
     private const string _variantTypeName = "VARIANT";
-    private const string _iunknownName = "IUnknown";
     private const string _eventRegistrationTokenName = "EventRegistrationToken";
     private const string _getterPrefix = "get_";
     private const string _setterPrefix = "put_";
@@ -36,7 +37,6 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
     private const string _getCurrentPrefix = "GetCurrent";
     private const string _utilitiesNamespace = Builder.Namespace + ".Utilities";
     private const string _directNUtilities = "DirectN.Extensions.Utilities.";
-    private const string _directNCom = "DirectN.Extensions.Com.";
     private const string _objectTypeName = "object?";
     private const string _itemLocal = "item";
     private const string _valueParameterName = "value";

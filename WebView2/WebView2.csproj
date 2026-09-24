@@ -22,10 +22,10 @@
 		<PackageIcon>WebView2Aot.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.6.0</Version>
-		<ProductVersion>1.6.0</ProductVersion>
-		<FileVersion>1.6.0</FileVersion>
-		<InformationalVersion>1.6.0</InformationalVersion>
+		<Version>1.6.1</Version>
+		<ProductVersion>1.6.1</ProductVersion>
+		<FileVersion>1.6.1</FileVersion>
+		<InformationalVersion>1.6.1</InformationalVersion>
 		<SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyyyMMddHH"))</SourceRevisionId>
 	</PropertyGroup>
 

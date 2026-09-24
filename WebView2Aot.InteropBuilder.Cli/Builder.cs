@@ -13,6 +13,9 @@ public partial class Builder : Win32InteropBuilder.Builder
     public const string Namespace = "WebView2";
     public const string ProjectName = "WebView2";
 
+    private const string _eventHandlerSuffix = "EventHandler";
+    private const string _senderParameterName = "sender";
+
     private readonly HashSet<string> _alreadyIncludedTypes = [];
 
     public override BuilderContext CreateBuilderContext(BuilderConfiguration configuration, IGenerator generator)
@@ -129,7 +132,29 @@ public partial class Builder : Win32InteropBuilder.Builder
         iw.WriteLine($"public virtual HRESULT Invoke({string.Join(", ", invoke.Parameters.Select(p => $"{p.TypeFullName!.Name} {p.Name}"))})");
         iw.WriteLine("{");
         iw.Indent++;
-        iw.WriteLine("handler(" + string.Join(", ", invoke.Parameters.Select(p => p.Name)) + ");");
+        var call = "handler(" + string.Join(", ", invoke.Parameters.Select(p => p.Name)) + ");";
+        var sender = invoke.Parameters.FirstOrDefault(p => p.Name == _senderParameterName);
+        if (type.Name.EndsWith(_eventHandlerSuffix) && sender != null && sender.TypeFullName?.Name != WrapperGenerator._iunknownName)
+        {
+            iw.WriteLine("try");
+            iw.WriteLine("{");
+            iw.Indent++;
+            iw.WriteLine(call);
+            iw.Indent--;
+            iw.WriteLine("}");
+            iw.WriteLine("finally");
+            iw.WriteLine("{");
+            iw.Indent++;
+            iw.WriteLine($"{WrapperGenerator._directNCom}ComObject.FinalRelease((object){_senderParameterName} as System.Runtime.InteropServices.Marshalling.ComObject);");
+            iw.Indent--;
+            iw.WriteLine("}");
+            iw.WriteLineNoTabs(string.Empty);
+        }
+        else
+        {
+            iw.WriteLine(call);
+        }
+
         iw.WriteLine("return 0;");
         iw.Indent--;
         iw.WriteLine("}");

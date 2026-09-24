@@ -6,7 +6,15 @@ public partial class CoreWebView2DedicatedWorkerWebMessageReceivedEventHandler(A
 {
     public virtual HRESULT Invoke(ICoreWebView2DedicatedWorker sender, ICoreWebView2WebMessageReceivedEventArgs args)
     {
-        handler(sender, args);
+        try
+        {
+            handler(sender, args);
+        }
+        finally
+        {
+            DirectN.Extensions.Com.ComObject.FinalRelease((object)sender as System.Runtime.InteropServices.Marshalling.ComObject);
+        }
+
         return 0;
     }
 }

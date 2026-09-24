@@ -6,7 +6,15 @@ public partial class CoreWebView2CustomItemSelectedEventHandler(Action<ICoreWebV
 {
     public virtual HRESULT Invoke(ICoreWebView2ContextMenuItem sender, IUnknown args)
     {
-        handler(sender, args);
+        try
+        {
+            handler(sender, args);
+        }
+        finally
+        {
+            DirectN.Extensions.Com.ComObject.FinalRelease((object)sender as System.Runtime.InteropServices.Marshalling.ComObject);
+        }
+
         return 0;
     }
 }
