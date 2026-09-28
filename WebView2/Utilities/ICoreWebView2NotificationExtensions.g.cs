@@ -3,32 +3,32 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2NotificationExtensions
 {
-    public static void ReportShown(this ICoreWebView2Notification instance)
+    public static HRESULT ReportShown(this ICoreWebView2Notification instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.ReportShown().ThrowOnError();
+        return instance.ReportShown().ThrowOnError(throwOnError);
     }
 
-    public static void ReportClicked(this ICoreWebView2Notification instance)
+    public static HRESULT ReportClicked(this ICoreWebView2Notification instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.ReportClicked().ThrowOnError();
+        return instance.ReportClicked().ThrowOnError(throwOnError);
     }
 
-    public static void ReportClosed(this ICoreWebView2Notification instance)
+    public static HRESULT ReportClosed(this ICoreWebView2Notification instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.ReportClosed().ThrowOnError();
+        return instance.ReportClosed().ThrowOnError(throwOnError);
     }
 
-    public static void ReportShown(this IComObject<ICoreWebView2Notification> instance) => ReportShown(instance?.Object!);
+    public static HRESULT ReportShown(this IComObject<ICoreWebView2Notification> instance, bool throwOnError = true) => ReportShown(instance?.Object!, throwOnError);
 
-    public static void ReportClicked(this IComObject<ICoreWebView2Notification> instance) => ReportClicked(instance?.Object!);
+    public static HRESULT ReportClicked(this IComObject<ICoreWebView2Notification> instance, bool throwOnError = true) => ReportClicked(instance?.Object!, throwOnError);
 
-    public static void ReportClosed(this IComObject<ICoreWebView2Notification> instance) => ReportClosed(instance?.Object!);
+    public static HRESULT ReportClosed(this IComObject<ICoreWebView2Notification> instance, bool throwOnError = true) => ReportClosed(instance?.Object!, throwOnError);
 
     extension(ICoreWebView2Notification instance)
     {

@@ -41,13 +41,16 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
     private const string _itemLocal = "item";
     private const string _valueParameterName = "value";
     private const string _resultParameterName = "result";
+    private const string _throwOnErrorName = "throwOnError";
+    private const string _defaultValueSeparator = " = ";
+    private const string _unsupportedInterfaceResult = "DirectN.Constants.E_NOINTERFACE";
     private const string _instanceObject = "instance?.Object!";
 
     private const string _typedLocal = "typed";
     private const string _requiresDocFormat = "/// <remarks>Requires <see cref=\"{0}\"/>.</remarks>";
     private const string _utilitiesClassName = "WebView2Utilities";
 
-    private static readonly HashSet<string> _syncReservedNames = ["instance", "hr", _typedLocal];
+    private static readonly HashSet<string> _syncReservedNames = ["instance", "hr", _typedLocal, _throwOnErrorName];
     private static readonly HashSet<string> _asyncReservedNames = ["instance", "hr", "tcs", "errorCode", "result", _typedLocal];
 
     private readonly Dictionary<BuilderMethod, MethodSignature> _signatures = [];
@@ -284,7 +287,9 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
         var arguments = new List<string>();
         foreach (var declaration in declarations)
         {
-            var parts = declaration.Split(' ');
+            var defaultIndex = declaration.IndexOf(_defaultValueSeparator, StringComparison.Ordinal);
+            var head = defaultIndex < 0 ? declaration : declaration[..defaultIndex];
+            var parts = head.Split(' ');
             var parameterName = parts[^1];
             if (parts[0] is GeneratedParameter._inKeyword or GeneratedParameter._outKeyword or GeneratedParameter._refKeyword)
             {
@@ -293,7 +298,7 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
                 continue;
             }
 
-            var typeName = declaration[..declaration.LastIndexOf(' ')];
+            var typeName = head[..head.LastIndexOf(' ')];
             if (IsComInterface(typeName))
             {
                 var isNullable = typeName.EndsWith('?');
@@ -528,7 +533,15 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
         if (instanceType != null && IsHandWritten(receiverName, name, declarations.Count))
             return null;
 
-        if (forwarders != null && instanceType != null && !IsHandWritten($"IComObject<{receiverName}>", name, declarations.Count))
+        var forwarderIsHandWritten = IsHandWritten($"IComObject<{receiverName}>", name, declarations.Count);
+        var hasThrowOnError = returnName == null;
+        if (hasThrowOnError)
+        {
+            returnTypeName = FullName.HRESULT.Name;
+            declarations.Add($"bool {_throwOnErrorName}{_defaultValueSeparator}true");
+        }
+
+        if (forwarders != null && instanceType != null && !forwarderIsHandWritten)
         {
             forwarders.Add(GenerateForwarder(returnTypeName, name, receiverName, declarations, GetRequiresDoc(type)));
         }
@@ -539,7 +552,7 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
         var earlyExit = declarations
             .Where(d => d.StartsWith(GeneratedParameter._outKeyword + " "))
             .Select(d => $"{d[(d.LastIndexOf(' ') + 1)..]} = default;")
-            .Append(returnName != null ? "return default;" : "return;")
+            .Append(hasThrowOnError ? $"return {_unsupportedInterfaceResult};" : "return default;")
             .ToList();
 
         if (instanceType != null)
@@ -571,15 +584,27 @@ public partial class WrapperGenerator(BuilderContext context, Generator generato
                 iw.WriteLine(line);
             }
 
-            iw.WriteLine($"{target}{signature.Name}({string.Join(", ", wrapped.Arguments)}).ThrowOnError();");
-            foreach (var line in wrapped.Epilogue)
+            var call = $"{target}{signature.Name}({string.Join(", ", wrapped.Arguments)}).ThrowOnError({(hasThrowOnError ? _throwOnErrorName : null)});";
+            if (hasThrowOnError && wrapped.Epilogue.Count == 0)
             {
-                iw.WriteLine(line);
+                iw.WriteLine("return " + call);
             }
-
-            if (returnName != null)
+            else
             {
-                iw.WriteLine($"return {returnName};");
+                iw.WriteLine(hasThrowOnError ? "var hr = " + call : call);
+                foreach (var line in wrapped.Epilogue)
+                {
+                    iw.WriteLine(line);
+                }
+
+                if (returnName != null)
+                {
+                    iw.WriteLine($"return {returnName};");
+                }
+                else if (hasThrowOnError)
+                {
+                    iw.WriteLine("return hr;");
+                }
             }
 
             iw.Indent--;

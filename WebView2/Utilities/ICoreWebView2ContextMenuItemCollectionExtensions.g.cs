@@ -13,18 +13,18 @@ public static partial class ICoreWebView2ContextMenuItemCollectionExtensions
         return value;
     }
 
-    public static void RemoveValueAtIndex(this ICoreWebView2ContextMenuItemCollection instance, uint index)
+    public static HRESULT RemoveValueAtIndex(this ICoreWebView2ContextMenuItemCollection instance, uint index, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.RemoveValueAtIndex(index).ThrowOnError();
+        return instance.RemoveValueAtIndex(index).ThrowOnError(throwOnError);
     }
 
-    public static void InsertValueAtIndex(this ICoreWebView2ContextMenuItemCollection instance, uint index, ICoreWebView2ContextMenuItem value)
+    public static HRESULT InsertValueAtIndex(this ICoreWebView2ContextMenuItemCollection instance, uint index, ICoreWebView2ContextMenuItem value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.InsertValueAtIndex(index, value).ThrowOnError();
+        return instance.InsertValueAtIndex(index, value).ThrowOnError(throwOnError);
     }
 
     public static IReadOnlyList<IComObject<ICoreWebView2ContextMenuItem>> ToList(this ICoreWebView2ContextMenuItemCollection instance)
@@ -68,9 +68,9 @@ public static partial class ICoreWebView2ContextMenuItemCollectionExtensions
 
     public static IComObject<ICoreWebView2ContextMenuItem>? GetValueAtIndex(this IComObject<ICoreWebView2ContextMenuItemCollection> instance, uint index) => GetValueAtIndex(instance?.Object!, index);
 
-    public static void RemoveValueAtIndex(this IComObject<ICoreWebView2ContextMenuItemCollection> instance, uint index) => RemoveValueAtIndex(instance?.Object!, index);
+    public static HRESULT RemoveValueAtIndex(this IComObject<ICoreWebView2ContextMenuItemCollection> instance, uint index, bool throwOnError = true) => RemoveValueAtIndex(instance?.Object!, index, throwOnError);
 
-    public static void InsertValueAtIndex(this IComObject<ICoreWebView2ContextMenuItemCollection> instance, uint index, IComObject<ICoreWebView2ContextMenuItem> value) => InsertValueAtIndex(instance?.Object!, index, value?.Object!);
+    public static HRESULT InsertValueAtIndex(this IComObject<ICoreWebView2ContextMenuItemCollection> instance, uint index, IComObject<ICoreWebView2ContextMenuItem> value, bool throwOnError = true) => InsertValueAtIndex(instance?.Object!, index, value?.Object!, throwOnError);
 
     public static IReadOnlyList<IComObject<ICoreWebView2ContextMenuItem>> ToList(this IComObject<ICoreWebView2ContextMenuItemCollection> instance) => ToList(instance?.Object!);
 

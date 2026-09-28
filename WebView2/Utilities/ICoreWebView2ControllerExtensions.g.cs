@@ -3,41 +3,41 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2ControllerExtensions
 {
-    public static void SetBoundsAndZoomFactor(this ICoreWebView2Controller instance, RECT bounds, double zoomFactor)
+    public static HRESULT SetBoundsAndZoomFactor(this ICoreWebView2Controller instance, RECT bounds, double zoomFactor, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.SetBoundsAndZoomFactor(bounds, zoomFactor).ThrowOnError();
+        return instance.SetBoundsAndZoomFactor(bounds, zoomFactor).ThrowOnError(throwOnError);
     }
 
-    public static void MoveFocus(this ICoreWebView2Controller instance, COREWEBVIEW2_MOVE_FOCUS_REASON reason)
+    public static HRESULT MoveFocus(this ICoreWebView2Controller instance, COREWEBVIEW2_MOVE_FOCUS_REASON reason, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.MoveFocus(reason).ThrowOnError();
+        return instance.MoveFocus(reason).ThrowOnError(throwOnError);
     }
 
-    public static void NotifyParentWindowPositionChanged(this ICoreWebView2Controller instance)
+    public static HRESULT NotifyParentWindowPositionChanged(this ICoreWebView2Controller instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.NotifyParentWindowPositionChanged().ThrowOnError();
+        return instance.NotifyParentWindowPositionChanged().ThrowOnError(throwOnError);
     }
 
-    public static void Close(this ICoreWebView2Controller instance)
+    public static HRESULT Close(this ICoreWebView2Controller instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Close().ThrowOnError();
+        return instance.Close().ThrowOnError(throwOnError);
     }
 
-    public static void SetBoundsAndZoomFactor(this IComObject<ICoreWebView2Controller> instance, RECT bounds, double zoomFactor) => SetBoundsAndZoomFactor(instance?.Object!, bounds, zoomFactor);
+    public static HRESULT SetBoundsAndZoomFactor(this IComObject<ICoreWebView2Controller> instance, RECT bounds, double zoomFactor, bool throwOnError = true) => SetBoundsAndZoomFactor(instance?.Object!, bounds, zoomFactor, throwOnError);
 
-    public static void MoveFocus(this IComObject<ICoreWebView2Controller> instance, COREWEBVIEW2_MOVE_FOCUS_REASON reason) => MoveFocus(instance?.Object!, reason);
+    public static HRESULT MoveFocus(this IComObject<ICoreWebView2Controller> instance, COREWEBVIEW2_MOVE_FOCUS_REASON reason, bool throwOnError = true) => MoveFocus(instance?.Object!, reason, throwOnError);
 
-    public static void NotifyParentWindowPositionChanged(this IComObject<ICoreWebView2Controller> instance) => NotifyParentWindowPositionChanged(instance?.Object!);
+    public static HRESULT NotifyParentWindowPositionChanged(this IComObject<ICoreWebView2Controller> instance, bool throwOnError = true) => NotifyParentWindowPositionChanged(instance?.Object!, throwOnError);
 
-    public static void Close(this IComObject<ICoreWebView2Controller> instance) => Close(instance?.Object!);
+    public static HRESULT Close(this IComObject<ICoreWebView2Controller> instance, bool throwOnError = true) => Close(instance?.Object!, throwOnError);
 
     extension(ICoreWebView2Controller instance)
     {

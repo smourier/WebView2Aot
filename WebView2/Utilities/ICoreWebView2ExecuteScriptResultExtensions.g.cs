@@ -3,17 +3,18 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2ExecuteScriptResultExtensions
 {
-    public static void TryGetResultAsString(this ICoreWebView2ExecuteScriptResult instance, out string? stringResult, out bool value)
+    public static HRESULT TryGetResultAsString(this ICoreWebView2ExecuteScriptResult instance, out string? stringResult, out bool value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         var valueNative = BOOL.FALSE;
-        instance.TryGetResultAsString(out PWSTR stringResultNative, ref valueNative).ThrowOnError();
+        var hr = instance.TryGetResultAsString(out PWSTR stringResultNative, ref valueNative).ThrowOnError(throwOnError);
         stringResult = stringResultNative.ToStringAndDispose();
         value = valueNative;
+        return hr;
     }
 
-    public static void TryGetResultAsString(this IComObject<ICoreWebView2ExecuteScriptResult> instance, out string? stringResult, out bool value) => TryGetResultAsString(instance?.Object!, out stringResult, out value);
+    public static HRESULT TryGetResultAsString(this IComObject<ICoreWebView2ExecuteScriptResult> instance, out string? stringResult, out bool value, bool throwOnError = true) => TryGetResultAsString(instance?.Object!, out stringResult, out value, throwOnError);
 
     extension(ICoreWebView2ExecuteScriptResult instance)
     {

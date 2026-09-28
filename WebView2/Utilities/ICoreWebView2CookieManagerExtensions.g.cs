@@ -52,44 +52,44 @@ public static partial class ICoreWebView2CookieManagerExtensions
         return tcs.Task;
     }
 
-    public static void AddOrUpdateCookie(this ICoreWebView2CookieManager instance, ICoreWebView2Cookie cookie)
+    public static HRESULT AddOrUpdateCookie(this ICoreWebView2CookieManager instance, ICoreWebView2Cookie cookie, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.AddOrUpdateCookie(cookie).ThrowOnError();
+        return instance.AddOrUpdateCookie(cookie).ThrowOnError(throwOnError);
     }
 
-    public static void DeleteCookie(this ICoreWebView2CookieManager instance, ICoreWebView2Cookie cookie)
+    public static HRESULT DeleteCookie(this ICoreWebView2CookieManager instance, ICoreWebView2Cookie cookie, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.DeleteCookie(cookie).ThrowOnError();
+        return instance.DeleteCookie(cookie).ThrowOnError(throwOnError);
     }
 
-    public static void DeleteCookies(this ICoreWebView2CookieManager instance, string? name, string? uri)
+    public static HRESULT DeleteCookies(this ICoreWebView2CookieManager instance, string? name, string? uri, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
         using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        instance.DeleteCookies(nameStr, uriStr).ThrowOnError();
+        return instance.DeleteCookies(nameStr, uriStr).ThrowOnError(throwOnError);
     }
 
-    public static void DeleteCookiesWithDomainAndPath(this ICoreWebView2CookieManager instance, string? name, string? domain, string? path)
+    public static HRESULT DeleteCookiesWithDomainAndPath(this ICoreWebView2CookieManager instance, string? name, string? domain, string? path, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
         using var domainStr = new DirectN.Extensions.Utilities.Pwstr(domain);
         using var pathStr = new DirectN.Extensions.Utilities.Pwstr(path);
-        instance.DeleteCookiesWithDomainAndPath(nameStr, domainStr, pathStr).ThrowOnError();
+        return instance.DeleteCookiesWithDomainAndPath(nameStr, domainStr, pathStr).ThrowOnError(throwOnError);
     }
 
-    public static void DeleteAllCookies(this ICoreWebView2CookieManager instance)
+    public static HRESULT DeleteAllCookies(this ICoreWebView2CookieManager instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.DeleteAllCookies().ThrowOnError();
+        return instance.DeleteAllCookies().ThrowOnError(throwOnError);
     }
 
     public static IComObject<ICoreWebView2Cookie>? CreateCookie(this IComObject<ICoreWebView2CookieManager> instance, string? name, string? value, string? domain, string? path) => CreateCookie(instance?.Object!, name, value, domain, path);
@@ -98,13 +98,13 @@ public static partial class ICoreWebView2CookieManagerExtensions
 
     public static Task<IComObject<ICoreWebView2CookieList>?> GetCookiesAsync(this IComObject<ICoreWebView2CookieManager> instance, string? uri) => GetCookiesAsync(instance?.Object!, uri);
 
-    public static void AddOrUpdateCookie(this IComObject<ICoreWebView2CookieManager> instance, IComObject<ICoreWebView2Cookie> cookie) => AddOrUpdateCookie(instance?.Object!, cookie?.Object!);
+    public static HRESULT AddOrUpdateCookie(this IComObject<ICoreWebView2CookieManager> instance, IComObject<ICoreWebView2Cookie> cookie, bool throwOnError = true) => AddOrUpdateCookie(instance?.Object!, cookie?.Object!, throwOnError);
 
-    public static void DeleteCookie(this IComObject<ICoreWebView2CookieManager> instance, IComObject<ICoreWebView2Cookie> cookie) => DeleteCookie(instance?.Object!, cookie?.Object!);
+    public static HRESULT DeleteCookie(this IComObject<ICoreWebView2CookieManager> instance, IComObject<ICoreWebView2Cookie> cookie, bool throwOnError = true) => DeleteCookie(instance?.Object!, cookie?.Object!, throwOnError);
 
-    public static void DeleteCookies(this IComObject<ICoreWebView2CookieManager> instance, string? name, string? uri) => DeleteCookies(instance?.Object!, name, uri);
+    public static HRESULT DeleteCookies(this IComObject<ICoreWebView2CookieManager> instance, string? name, string? uri, bool throwOnError = true) => DeleteCookies(instance?.Object!, name, uri, throwOnError);
 
-    public static void DeleteCookiesWithDomainAndPath(this IComObject<ICoreWebView2CookieManager> instance, string? name, string? domain, string? path) => DeleteCookiesWithDomainAndPath(instance?.Object!, name, domain, path);
+    public static HRESULT DeleteCookiesWithDomainAndPath(this IComObject<ICoreWebView2CookieManager> instance, string? name, string? domain, string? path, bool throwOnError = true) => DeleteCookiesWithDomainAndPath(instance?.Object!, name, domain, path, throwOnError);
 
-    public static void DeleteAllCookies(this IComObject<ICoreWebView2CookieManager> instance) => DeleteAllCookies(instance?.Object!);
+    public static HRESULT DeleteAllCookies(this IComObject<ICoreWebView2CookieManager> instance, bool throwOnError = true) => DeleteAllCookies(instance?.Object!, throwOnError);
 }

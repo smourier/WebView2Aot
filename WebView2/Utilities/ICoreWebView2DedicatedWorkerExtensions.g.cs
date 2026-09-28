@@ -3,25 +3,25 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2DedicatedWorkerExtensions
 {
-    public static void PostWebMessageAsJson(this ICoreWebView2DedicatedWorker instance, string? webMessageAsJson)
+    public static HRESULT PostWebMessageAsJson(this ICoreWebView2DedicatedWorker instance, string? webMessageAsJson, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var webMessageAsJsonStr = new DirectN.Extensions.Utilities.Pwstr(webMessageAsJson);
-        instance.PostWebMessageAsJson(webMessageAsJsonStr).ThrowOnError();
+        return instance.PostWebMessageAsJson(webMessageAsJsonStr).ThrowOnError(throwOnError);
     }
 
-    public static void PostWebMessageAsString(this ICoreWebView2DedicatedWorker instance, string? webMessageAsString)
+    public static HRESULT PostWebMessageAsString(this ICoreWebView2DedicatedWorker instance, string? webMessageAsString, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var webMessageAsStringStr = new DirectN.Extensions.Utilities.Pwstr(webMessageAsString);
-        instance.PostWebMessageAsString(webMessageAsStringStr).ThrowOnError();
+        return instance.PostWebMessageAsString(webMessageAsStringStr).ThrowOnError(throwOnError);
     }
 
-    public static void PostWebMessageAsJson(this IComObject<ICoreWebView2DedicatedWorker> instance, string? webMessageAsJson) => PostWebMessageAsJson(instance?.Object!, webMessageAsJson);
+    public static HRESULT PostWebMessageAsJson(this IComObject<ICoreWebView2DedicatedWorker> instance, string? webMessageAsJson, bool throwOnError = true) => PostWebMessageAsJson(instance?.Object!, webMessageAsJson, throwOnError);
 
-    public static void PostWebMessageAsString(this IComObject<ICoreWebView2DedicatedWorker> instance, string? webMessageAsString) => PostWebMessageAsString(instance?.Object!, webMessageAsString);
+    public static HRESULT PostWebMessageAsString(this IComObject<ICoreWebView2DedicatedWorker> instance, string? webMessageAsString, bool throwOnError = true) => PostWebMessageAsString(instance?.Object!, webMessageAsString, throwOnError);
 
     extension(ICoreWebView2DedicatedWorker instance)
     {

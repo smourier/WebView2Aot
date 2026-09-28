@@ -27,34 +27,34 @@ public static partial class ICoreWebView2FindExtensions
         return tcs.Task;
     }
 
-    public static void FindNext(this ICoreWebView2Find instance)
+    public static HRESULT FindNext(this ICoreWebView2Find instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.FindNext().ThrowOnError();
+        return instance.FindNext().ThrowOnError(throwOnError);
     }
 
-    public static void FindPrevious(this ICoreWebView2Find instance)
+    public static HRESULT FindPrevious(this ICoreWebView2Find instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.FindPrevious().ThrowOnError();
+        return instance.FindPrevious().ThrowOnError(throwOnError);
     }
 
-    public static void Stop(this ICoreWebView2Find instance)
+    public static HRESULT Stop(this ICoreWebView2Find instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Stop().ThrowOnError();
+        return instance.Stop().ThrowOnError(throwOnError);
     }
 
     public static Task StartAsync(this IComObject<ICoreWebView2Find> instance, IComObject<ICoreWebView2FindOptions> options) => StartAsync(instance?.Object!, options?.Object!);
 
-    public static void FindNext(this IComObject<ICoreWebView2Find> instance) => FindNext(instance?.Object!);
+    public static HRESULT FindNext(this IComObject<ICoreWebView2Find> instance, bool throwOnError = true) => FindNext(instance?.Object!, throwOnError);
 
-    public static void FindPrevious(this IComObject<ICoreWebView2Find> instance) => FindPrevious(instance?.Object!);
+    public static HRESULT FindPrevious(this IComObject<ICoreWebView2Find> instance, bool throwOnError = true) => FindPrevious(instance?.Object!, throwOnError);
 
-    public static void Stop(this IComObject<ICoreWebView2Find> instance) => Stop(instance?.Object!);
+    public static HRESULT Stop(this IComObject<ICoreWebView2Find> instance, bool throwOnError = true) => Stop(instance?.Object!, throwOnError);
 
     extension(ICoreWebView2Find instance)
     {

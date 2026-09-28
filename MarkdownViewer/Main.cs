@@ -344,7 +344,7 @@ public partial class Main : Form
     }
 
     private void SizeChange() => _controller?.Bounds = RECT.Sized(0, 0, ClientRectangle.Width, ClientRectangle.Height);
-    private void FocusChange() => _controller?.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+    private void FocusChange() => _controller?.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC, false);
     protected override void OnGotFocus(EventArgs e) => FocusChange();
     protected override void OnLostFocus(EventArgs e) => FocusChange();
     protected override void OnSizeChanged(EventArgs e) => SizeChange();

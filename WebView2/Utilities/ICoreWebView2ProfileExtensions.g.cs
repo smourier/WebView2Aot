@@ -202,14 +202,14 @@ public static partial class ICoreWebView2ProfileExtensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2Profile8"/>.</remarks>
-    public static void Delete(this ICoreWebView2Profile instance)
+    public static HRESULT Delete(this ICoreWebView2Profile instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2Profile8>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.Delete().ThrowOnError();
+        return typed.Delete().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2Profile2"/>.</remarks>
@@ -234,7 +234,7 @@ public static partial class ICoreWebView2ProfileExtensions
     public static Task<IComObject<ICoreWebView2BrowserExtensionList>?> GetBrowserExtensionsAsync(this IComObject<ICoreWebView2Profile> instance) => GetBrowserExtensionsAsync(instance?.Object!);
 
     /// <remarks>Requires <see cref="ICoreWebView2Profile8"/>.</remarks>
-    public static void Delete(this IComObject<ICoreWebView2Profile> instance) => Delete(instance?.Object!);
+    public static HRESULT Delete(this IComObject<ICoreWebView2Profile> instance, bool throwOnError = true) => Delete(instance?.Object!, throwOnError);
 
     extension(ICoreWebView2Profile instance)
     {

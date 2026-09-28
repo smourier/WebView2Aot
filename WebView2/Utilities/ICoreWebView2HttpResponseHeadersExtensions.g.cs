@@ -3,13 +3,13 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2HttpResponseHeadersExtensions
 {
-    public static void AppendHeader(this ICoreWebView2HttpResponseHeaders instance, string? name, string? value)
+    public static HRESULT AppendHeader(this ICoreWebView2HttpResponseHeaders instance, string? name, string? value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
         using var valueStr = new DirectN.Extensions.Utilities.Pwstr(value);
-        instance.AppendHeader(nameStr, valueStr).ThrowOnError();
+        return instance.AppendHeader(nameStr, valueStr).ThrowOnError(throwOnError);
     }
 
     public static bool Contains(this ICoreWebView2HttpResponseHeaders instance, string? name)
@@ -56,7 +56,7 @@ public static partial class ICoreWebView2HttpResponseHeadersExtensions
         return value;
     }
 
-    public static void AppendHeader(this IComObject<ICoreWebView2HttpResponseHeaders> instance, string? name, string? value) => AppendHeader(instance?.Object!, name, value);
+    public static HRESULT AppendHeader(this IComObject<ICoreWebView2HttpResponseHeaders> instance, string? name, string? value, bool throwOnError = true) => AppendHeader(instance?.Object!, name, value, throwOnError);
 
     public static bool Contains(this IComObject<ICoreWebView2HttpResponseHeaders> instance, string? name) => Contains(instance?.Object!, name);
 

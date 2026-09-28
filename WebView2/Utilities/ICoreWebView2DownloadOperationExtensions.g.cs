@@ -3,32 +3,32 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2DownloadOperationExtensions
 {
-    public static void Cancel(this ICoreWebView2DownloadOperation instance)
+    public static HRESULT Cancel(this ICoreWebView2DownloadOperation instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Cancel().ThrowOnError();
+        return instance.Cancel().ThrowOnError(throwOnError);
     }
 
-    public static void Pause(this ICoreWebView2DownloadOperation instance)
+    public static HRESULT Pause(this ICoreWebView2DownloadOperation instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Pause().ThrowOnError();
+        return instance.Pause().ThrowOnError(throwOnError);
     }
 
-    public static void Resume(this ICoreWebView2DownloadOperation instance)
+    public static HRESULT Resume(this ICoreWebView2DownloadOperation instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Resume().ThrowOnError();
+        return instance.Resume().ThrowOnError(throwOnError);
     }
 
-    public static void Cancel(this IComObject<ICoreWebView2DownloadOperation> instance) => Cancel(instance?.Object!);
+    public static HRESULT Cancel(this IComObject<ICoreWebView2DownloadOperation> instance, bool throwOnError = true) => Cancel(instance?.Object!, throwOnError);
 
-    public static void Pause(this IComObject<ICoreWebView2DownloadOperation> instance) => Pause(instance?.Object!);
+    public static HRESULT Pause(this IComObject<ICoreWebView2DownloadOperation> instance, bool throwOnError = true) => Pause(instance?.Object!, throwOnError);
 
-    public static void Resume(this IComObject<ICoreWebView2DownloadOperation> instance) => Resume(instance?.Object!);
+    public static HRESULT Resume(this IComObject<ICoreWebView2DownloadOperation> instance, bool throwOnError = true) => Resume(instance?.Object!, throwOnError);
 
     extension(ICoreWebView2DownloadOperation instance)
     {

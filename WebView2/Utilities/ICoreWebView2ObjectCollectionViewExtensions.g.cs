@@ -53,26 +53,26 @@ public static partial class ICoreWebView2ObjectCollectionViewExtensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2ObjectCollection"/>.</remarks>
-    public static void RemoveValueAtIndex(this ICoreWebView2ObjectCollectionView instance, uint index)
+    public static HRESULT RemoveValueAtIndex(this ICoreWebView2ObjectCollectionView instance, uint index, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2ObjectCollection>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.RemoveValueAtIndex(index).ThrowOnError();
+        return typed.RemoveValueAtIndex(index).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2ObjectCollection"/>.</remarks>
-    public static void InsertValueAtIndex(this ICoreWebView2ObjectCollectionView instance, uint index, object? value)
+    public static HRESULT InsertValueAtIndex(this ICoreWebView2ObjectCollectionView instance, uint index, object? value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2ObjectCollection>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var valueNative = DirectN.Extensions.Com.ComObject.FromPointer<IUnknown>(DirectN.Extensions.Com.ComObject.GetOrCreateComInstance(value, throwOnError: true));
-        typed.InsertValueAtIndex(index, valueNative?.Object!).ThrowOnError();
+        return typed.InsertValueAtIndex(index, valueNative?.Object!).ThrowOnError(throwOnError);
     }
 
     public static IComObject<IUnknown>? GetValueAtIndex(this IComObject<ICoreWebView2ObjectCollectionView> instance, uint index) => GetValueAtIndex(instance?.Object!, index);
@@ -82,10 +82,10 @@ public static partial class ICoreWebView2ObjectCollectionViewExtensions
     public static void ForEach(this IComObject<ICoreWebView2ObjectCollectionView> instance, Action<IComObject<IUnknown>> action) => ForEach(instance?.Object!, action);
 
     /// <remarks>Requires <see cref="ICoreWebView2ObjectCollection"/>.</remarks>
-    public static void RemoveValueAtIndex(this IComObject<ICoreWebView2ObjectCollectionView> instance, uint index) => RemoveValueAtIndex(instance?.Object!, index);
+    public static HRESULT RemoveValueAtIndex(this IComObject<ICoreWebView2ObjectCollectionView> instance, uint index, bool throwOnError = true) => RemoveValueAtIndex(instance?.Object!, index, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2ObjectCollection"/>.</remarks>
-    public static void InsertValueAtIndex(this IComObject<ICoreWebView2ObjectCollectionView> instance, uint index, object? value) => InsertValueAtIndex(instance?.Object!, index, value);
+    public static HRESULT InsertValueAtIndex(this IComObject<ICoreWebView2ObjectCollectionView> instance, uint index, object? value, bool throwOnError = true) => InsertValueAtIndex(instance?.Object!, index, value, throwOnError);
 
     extension(ICoreWebView2ObjectCollectionView instance)
     {

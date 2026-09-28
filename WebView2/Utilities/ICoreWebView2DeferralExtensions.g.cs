@@ -3,12 +3,12 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2DeferralExtensions
 {
-    public static void Complete(this ICoreWebView2Deferral instance)
+    public static HRESULT Complete(this ICoreWebView2Deferral instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Complete().ThrowOnError();
+        return instance.Complete().ThrowOnError(throwOnError);
     }
 
-    public static void Complete(this IComObject<ICoreWebView2Deferral> instance) => Complete(instance?.Object!);
+    public static HRESULT Complete(this IComObject<ICoreWebView2Deferral> instance, bool throwOnError = true) => Complete(instance?.Object!, throwOnError);
 }

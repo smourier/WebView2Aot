@@ -3,20 +3,20 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2Extensions
 {
-    public static void Navigate(this ICoreWebView2 instance, string? uri)
+    public static HRESULT Navigate(this ICoreWebView2 instance, string? uri, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        instance.Navigate(uriStr).ThrowOnError();
+        return instance.Navigate(uriStr).ThrowOnError(throwOnError);
     }
 
-    public static void NavigateToString(this ICoreWebView2 instance, string? htmlContent)
+    public static HRESULT NavigateToString(this ICoreWebView2 instance, string? htmlContent, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var htmlContentStr = new DirectN.Extensions.Utilities.Pwstr(htmlContent);
-        instance.NavigateToString(htmlContentStr).ThrowOnError();
+        return instance.NavigateToString(htmlContentStr).ThrowOnError(throwOnError);
     }
 
     public static Task<string?> AddScriptToExecuteOnDocumentCreatedAsync(this ICoreWebView2 instance, string? javaScript)
@@ -44,12 +44,12 @@ public static partial class ICoreWebView2Extensions
         return tcs.Task;
     }
 
-    public static void RemoveScriptToExecuteOnDocumentCreated(this ICoreWebView2 instance, string? id)
+    public static HRESULT RemoveScriptToExecuteOnDocumentCreated(this ICoreWebView2 instance, string? id, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var idStr = new DirectN.Extensions.Utilities.Pwstr(id);
-        instance.RemoveScriptToExecuteOnDocumentCreated(idStr).ThrowOnError();
+        return instance.RemoveScriptToExecuteOnDocumentCreated(idStr).ThrowOnError(throwOnError);
     }
 
     public static Task<string?> ExecuteScriptAsync(this ICoreWebView2 instance, string? javaScript)
@@ -101,27 +101,27 @@ public static partial class ICoreWebView2Extensions
         return tcs.Task;
     }
 
-    public static void Reload(this ICoreWebView2 instance)
+    public static HRESULT Reload(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Reload().ThrowOnError();
+        return instance.Reload().ThrowOnError(throwOnError);
     }
 
-    public static void PostWebMessageAsJson(this ICoreWebView2 instance, string? webMessageAsJson)
+    public static HRESULT PostWebMessageAsJson(this ICoreWebView2 instance, string? webMessageAsJson, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var webMessageAsJsonStr = new DirectN.Extensions.Utilities.Pwstr(webMessageAsJson);
-        instance.PostWebMessageAsJson(webMessageAsJsonStr).ThrowOnError();
+        return instance.PostWebMessageAsJson(webMessageAsJsonStr).ThrowOnError(throwOnError);
     }
 
-    public static void PostWebMessageAsString(this ICoreWebView2 instance, string? webMessageAsString)
+    public static HRESULT PostWebMessageAsString(this ICoreWebView2 instance, string? webMessageAsString, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var webMessageAsStringStr = new DirectN.Extensions.Utilities.Pwstr(webMessageAsString);
-        instance.PostWebMessageAsString(webMessageAsStringStr).ThrowOnError();
+        return instance.PostWebMessageAsString(webMessageAsStringStr).ThrowOnError(throwOnError);
     }
 
     public static Task<string?> CallDevToolsProtocolMethodAsync(this ICoreWebView2 instance, string? methodName, string? parametersAsJson)
@@ -150,18 +150,18 @@ public static partial class ICoreWebView2Extensions
         return tcs.Task;
     }
 
-    public static void GoBack(this ICoreWebView2 instance)
+    public static HRESULT GoBack(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.GoBack().ThrowOnError();
+        return instance.GoBack().ThrowOnError(throwOnError);
     }
 
-    public static void GoForward(this ICoreWebView2 instance)
+    public static HRESULT GoForward(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.GoForward().ThrowOnError();
+        return instance.GoForward().ThrowOnError(throwOnError);
     }
 
     public static IComObject<ICoreWebView2DevToolsProtocolEventReceiver>? GetDevToolsProtocolEventReceiver(this ICoreWebView2 instance, string? eventName)
@@ -175,53 +175,53 @@ public static partial class ICoreWebView2Extensions
         return receiver;
     }
 
-    public static void Stop(this ICoreWebView2 instance)
+    public static HRESULT Stop(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Stop().ThrowOnError();
+        return instance.Stop().ThrowOnError(throwOnError);
     }
 
-    public static void RemoveHostObjectFromScript(this ICoreWebView2 instance, string? name)
+    public static HRESULT RemoveHostObjectFromScript(this ICoreWebView2 instance, string? name, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
-        instance.RemoveHostObjectFromScript(nameStr).ThrowOnError();
+        return instance.RemoveHostObjectFromScript(nameStr).ThrowOnError(throwOnError);
     }
 
-    public static void OpenDevToolsWindow(this ICoreWebView2 instance)
+    public static HRESULT OpenDevToolsWindow(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.OpenDevToolsWindow().ThrowOnError();
+        return instance.OpenDevToolsWindow().ThrowOnError(throwOnError);
     }
 
-    public static void AddWebResourceRequestedFilter(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext)
-    {
-        ArgumentNullException.ThrowIfNull(instance);
-
-        using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        instance.AddWebResourceRequestedFilter(uriStr, resourceContext).ThrowOnError();
-    }
-
-    public static void RemoveWebResourceRequestedFilter(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext)
+    public static HRESULT AddWebResourceRequestedFilter(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        instance.RemoveWebResourceRequestedFilter(uriStr, resourceContext).ThrowOnError();
+        return instance.AddWebResourceRequestedFilter(uriStr, resourceContext).ThrowOnError(throwOnError);
+    }
+
+    public static HRESULT RemoveWebResourceRequestedFilter(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext, bool throwOnError = true)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
+
+        using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
+        return instance.RemoveWebResourceRequestedFilter(uriStr, resourceContext).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_2"/>.</remarks>
-    public static void NavigateWithWebResourceRequest(this ICoreWebView2 instance, ICoreWebView2WebResourceRequest request)
+    public static HRESULT NavigateWithWebResourceRequest(this ICoreWebView2 instance, ICoreWebView2WebResourceRequest request, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_2>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.NavigateWithWebResourceRequest(request).ThrowOnError();
+        return typed.NavigateWithWebResourceRequest(request).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
@@ -253,50 +253,50 @@ public static partial class ICoreWebView2Extensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void Resume(this ICoreWebView2 instance)
+    public static HRESULT Resume(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_3>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.Resume().ThrowOnError();
+        return typed.Resume().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void SetVirtualHostNameToFolderMapping(this ICoreWebView2 instance, string? hostName, string? folderPath, COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND accessKind)
+    public static HRESULT SetVirtualHostNameToFolderMapping(this ICoreWebView2 instance, string? hostName, string? folderPath, COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND accessKind, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_3>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var hostNameStr = new DirectN.Extensions.Utilities.Pwstr(hostName);
         using var folderPathStr = new DirectN.Extensions.Utilities.Pwstr(folderPath);
-        typed.SetVirtualHostNameToFolderMapping(hostNameStr, folderPathStr, accessKind).ThrowOnError();
+        return typed.SetVirtualHostNameToFolderMapping(hostNameStr, folderPathStr, accessKind).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void ClearVirtualHostNameToFolderMapping(this ICoreWebView2 instance, string? hostName)
+    public static HRESULT ClearVirtualHostNameToFolderMapping(this ICoreWebView2 instance, string? hostName, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_3>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var hostNameStr = new DirectN.Extensions.Utilities.Pwstr(hostName);
-        typed.ClearVirtualHostNameToFolderMapping(hostNameStr).ThrowOnError();
+        return typed.ClearVirtualHostNameToFolderMapping(hostNameStr).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_6"/>.</remarks>
-    public static void OpenTaskManagerWindow(this ICoreWebView2 instance)
+    public static HRESULT OpenTaskManagerWindow(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_6>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.OpenTaskManagerWindow().ThrowOnError();
+        return typed.OpenTaskManagerWindow().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_7"/>.</remarks>
@@ -329,25 +329,25 @@ public static partial class ICoreWebView2Extensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_9"/>.</remarks>
-    public static void OpenDefaultDownloadDialog(this ICoreWebView2 instance)
+    public static HRESULT OpenDefaultDownloadDialog(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_9>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.OpenDefaultDownloadDialog().ThrowOnError();
+        return typed.OpenDefaultDownloadDialog().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_9"/>.</remarks>
-    public static void CloseDefaultDownloadDialog(this ICoreWebView2 instance)
+    public static HRESULT CloseDefaultDownloadDialog(this ICoreWebView2 instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_9>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.CloseDefaultDownloadDialog().ThrowOnError();
+        return typed.CloseDefaultDownloadDialog().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_11"/>.</remarks>
@@ -466,14 +466,14 @@ public static partial class ICoreWebView2Extensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_16"/>.</remarks>
-    public static void ShowPrintUI(this ICoreWebView2 instance, COREWEBVIEW2_PRINT_DIALOG_KIND printDialogKind)
+    public static HRESULT ShowPrintUI(this ICoreWebView2 instance, COREWEBVIEW2_PRINT_DIALOG_KIND printDialogKind, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_16>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.ShowPrintUI(printDialogKind).ThrowOnError();
+        return typed.ShowPrintUI(printDialogKind).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_16"/>.</remarks>
@@ -505,15 +505,15 @@ public static partial class ICoreWebView2Extensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_17"/>.</remarks>
-    public static void PostSharedBufferToScript(this ICoreWebView2 instance, ICoreWebView2SharedBuffer sharedBuffer, COREWEBVIEW2_SHARED_BUFFER_ACCESS access, string? additionalDataAsJson)
+    public static HRESULT PostSharedBufferToScript(this ICoreWebView2 instance, ICoreWebView2SharedBuffer sharedBuffer, COREWEBVIEW2_SHARED_BUFFER_ACCESS access, string? additionalDataAsJson, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_17>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var additionalDataAsJsonStr = new DirectN.Extensions.Utilities.Pwstr(additionalDataAsJson);
-        typed.PostSharedBufferToScript(sharedBuffer, access, additionalDataAsJsonStr).ThrowOnError();
+        return typed.PostSharedBufferToScript(sharedBuffer, access, additionalDataAsJsonStr).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_21"/>.</remarks>
@@ -546,39 +546,39 @@ public static partial class ICoreWebView2Extensions
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_22"/>.</remarks>
-    public static void AddWebResourceRequestedFilterWithRequestSourceKinds(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds)
+    public static HRESULT AddWebResourceRequestedFilterWithRequestSourceKinds(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_22>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        typed.AddWebResourceRequestedFilterWithRequestSourceKinds(uriStr, ResourceContext, requestSourceKinds).ThrowOnError();
+        return typed.AddWebResourceRequestedFilterWithRequestSourceKinds(uriStr, ResourceContext, requestSourceKinds).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_22"/>.</remarks>
-    public static void RemoveWebResourceRequestedFilterWithRequestSourceKinds(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds)
+    public static HRESULT RemoveWebResourceRequestedFilterWithRequestSourceKinds(this ICoreWebView2 instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_22>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var uriStr = new DirectN.Extensions.Utilities.Pwstr(uri);
-        typed.RemoveWebResourceRequestedFilterWithRequestSourceKinds(uriStr, ResourceContext, requestSourceKinds).ThrowOnError();
+        return typed.RemoveWebResourceRequestedFilterWithRequestSourceKinds(uriStr, ResourceContext, requestSourceKinds).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_23"/>.</remarks>
-    public static void PostWebMessageAsJsonWithAdditionalObjects(this ICoreWebView2 instance, string? webMessageAsJson, ICoreWebView2ObjectCollectionView additionalObjects)
+    public static HRESULT PostWebMessageAsJsonWithAdditionalObjects(this ICoreWebView2 instance, string? webMessageAsJson, ICoreWebView2ObjectCollectionView additionalObjects, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2_23>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
         using var webMessageAsJsonStr = new DirectN.Extensions.Utilities.Pwstr(webMessageAsJson);
-        typed.PostWebMessageAsJsonWithAdditionalObjects(webMessageAsJsonStr, additionalObjects).ThrowOnError();
+        return typed.PostWebMessageAsJsonWithAdditionalObjects(webMessageAsJsonStr, additionalObjects).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2_25"/>.</remarks>
@@ -609,68 +609,68 @@ public static partial class ICoreWebView2Extensions
         return tcs.Task;
     }
 
-    public static void Navigate(this IComObject<ICoreWebView2> instance, string? uri) => Navigate(instance?.Object!, uri);
+    public static HRESULT Navigate(this IComObject<ICoreWebView2> instance, string? uri, bool throwOnError = true) => Navigate(instance?.Object!, uri, throwOnError);
 
-    public static void NavigateToString(this IComObject<ICoreWebView2> instance, string? htmlContent) => NavigateToString(instance?.Object!, htmlContent);
+    public static HRESULT NavigateToString(this IComObject<ICoreWebView2> instance, string? htmlContent, bool throwOnError = true) => NavigateToString(instance?.Object!, htmlContent, throwOnError);
 
     public static Task<string?> AddScriptToExecuteOnDocumentCreatedAsync(this IComObject<ICoreWebView2> instance, string? javaScript) => AddScriptToExecuteOnDocumentCreatedAsync(instance?.Object!, javaScript);
 
-    public static void RemoveScriptToExecuteOnDocumentCreated(this IComObject<ICoreWebView2> instance, string? id) => RemoveScriptToExecuteOnDocumentCreated(instance?.Object!, id);
+    public static HRESULT RemoveScriptToExecuteOnDocumentCreated(this IComObject<ICoreWebView2> instance, string? id, bool throwOnError = true) => RemoveScriptToExecuteOnDocumentCreated(instance?.Object!, id, throwOnError);
 
     public static Task<string?> ExecuteScriptAsync(this IComObject<ICoreWebView2> instance, string? javaScript) => ExecuteScriptAsync(instance?.Object!, javaScript);
 
     public static Task CapturePreviewAsync(this IComObject<ICoreWebView2> instance, COREWEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT imageFormat, Stream imageStream) => CapturePreviewAsync(instance?.Object!, imageFormat, imageStream);
 
-    public static void Reload(this IComObject<ICoreWebView2> instance) => Reload(instance?.Object!);
+    public static HRESULT Reload(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => Reload(instance?.Object!, throwOnError);
 
-    public static void PostWebMessageAsJson(this IComObject<ICoreWebView2> instance, string? webMessageAsJson) => PostWebMessageAsJson(instance?.Object!, webMessageAsJson);
+    public static HRESULT PostWebMessageAsJson(this IComObject<ICoreWebView2> instance, string? webMessageAsJson, bool throwOnError = true) => PostWebMessageAsJson(instance?.Object!, webMessageAsJson, throwOnError);
 
-    public static void PostWebMessageAsString(this IComObject<ICoreWebView2> instance, string? webMessageAsString) => PostWebMessageAsString(instance?.Object!, webMessageAsString);
+    public static HRESULT PostWebMessageAsString(this IComObject<ICoreWebView2> instance, string? webMessageAsString, bool throwOnError = true) => PostWebMessageAsString(instance?.Object!, webMessageAsString, throwOnError);
 
     public static Task<string?> CallDevToolsProtocolMethodAsync(this IComObject<ICoreWebView2> instance, string? methodName, string? parametersAsJson) => CallDevToolsProtocolMethodAsync(instance?.Object!, methodName, parametersAsJson);
 
-    public static void GoBack(this IComObject<ICoreWebView2> instance) => GoBack(instance?.Object!);
+    public static HRESULT GoBack(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => GoBack(instance?.Object!, throwOnError);
 
-    public static void GoForward(this IComObject<ICoreWebView2> instance) => GoForward(instance?.Object!);
+    public static HRESULT GoForward(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => GoForward(instance?.Object!, throwOnError);
 
     public static IComObject<ICoreWebView2DevToolsProtocolEventReceiver>? GetDevToolsProtocolEventReceiver(this IComObject<ICoreWebView2> instance, string? eventName) => GetDevToolsProtocolEventReceiver(instance?.Object!, eventName);
 
-    public static void Stop(this IComObject<ICoreWebView2> instance) => Stop(instance?.Object!);
+    public static HRESULT Stop(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => Stop(instance?.Object!, throwOnError);
 
-    public static void RemoveHostObjectFromScript(this IComObject<ICoreWebView2> instance, string? name) => RemoveHostObjectFromScript(instance?.Object!, name);
+    public static HRESULT RemoveHostObjectFromScript(this IComObject<ICoreWebView2> instance, string? name, bool throwOnError = true) => RemoveHostObjectFromScript(instance?.Object!, name, throwOnError);
 
-    public static void OpenDevToolsWindow(this IComObject<ICoreWebView2> instance) => OpenDevToolsWindow(instance?.Object!);
+    public static HRESULT OpenDevToolsWindow(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => OpenDevToolsWindow(instance?.Object!, throwOnError);
 
-    public static void AddWebResourceRequestedFilter(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext) => AddWebResourceRequestedFilter(instance?.Object!, uri, resourceContext);
+    public static HRESULT AddWebResourceRequestedFilter(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext, bool throwOnError = true) => AddWebResourceRequestedFilter(instance?.Object!, uri, resourceContext, throwOnError);
 
-    public static void RemoveWebResourceRequestedFilter(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext) => RemoveWebResourceRequestedFilter(instance?.Object!, uri, resourceContext);
+    public static HRESULT RemoveWebResourceRequestedFilter(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext, bool throwOnError = true) => RemoveWebResourceRequestedFilter(instance?.Object!, uri, resourceContext, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_2"/>.</remarks>
-    public static void NavigateWithWebResourceRequest(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2WebResourceRequest> request) => NavigateWithWebResourceRequest(instance?.Object!, request?.Object!);
+    public static HRESULT NavigateWithWebResourceRequest(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2WebResourceRequest> request, bool throwOnError = true) => NavigateWithWebResourceRequest(instance?.Object!, request?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
     public static Task<bool> TrySuspendAsync(this IComObject<ICoreWebView2> instance) => TrySuspendAsync(instance?.Object!);
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void Resume(this IComObject<ICoreWebView2> instance) => Resume(instance?.Object!);
+    public static HRESULT Resume(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => Resume(instance?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void SetVirtualHostNameToFolderMapping(this IComObject<ICoreWebView2> instance, string? hostName, string? folderPath, COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND accessKind) => SetVirtualHostNameToFolderMapping(instance?.Object!, hostName, folderPath, accessKind);
+    public static HRESULT SetVirtualHostNameToFolderMapping(this IComObject<ICoreWebView2> instance, string? hostName, string? folderPath, COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND accessKind, bool throwOnError = true) => SetVirtualHostNameToFolderMapping(instance?.Object!, hostName, folderPath, accessKind, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_3"/>.</remarks>
-    public static void ClearVirtualHostNameToFolderMapping(this IComObject<ICoreWebView2> instance, string? hostName) => ClearVirtualHostNameToFolderMapping(instance?.Object!, hostName);
+    public static HRESULT ClearVirtualHostNameToFolderMapping(this IComObject<ICoreWebView2> instance, string? hostName, bool throwOnError = true) => ClearVirtualHostNameToFolderMapping(instance?.Object!, hostName, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_6"/>.</remarks>
-    public static void OpenTaskManagerWindow(this IComObject<ICoreWebView2> instance) => OpenTaskManagerWindow(instance?.Object!);
+    public static HRESULT OpenTaskManagerWindow(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => OpenTaskManagerWindow(instance?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_7"/>.</remarks>
     public static Task<bool> PrintToPdfAsync(this IComObject<ICoreWebView2> instance, string? ResultFilePath, IComObject<ICoreWebView2PrintSettings>? printSettings) => PrintToPdfAsync(instance?.Object!, ResultFilePath, printSettings?.Object);
 
     /// <remarks>Requires <see cref="ICoreWebView2_9"/>.</remarks>
-    public static void OpenDefaultDownloadDialog(this IComObject<ICoreWebView2> instance) => OpenDefaultDownloadDialog(instance?.Object!);
+    public static HRESULT OpenDefaultDownloadDialog(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => OpenDefaultDownloadDialog(instance?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_9"/>.</remarks>
-    public static void CloseDefaultDownloadDialog(this IComObject<ICoreWebView2> instance) => CloseDefaultDownloadDialog(instance?.Object!);
+    public static HRESULT CloseDefaultDownloadDialog(this IComObject<ICoreWebView2> instance, bool throwOnError = true) => CloseDefaultDownloadDialog(instance?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_11"/>.</remarks>
     public static Task<string?> CallDevToolsProtocolMethodForSessionAsync(this IComObject<ICoreWebView2> instance, string? sessionId, string? methodName, string? parametersAsJson) => CallDevToolsProtocolMethodForSessionAsync(instance?.Object!, sessionId, methodName, parametersAsJson);
@@ -685,25 +685,25 @@ public static partial class ICoreWebView2Extensions
     public static Task<COREWEBVIEW2_PRINT_STATUS> PrintAsync(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2PrintSettings>? printSettings) => PrintAsync(instance?.Object!, printSettings?.Object);
 
     /// <remarks>Requires <see cref="ICoreWebView2_16"/>.</remarks>
-    public static void ShowPrintUI(this IComObject<ICoreWebView2> instance, COREWEBVIEW2_PRINT_DIALOG_KIND printDialogKind) => ShowPrintUI(instance?.Object!, printDialogKind);
+    public static HRESULT ShowPrintUI(this IComObject<ICoreWebView2> instance, COREWEBVIEW2_PRINT_DIALOG_KIND printDialogKind, bool throwOnError = true) => ShowPrintUI(instance?.Object!, printDialogKind, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_16"/>.</remarks>
     public static Task<Stream?> PrintToPdfStreamAsync(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2PrintSettings>? printSettings) => PrintToPdfStreamAsync(instance?.Object!, printSettings?.Object);
 
     /// <remarks>Requires <see cref="ICoreWebView2_17"/>.</remarks>
-    public static void PostSharedBufferToScript(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2SharedBuffer> sharedBuffer, COREWEBVIEW2_SHARED_BUFFER_ACCESS access, string? additionalDataAsJson) => PostSharedBufferToScript(instance?.Object!, sharedBuffer?.Object!, access, additionalDataAsJson);
+    public static HRESULT PostSharedBufferToScript(this IComObject<ICoreWebView2> instance, IComObject<ICoreWebView2SharedBuffer> sharedBuffer, COREWEBVIEW2_SHARED_BUFFER_ACCESS access, string? additionalDataAsJson, bool throwOnError = true) => PostSharedBufferToScript(instance?.Object!, sharedBuffer?.Object!, access, additionalDataAsJson, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_21"/>.</remarks>
     public static Task<IComObject<ICoreWebView2ExecuteScriptResult>?> ExecuteScriptWithResultAsync(this IComObject<ICoreWebView2> instance, string? javaScript) => ExecuteScriptWithResultAsync(instance?.Object!, javaScript);
 
     /// <remarks>Requires <see cref="ICoreWebView2_22"/>.</remarks>
-    public static void AddWebResourceRequestedFilterWithRequestSourceKinds(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds) => AddWebResourceRequestedFilterWithRequestSourceKinds(instance?.Object!, uri, ResourceContext, requestSourceKinds);
+    public static HRESULT AddWebResourceRequestedFilterWithRequestSourceKinds(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds, bool throwOnError = true) => AddWebResourceRequestedFilterWithRequestSourceKinds(instance?.Object!, uri, ResourceContext, requestSourceKinds, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_22"/>.</remarks>
-    public static void RemoveWebResourceRequestedFilterWithRequestSourceKinds(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds) => RemoveWebResourceRequestedFilterWithRequestSourceKinds(instance?.Object!, uri, ResourceContext, requestSourceKinds);
+    public static HRESULT RemoveWebResourceRequestedFilterWithRequestSourceKinds(this IComObject<ICoreWebView2> instance, string? uri, COREWEBVIEW2_WEB_RESOURCE_CONTEXT ResourceContext, COREWEBVIEW2_WEB_RESOURCE_REQUEST_SOURCE_KINDS requestSourceKinds, bool throwOnError = true) => RemoveWebResourceRequestedFilterWithRequestSourceKinds(instance?.Object!, uri, ResourceContext, requestSourceKinds, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_23"/>.</remarks>
-    public static void PostWebMessageAsJsonWithAdditionalObjects(this IComObject<ICoreWebView2> instance, string? webMessageAsJson, IComObject<ICoreWebView2ObjectCollectionView> additionalObjects) => PostWebMessageAsJsonWithAdditionalObjects(instance?.Object!, webMessageAsJson, additionalObjects?.Object!);
+    public static HRESULT PostWebMessageAsJsonWithAdditionalObjects(this IComObject<ICoreWebView2> instance, string? webMessageAsJson, IComObject<ICoreWebView2ObjectCollectionView> additionalObjects, bool throwOnError = true) => PostWebMessageAsJsonWithAdditionalObjects(instance?.Object!, webMessageAsJson, additionalObjects?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2_25"/>.</remarks>
     public static Task<COREWEBVIEW2_SAVE_AS_UI_RESULT> ShowSaveAsUIAsync(this IComObject<ICoreWebView2> instance) => ShowSaveAsUIAsync(instance?.Object!);

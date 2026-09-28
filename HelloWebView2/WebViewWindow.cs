@@ -42,7 +42,7 @@ public class WebViewWindow : Window
         {
             if (_controller != null)
             {
-                _controller.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+                _controller.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC, false);
                 return true;
             }
         }

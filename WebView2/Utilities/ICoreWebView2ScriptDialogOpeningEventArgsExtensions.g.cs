@@ -3,11 +3,11 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2ScriptDialogOpeningEventArgsExtensions
 {
-    public static void Accept(this ICoreWebView2ScriptDialogOpeningEventArgs instance)
+    public static HRESULT Accept(this ICoreWebView2ScriptDialogOpeningEventArgs instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.Accept().ThrowOnError();
+        return instance.Accept().ThrowOnError(throwOnError);
     }
 
     public static IComObject<ICoreWebView2Deferral>? GetDeferral(this ICoreWebView2ScriptDialogOpeningEventArgs instance)
@@ -20,7 +20,7 @@ public static partial class ICoreWebView2ScriptDialogOpeningEventArgsExtensions
         return deferral;
     }
 
-    public static void Accept(this IComObject<ICoreWebView2ScriptDialogOpeningEventArgs> instance) => Accept(instance?.Object!);
+    public static HRESULT Accept(this IComObject<ICoreWebView2ScriptDialogOpeningEventArgs> instance, bool throwOnError = true) => Accept(instance?.Object!, throwOnError);
 
     public static IComObject<ICoreWebView2Deferral>? GetDeferral(this IComObject<ICoreWebView2ScriptDialogOpeningEventArgs> instance) => GetDeferral(instance?.Object!);
 

@@ -3,5 +3,5 @@ namespace WebView2;
 
 public static partial class Constants
 {
-    public const string CORE_WEBVIEW_TARGET_PRODUCT_VERSION = @"152.0.4191.47";
+    public const string CORE_WEBVIEW_TARGET_PRODUCT_VERSION = @"154.0.4258.31";
 }

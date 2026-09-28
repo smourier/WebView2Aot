@@ -103,7 +103,7 @@ public partial class WebViewCompositionWindow : CompositionWindow, IDropTarget
     {
         if (setOrKill)
         {
-            _coreController?.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+            _coreController?.MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON.COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC, false);
             return true;
         }
         return base.OnFocusChanged(setOrKill);

@@ -37,21 +37,21 @@ public static partial class ICoreWebView2HttpRequestHeadersExtensions
         return value;
     }
 
-    public static void SetHeader(this ICoreWebView2HttpRequestHeaders instance, string? name, string? value)
+    public static HRESULT SetHeader(this ICoreWebView2HttpRequestHeaders instance, string? name, string? value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
         using var valueStr = new DirectN.Extensions.Utilities.Pwstr(value);
-        instance.SetHeader(nameStr, valueStr).ThrowOnError();
+        return instance.SetHeader(nameStr, valueStr).ThrowOnError(throwOnError);
     }
 
-    public static void RemoveHeader(this ICoreWebView2HttpRequestHeaders instance, string? name)
+    public static HRESULT RemoveHeader(this ICoreWebView2HttpRequestHeaders instance, string? name, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         using var nameStr = new DirectN.Extensions.Utilities.Pwstr(name);
-        instance.RemoveHeader(nameStr).ThrowOnError();
+        return instance.RemoveHeader(nameStr).ThrowOnError(throwOnError);
     }
 
     public static IComObject<ICoreWebView2HttpHeadersCollectionIterator>? GetIterator(this ICoreWebView2HttpRequestHeaders instance)
@@ -70,9 +70,9 @@ public static partial class ICoreWebView2HttpRequestHeadersExtensions
 
     public static bool Contains(this IComObject<ICoreWebView2HttpRequestHeaders> instance, string? name) => Contains(instance?.Object!, name);
 
-    public static void SetHeader(this IComObject<ICoreWebView2HttpRequestHeaders> instance, string? name, string? value) => SetHeader(instance?.Object!, name, value);
+    public static HRESULT SetHeader(this IComObject<ICoreWebView2HttpRequestHeaders> instance, string? name, string? value, bool throwOnError = true) => SetHeader(instance?.Object!, name, value, throwOnError);
 
-    public static void RemoveHeader(this IComObject<ICoreWebView2HttpRequestHeaders> instance, string? name) => RemoveHeader(instance?.Object!, name);
+    public static HRESULT RemoveHeader(this IComObject<ICoreWebView2HttpRequestHeaders> instance, string? name, bool throwOnError = true) => RemoveHeader(instance?.Object!, name, throwOnError);
 
     public static IComObject<ICoreWebView2HttpHeadersCollectionIterator>? GetIterator(this IComObject<ICoreWebView2HttpRequestHeaders> instance) => GetIterator(instance?.Object!);
 }

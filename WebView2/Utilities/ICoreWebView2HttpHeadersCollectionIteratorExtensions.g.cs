@@ -3,13 +3,14 @@ namespace WebView2.Utilities;
 
 public static partial class ICoreWebView2HttpHeadersCollectionIteratorExtensions
 {
-    public static void GetCurrentHeader(this ICoreWebView2HttpHeadersCollectionIterator instance, out string? name, out string? value)
+    public static HRESULT GetCurrentHeader(this ICoreWebView2HttpHeadersCollectionIterator instance, out string? name, out string? value, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
-        instance.GetCurrentHeader(out PWSTR nameNative, out PWSTR valueNative).ThrowOnError();
+        var hr = instance.GetCurrentHeader(out PWSTR nameNative, out PWSTR valueNative).ThrowOnError(throwOnError);
         name = nameNative.ToStringAndDispose();
         value = valueNative.ToStringAndDispose();
+        return hr;
     }
 
     public static bool MoveNext(this ICoreWebView2HttpHeadersCollectionIterator instance)
@@ -71,7 +72,7 @@ public static partial class ICoreWebView2HttpHeadersCollectionIteratorExtensions
         }
     }
 
-    public static void GetCurrentHeader(this IComObject<ICoreWebView2HttpHeadersCollectionIterator> instance, out string? name, out string? value) => GetCurrentHeader(instance?.Object!, out name, out value);
+    public static HRESULT GetCurrentHeader(this IComObject<ICoreWebView2HttpHeadersCollectionIterator> instance, out string? name, out string? value, bool throwOnError = true) => GetCurrentHeader(instance?.Object!, out name, out value, throwOnError);
 
     public static bool MoveNext(this IComObject<ICoreWebView2HttpHeadersCollectionIterator> instance) => MoveNext(instance?.Object!);
 

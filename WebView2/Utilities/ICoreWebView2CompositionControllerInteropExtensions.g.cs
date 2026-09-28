@@ -4,60 +4,60 @@ namespace WebView2.Utilities;
 public static partial class ICoreWebView2CompositionControllerInteropExtensions
 {
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragEnter(this ICoreWebView2CompositionControllerInterop instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect)
+    public static HRESULT DragEnter(this ICoreWebView2CompositionControllerInterop instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2CompositionControllerInterop2>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.DragEnter(dataObject, keyState, point, ref effect).ThrowOnError();
+        return typed.DragEnter(dataObject, keyState, point, ref effect).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragLeave(this ICoreWebView2CompositionControllerInterop instance)
+    public static HRESULT DragLeave(this ICoreWebView2CompositionControllerInterop instance, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2CompositionControllerInterop2>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.DragLeave().ThrowOnError();
+        return typed.DragLeave().ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragOver(this ICoreWebView2CompositionControllerInterop instance, uint keyState, POINT point, ref uint effect)
+    public static HRESULT DragOver(this ICoreWebView2CompositionControllerInterop instance, uint keyState, POINT point, ref uint effect, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2CompositionControllerInterop2>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.DragOver(keyState, point, ref effect).ThrowOnError();
+        return typed.DragOver(keyState, point, ref effect).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void Drop(this ICoreWebView2CompositionControllerInterop instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect)
+    public static HRESULT Drop(this ICoreWebView2CompositionControllerInterop instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect, bool throwOnError = true)
     {
         ArgumentNullException.ThrowIfNull(instance);
 
         if (WebView2Utilities.GetInterface<ICoreWebView2CompositionControllerInterop2>(instance) is not { } typed)
-            return;
+            return DirectN.Constants.E_NOINTERFACE;
 
-        typed.Drop(dataObject, keyState, point, ref effect).ThrowOnError();
+        return typed.Drop(dataObject, keyState, point, ref effect).ThrowOnError(throwOnError);
     }
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragEnter(this IComObject<ICoreWebView2CompositionControllerInterop> instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect) => DragEnter(instance?.Object!, dataObject, keyState, point, ref effect);
+    public static HRESULT DragEnter(this IComObject<ICoreWebView2CompositionControllerInterop> instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect, bool throwOnError = true) => DragEnter(instance?.Object!, dataObject, keyState, point, ref effect, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragLeave(this IComObject<ICoreWebView2CompositionControllerInterop> instance) => DragLeave(instance?.Object!);
+    public static HRESULT DragLeave(this IComObject<ICoreWebView2CompositionControllerInterop> instance, bool throwOnError = true) => DragLeave(instance?.Object!, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void DragOver(this IComObject<ICoreWebView2CompositionControllerInterop> instance, uint keyState, POINT point, ref uint effect) => DragOver(instance?.Object!, keyState, point, ref effect);
+    public static HRESULT DragOver(this IComObject<ICoreWebView2CompositionControllerInterop> instance, uint keyState, POINT point, ref uint effect, bool throwOnError = true) => DragOver(instance?.Object!, keyState, point, ref effect, throwOnError);
 
     /// <remarks>Requires <see cref="ICoreWebView2CompositionControllerInterop2"/>.</remarks>
-    public static void Drop(this IComObject<ICoreWebView2CompositionControllerInterop> instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect) => Drop(instance?.Object!, dataObject, keyState, point, ref effect);
+    public static HRESULT Drop(this IComObject<ICoreWebView2CompositionControllerInterop> instance, IDataObject dataObject, uint keyState, POINT point, ref uint effect, bool throwOnError = true) => Drop(instance?.Object!, dataObject, keyState, point, ref effect, throwOnError);
 
     extension(ICoreWebView2CompositionControllerInterop instance)
     {
