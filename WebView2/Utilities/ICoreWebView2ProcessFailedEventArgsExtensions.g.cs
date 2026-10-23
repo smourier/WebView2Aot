@@ -93,6 +93,21 @@ public static partial class ICoreWebView2ProcessFailedEventArgsExtensions
                 return value.ToStringAndDispose();
             }
         }
+
+        /// <remarks>Requires <see cref="ICoreWebView2ProcessFailedEventArgs4"/>.</remarks>
+        public IComObject<ICoreWebView2CrashReport>? CrashReport
+        {
+            get
+            {
+                ArgumentNullException.ThrowIfNull(instance);
+
+                if (WebView2Utilities.GetInterface<ICoreWebView2ProcessFailedEventArgs4>(instance) is not { } typed)
+                    return default;
+
+                typed.get_CrashReport(out ICoreWebView2CrashReport value).ThrowOnError();
+                return value != null ? new ComObject<ICoreWebView2CrashReport>(value) : null;
+            }
+        }
     }
 
     extension(IComObject<ICoreWebView2ProcessFailedEventArgs> instance)
@@ -130,6 +145,12 @@ public static partial class ICoreWebView2ProcessFailedEventArgsExtensions
         public string? FailureSourceModulePath
         {
             get => (instance?.Object!).FailureSourceModulePath;
+        }
+
+        /// <remarks>Requires <see cref="ICoreWebView2ProcessFailedEventArgs4"/>.</remarks>
+        public IComObject<ICoreWebView2CrashReport>? CrashReport
+        {
+            get => (instance?.Object!).CrashReport;
         }
     }
 }
